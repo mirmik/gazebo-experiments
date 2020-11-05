@@ -95,8 +95,6 @@ namespace gazebo
 		rabbit::screw<double,3> errspd_integral = {{0,0,0},{0,0,0}};
 		void Control(gazebo::physics::LinkPtr link, double delta)
 		{
-			PRINT(delta);
-
 			auto rot0 = link->WorldCoGPose().Rot();
 			auto pos0 = link->WorldCoGPose().Pos();
 
@@ -121,9 +119,6 @@ namespace gazebo
 				{ vel0.X(), vel0.Y(), vel0.Z() }
 			};
 
-			PRINT(pos);
-			PRINT(spd);
-
 			rabbit::htrans3<double> errpos = 
 				pos.inverse() * target_pos;
 
@@ -141,9 +136,6 @@ namespace gazebo
 			auto errspd_screw = speed_target - spd;
 			errspd_integral += errspd_screw * delta;	
 
-			PRINT(errpos_screw);
-			PRINT(errspd_screw);
-
 			double spd_kp = 0.0001;
 			double spd_ki = 0.0001;
 
@@ -151,22 +143,19 @@ namespace gazebo
 				spd_kp * errspd_screw +
 				spd_ki * errspd_integral;
 
-			/*link->SetForce(
+			link->SetForce(
 				ignition::math::v6::Vector3<double>(
 					force_target.lin.x,
 					force_target.lin.y,
 					force_target.lin.z
-				));*/
+				));
 
-			PRINT(force_target);
 			link->SetTorque(
 				ignition::math::v6::Vector3<double>(
 					force_target.ang.x,
 					force_target.ang.y,
 					force_target.ang.z
 				));
-
-			exit(0);
 
 			/*link->SetForce(
 				ignition::math::v6::Vector3<double>(
