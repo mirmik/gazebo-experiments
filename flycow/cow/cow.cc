@@ -103,7 +103,7 @@ namespace gazebo
 
 			rabbit::htrans3<double> target_pos = 
 			{
-				{ 0, 0, 0, 1 },
+				{ 0, sin(M_PI), 0, cos(M_PI)},
 				{ 1, 1, 1 }
 			};
 
@@ -122,12 +122,13 @@ namespace gazebo
 			rabbit::htrans3<double> errpos = 
 				pos.inverse() * target_pos;
 
+			PRINT(pos);
 			auto errpos_screw = errpos.to_screw(); 	
 
 			errpos_integral += errpos_screw * delta;	
 
-			double pos_kp = 0.0001;
-			double pos_ki = 0.0001;
+			double pos_kp = 2;
+			double pos_ki = 1;
 
 			auto speed_target = 
 				pos_kp * errpos_screw +
@@ -136,12 +137,14 @@ namespace gazebo
 			auto errspd_screw = speed_target - spd;
 			errspd_integral += errspd_screw * delta;	
 
-			double spd_kp = 0.0001;
-			double spd_ki = 0.0001;
+			double spd_kp = 2;
+			double spd_ki = 1;
 
 			auto force_target = 
 				spd_kp * errspd_screw +
 				spd_ki * errspd_integral;
+
+			force_target = force_target.rotate_by(pos.inverse());
 
 			link->SetForce(
 				ignition::math::v6::Vector3<double>(
