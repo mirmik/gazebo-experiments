@@ -17,6 +17,8 @@ gazebo/common/common.hh
 -
 ignition/math/Vector3.hh
 -
+igris/util/iteration_counter.h
+-
 nos/print.h
 -
 nos/fprint.h

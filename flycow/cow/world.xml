@@ -8,12 +8,12 @@
       <uri>model://sun</uri>
     </include>
 
-    <include>
+    <!--<include>
       <uri>model://ground_plane</uri>
-    </include>
+    </include>-->
 
     <model name="cow">
-      <pose>0 0 1 0 0 0</pose>
+      <pose>0 0 0 0 0 0</pose>
 
       <link name="cow0">
         <collision name="collision_0_0">
