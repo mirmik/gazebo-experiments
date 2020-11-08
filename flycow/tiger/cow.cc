@@ -48,35 +48,32 @@ namespace gazebo
 
 		void Reset()
 		{
-			nos::println("RESET");
-			//errpos_integral = {{0, 0, 0}, {0, 0, 0}};
-			//errspd_integral = {{0, 0, 0}, {0, 0, 0}};
 			inited = 0;
+			errspd_integral = {};
+			errpos_integral = {};
 		}
 
 		void Load(physics::ModelPtr _parent, sdf::ElementPtr /*_sdf*/)
 		{
-			nos::println("Load manipulator");
-			// Store the pointer to the model
 			this->model = _parent;
-
-			// Listen to the update event. This event is broadcast every
-			// simulation iteration.
 			this->updateConnection = event::Events::ConnectWorldUpdateBegin(
 			                             std::bind(&CowModel::OnUpdate, this));
 
 			Reset();
 		}
 
-		// Called by the world update start event
 	public:
 
-		//linalg::vec<double,2> position_integral {};
 		void OnUpdate()
 		{
 			double curtime = evaltime();
 			delta = curtime - lasttime;
 			time = curtime - starttime;
+
+			model->GetLink("vis0")->SetWorldPose (ignition::math::v6::Pose3(
+			        ignition::math::Vector3<double>(target_pos.lin.x, target_pos.lin.y, target_pos.lin.z),
+			        ignition::math::Quaternion<double>(1, 0, 0, 0))
+			                                     );
 
 			if (!inited)
 			{
@@ -84,29 +81,24 @@ namespace gazebo
 				nos::println("Init plugin for", this->model->GetName());
 				inited = 1;
 
-				//auto joint0 = model->GetJoint("joint0");
-				//joint0->SetProvideFeedback(true);
 				starttime = curtime;
 				lasttime = curtime;
 
 				auto link = model->GetLink("cow0");
-
-				//link->SetWorldPose (ignition::math::v6::Pose3(
-				  //                      ignition::math::Vector3<double>(0, 0, 0),
-				    //                    ignition::math::Quaternion<double>(1, 0, 0, 0))
-				      //             );
-
 				return;
 			}
 
 			auto link = model->GetLink("cow0");
 
 			Control(link, delta);
+			if (evaltime() < curtime)
+				curtime = evaltime();
 			lasttime = curtime;
 		}
 
-		//rabbit::screw<double, 3> errpos_integral = {{0, 0, 0}, {0, 0, 0}};
-		//rabbit::screw<double, 3> errspd_integral = {{0, 0, 0}, {0, 0, 0}};
+		rabbit::htrans3<double> target_pos;
+		rabbit::screw<double, 3> errpos_integral = {{0, 0, 0}, {0, 0, 0}};
+		rabbit::screw<double, 3> errspd_integral = {{0, 0, 0}, {0, 0, 0}};
 		void Control(gazebo::physics::LinkPtr link, double delta)
 		{
 			auto rot0 = link->WorldPose().Rot();
@@ -117,47 +109,59 @@ namespace gazebo
 			auto vel0 = link->WorldLinearVel();
 			auto anv0 = link->WorldAngularVel();
 
-			rabbit::htrans3<double> target_pos =
+			target_pos =
 			{
 				linalg::rotation_quat<double>(
 				linalg::normalize<double, 3>({0, 0, 1}), 0),
 				{ 0, 0, 0 }
 			};
 
-			if (time > 2)
-				target_pos =
 
-				    rabbit::htrans3<double>
+
+			if (time < 5)
 			{
-				linalg::rotation_quat<double>(
-				linalg::normalize<double, 3>({1, 0, 0}), M_PI / 2),
-				{ 1, 1, 1 }
+				target_pos =
+				{
+					{ 0, 0, 0, 1},
+					{ 0, time, 0 }
+				};
+			}
+			else if (time < 10)
+			{
+				target_pos =
+				{
+					{ 0, 0, 0, 1},
+					{ time - 5, 5, 0 }
+				};
+			}
+			else if (time < 15)
+			{
+				target_pos =
+				{
+					{ 0, 0, 0, 1},
+					{ 5, 5 - (time - 10), 0 }
+				};
+			}
+			else if (time < 20)
+			{
+				target_pos =
+				{
+					{ 0, 0, 0, 1},
+					{ 5 - (time - 15), 0, 0 }
+				};
+			}
+			else
+			{
+				starttime = evaltime();
+				delta = 0;
+				return;
 			}
 
-			*
-
-			rabbit::htrans3<double>
+			/*target_pos =
 			{
-				linalg::rotation_quat<double>(
-				linalg::normalize<double, 3>({0, 0, 1}), M_PI / 2),
+				{ 0, 0, 0, 1},
 				{ 0, 0, 0 }
-			}
-			;
-
-
-			if (time > 10)
-				target_pos =
-
-				    rabbit::htrans3<double>
-			{
-				linalg::rotation_quat<double>(
-				linalg::normalize<double, 3>({1, 0, 0}), M_PI/2),
-				{ -1, -1, 1 }
-			};
-
-
-			if (time > 17)
-				starttime = evaltime(); 
+			};*/
 
 
 			rabbit::htrans3<double> pos =
@@ -172,94 +176,105 @@ namespace gazebo
 				{ ipos0.X(), ipos0.Y(), ipos0.Z() }
 			};
 
-			PRINT(pos);
-			PRINT(target_pos);
-
 			rabbit::screw<double, 3> spd =
 			{
 				{ anv0.X(), anv0.Y(), anv0.Z() },
 				{ vel0.X(), vel0.Y(), vel0.Z() }
 			};
 
-			PRINT(spd);
 
 			rabbit::htrans3<double> errpos =
 			    pos.inverse() * target_pos;
-			
-			
+
 			auto errpos_screw = errpos.to_screw();
 			errpos_screw = errpos_screw.rotate_by(pos);
+			errpos_integral += errpos_screw * delta;
 
-			PRINT(errpos_screw);
-			//errpos_integral += errpos_screw * delta;
-
-			/*double pos_T = 5;
-			double pos_ksi = 2;
+			double pos_T = 2;
+			double pos_ksi = 4;
 
 			double pos_kp = 2.*pos_ksi / pos_T;
 			double pos_ki = 1. / pos_T / pos_T;
 
-			rabbit::screw<double,3> speed_target = {{0,0,0}, {0,0,0}};
-			*/
-			/*speed_target = {{0, 5, 0}, {0,0,0}};
-			if (time > 7)
-				speed_target = {{5, 0, 0}, {0,0,0}};*/
+			rabbit::screw<double, 3> speed_target =
+			    //pos_ki * errpos_integral +
+			    pos_kp * errpos_screw;
 
-			auto errspd_screw = - spd;
-			PRINT(errspd_screw);
+			//PRINT(errpos_integral);
 
-			/*errspd_integral += errspd_screw * delta;
+			auto errspd_screw = speed_target - spd;
+
+			//errspd_integral += errspd_screw * delta;
 
 			double spd_T = 1;
-			double spd_ksi = 0.75;
+			double spd_ksi = 0.75 * 2;
 			double spd_A = 2;
 
 			double spd_kp = 2.*spd_ksi / spd_T * spd_A;
-			double spd_ki = 1. / spd_T / spd_T * spd_A;*/
+			double spd_ki = 1. / spd_T / spd_T * spd_A;
+
+			auto marshal = pos.zdir();
+
+			auto spdang = rabbit::screw<double, 3>(spd.ang, {});
+			auto spdlin = rabbit::screw<double, 3>({}, spd.lin);
 
 			auto force_target =
-			    1 * errpos_screw +
-			    2 * errspd_screw
-			    //0.1 * errpos_integral
+			    errpos_screw * 1 +
+			    -spdlin * 2
+			    + rabbit::screw<double, 3>({}, {0, 0, errpos_integral.lin.z}) * 0.2
 			    ;
 
-			//spd_kp * errspd_screw;
-			//spd_ki * errspd_integral;
 
-			//force_target = {{0.1,0,0},{0,0,0}};
+			PRINT(force_target);
 
+			auto zdir_force_target_ang = linalg::dot(force_target.ang, marshal) * marshal;
+			auto xydir_force_target_ang = force_target.ang - zdir_force_target_ang;
 
-			//PRINT(errpos_screw);
-			//PRINT(errspd_screw);
-			//PRINT(force_target);
-			//do_after_iteration(4)
-			//	exit(0);
+			auto zdir_force_target_lin = linalg::dot(force_target.lin, marshal) * marshal;
+			auto xydir_force_target_lin = force_target.lin - zdir_force_target_lin;
+
+			auto normal = -linalg::cross(xydir_force_target_lin, marshal);
+			PRINT(xydir_force_target_lin);
+			PRINT(normal);
+
+			auto xysignal =
+			    normal * 10
+			    - spd.ang * 8;
+
+			bool enable_manvour = false;
+			if (linalg::length(errpos_screw.lin) < 0.5) {
+				enable_manvour = true;
+			}
+			
+
+			if (linalg::length(xydir_force_target_lin) > 0.01)
+				xydir_force_target_lin = xydir_force_target_lin / linalg::length(xydir_force_target_lin) * 0.1;
+
+			auto force =
+			    ignition::math::v6::Vector3<double>(
+			        zdir_force_target_lin.x,
+			        zdir_force_target_lin.y,
+			        zdir_force_target_lin.z
+			    );
+
+			if (enable_manvour)
+				force = force +
+				        ignition::math::v6::Vector3<double>(
+				            xydir_force_target_lin.x,
+				            xydir_force_target_lin.y,
+				            xydir_force_target_lin.z
+				        );
 
 			link->SetForce(
-			    ignition::math::v6::Vector3<double>(
-			        force_target.lin.x,
-			        force_target.lin.y,
-			        force_target.lin.z
-			    ));
+			    force
+			);
 
 			link->SetTorque(
 			    ignition::math::v6::Vector3<double>(
-			        force_target.ang.x,
-			        force_target.ang.y,
-			        force_target.ang.z
+			        xysignal.x,
+			        xysignal.y,
+			        xysignal.z
 			    ));
-			/*link->SetForce(
-				ignition::math::v6::Vector3<double>(
-					0.01,
-					0.01,
-					0.01
-				));
-			link->SetTorque(
-				ignition::math::v6::Vector3<double>(
-					0.01,
-					0.01,
-					0.01
-				));*/
 		}
 	};
 
