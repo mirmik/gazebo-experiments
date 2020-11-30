@@ -1,0 +1,3 @@
+/home/mirmik/project/gazebo-expirements/walker/spider/CMakeFiles/rebuild_cache.dir
+/home/mirmik/project/gazebo-expirements/walker/spider/CMakeFiles/edit_cache.dir
+/home/mirmik/project/gazebo-expirements/walker/spider/CMakeFiles/world.dir
