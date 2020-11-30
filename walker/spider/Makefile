@@ -69,8 +69,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/local/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named manipulator
+
+# Build rule for target.
+manipulator: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 manipulator
+.PHONY : manipulator
+
+# fast build rule for target.
+manipulator/fast:
+	$(MAKE) -f CMakeFiles/manipulator.dir/build.make CMakeFiles/manipulator.dir/build
+.PHONY : manipulator/fast
+
+#=============================================================================
 # Target rules for targets named world
 
 # Build rule for target.
@@ -122,6 +135,33 @@ world: cmake_check_build_system
 world/fast:
 	$(MAKE) -f CMakeFiles/world.dir/build.make CMakeFiles/world.dir/build
 .PHONY : world/fast
+
+mirmik.o: mirmik.cc.o
+
+.PHONY : mirmik.o
+
+# target to build an object file
+mirmik.cc.o:
+	$(MAKE) -f CMakeFiles/manipulator.dir/build.make CMakeFiles/manipulator.dir/mirmik.cc.o
+.PHONY : mirmik.cc.o
+
+mirmik.i: mirmik.cc.i
+
+.PHONY : mirmik.i
+
+# target to preprocess a source file
+mirmik.cc.i:
+	$(MAKE) -f CMakeFiles/manipulator.dir/build.make CMakeFiles/manipulator.dir/mirmik.cc.i
+.PHONY : mirmik.cc.i
+
+mirmik.s: mirmik.cc.s
+
+.PHONY : mirmik.s
+
+# target to generate assembly for a file
+mirmik.cc.s:
+	$(MAKE) -f CMakeFiles/manipulator.dir/build.make CMakeFiles/manipulator.dir/mirmik.cc.s
+.PHONY : mirmik.cc.s
 
 world.o: world.cc.o
 
@@ -158,7 +198,11 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... manipulator"
 	@echo "... world"
+	@echo "... mirmik.o"
+	@echo "... mirmik.i"
+	@echo "... mirmik.s"
 	@echo "... world.o"
 	@echo "... world.i"
 	@echo "... world.s"
