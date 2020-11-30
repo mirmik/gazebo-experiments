@@ -34,10 +34,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/local/bin/cmake
+CMAKE_COMMAND = /usr/bin/cmake
 
 # The command to remove a file.
-RM = /usr/local/bin/cmake -E rm -f
+RM = /usr/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -120,8 +120,8 @@ libworld.so: /usr/lib/x86_64-linux-gnu/libdart-external-odelcpsolver.so.6.9.2
 libworld.so: /usr/lib/x86_64-linux-gnu/libccd.so
 libworld.so: /usr/lib/x86_64-linux-gnu/libfcl.so
 libworld.so: /usr/lib/x86_64-linux-gnu/libassimp.so
-libworld.so: /usr/lib/liboctomap.so
-libworld.so: /usr/lib/liboctomath.so
+libworld.so: /usr/lib/x86_64-linux-gnu/liboctomap.so.1.9.3
+libworld.so: /usr/lib/x86_64-linux-gnu/liboctomath.so.1.9.3
 libworld.so: /usr/lib/x86_64-linux-gnu/libboost_atomic.so.1.71.0
 libworld.so: /usr/lib/x86_64-linux-gnu/libignition-transport8.so.8.1.0
 libworld.so: /usr/lib/x86_64-linux-gnu/libignition-fuel_tools4.so.4.2.1
