@@ -8,13 +8,14 @@
       <uri>model://sun</uri>
     </include>
 
-    <include>
+    <!--<include>
       <uri>model://ground_plane</uri>
-    </include>
+    </include>-->
 
     
     <model name="spider">
-      <pose>0 0 4 0 0 0</pose>
+      <plugin name="mirmik" filename="libmirmik.so"/>
+      <pose>0 0 1 0 0 0</pose>
 
       <link name="body">
         <collision name="collision_body_0">
@@ -139,7 +140,7 @@
          <parent>body</parent>
          <child>shoulder_0</child>
          <axis>
-         	<xyz>0 0 1</xyz>
+         	<xyz>0 0 -1</xyz>
 	        <use_parent_model_frame>true</use_parent_model_frame>
 	     </axis>
       </joint>
@@ -149,7 +150,7 @@
          <parent>shoulder_0</parent>
          <child>high_leg_0</child>
          <axis>
-         	<xyz>0 1 0</xyz>
+         	<xyz>0 -1 0</xyz>
 	        <use_parent_model_frame>true</use_parent_model_frame>
 	     </axis>
       </joint>
@@ -159,7 +160,7 @@
          <parent>high_leg_0</parent>
          <child>low_leg_0</child>
          <axis>
-          <xyz>0 1 0</xyz>
+          <xyz>0 -1 0</xyz>
 	      <use_parent_model_frame>true</use_parent_model_frame>
          </axis>
       </joint>
@@ -273,7 +274,7 @@
          <parent>body</parent>
          <child>shoulder_1</child>
          <axis>
-         	<xyz>0 0 1</xyz>
+         	<xyz>0 0 -1</xyz>
 	        <use_parent_model_frame>true</use_parent_model_frame>
 	     </axis>
       </joint>
@@ -283,7 +284,7 @@
          <parent>shoulder_1</parent>
          <child>high_leg_1</child>
          <axis>
-         	<xyz>0 1 0</xyz>
+         	<xyz>0 -1 0</xyz>
 	        <use_parent_model_frame>true</use_parent_model_frame>
 	     </axis>
       </joint>
@@ -293,7 +294,7 @@
          <parent>high_leg_1</parent>
          <child>low_leg_1</child>
          <axis>
-          <xyz>0 1 0</xyz>
+          <xyz>0 -1 0</xyz>
 	      <use_parent_model_frame>true</use_parent_model_frame>
          </axis>
       </joint>
@@ -407,7 +408,7 @@
          <parent>body</parent>
          <child>shoulder_2</child>
          <axis>
-         	<xyz>0 0 1</xyz>
+         	<xyz>0 0 -1</xyz>
 	        <use_parent_model_frame>true</use_parent_model_frame>
 	     </axis>
       </joint>
@@ -417,7 +418,7 @@
          <parent>shoulder_2</parent>
          <child>high_leg_2</child>
          <axis>
-         	<xyz>0 1 0</xyz>
+         	<xyz>0 -1 0</xyz>
 	        <use_parent_model_frame>true</use_parent_model_frame>
 	     </axis>
       </joint>
@@ -427,7 +428,7 @@
          <parent>high_leg_2</parent>
          <child>low_leg_2</child>
          <axis>
-          <xyz>0 1 0</xyz>
+          <xyz>0 -1 0</xyz>
 	      <use_parent_model_frame>true</use_parent_model_frame>
          </axis>
       </joint>

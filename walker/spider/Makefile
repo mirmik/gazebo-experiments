@@ -39,10 +39,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/local/bin/cmake
+CMAKE_COMMAND = /usr/bin/cmake
 
 # The command to remove a file.
-RM = /usr/local/bin/cmake -E rm -f
+RM = /usr/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -59,7 +59,7 @@ CMAKE_BINARY_DIR = /home/mirmik/project/gazebo-expirements/walker/spider
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/local/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -69,8 +69,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/local/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -111,17 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named manipulator
+# Target rules for targets named mirmik
 
 # Build rule for target.
-manipulator: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 manipulator
-.PHONY : manipulator
+mirmik: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 mirmik
+.PHONY : mirmik
 
 # fast build rule for target.
-manipulator/fast:
-	$(MAKE) -f CMakeFiles/manipulator.dir/build.make CMakeFiles/manipulator.dir/build
-.PHONY : manipulator/fast
+mirmik/fast:
+	$(MAKE) -f CMakeFiles/mirmik.dir/build.make CMakeFiles/mirmik.dir/build
+.PHONY : mirmik/fast
 
 #=============================================================================
 # Target rules for targets named world
@@ -136,13 +136,40 @@ world/fast:
 	$(MAKE) -f CMakeFiles/world.dir/build.make CMakeFiles/world.dir/build
 .PHONY : world/fast
 
+alur.o: alur.cc.o
+
+.PHONY : alur.o
+
+# target to build an object file
+alur.cc.o:
+	$(MAKE) -f CMakeFiles/mirmik.dir/build.make CMakeFiles/mirmik.dir/alur.cc.o
+.PHONY : alur.cc.o
+
+alur.i: alur.cc.i
+
+.PHONY : alur.i
+
+# target to preprocess a source file
+alur.cc.i:
+	$(MAKE) -f CMakeFiles/mirmik.dir/build.make CMakeFiles/mirmik.dir/alur.cc.i
+.PHONY : alur.cc.i
+
+alur.s: alur.cc.s
+
+.PHONY : alur.s
+
+# target to generate assembly for a file
+alur.cc.s:
+	$(MAKE) -f CMakeFiles/mirmik.dir/build.make CMakeFiles/mirmik.dir/alur.cc.s
+.PHONY : alur.cc.s
+
 mirmik.o: mirmik.cc.o
 
 .PHONY : mirmik.o
 
 # target to build an object file
 mirmik.cc.o:
-	$(MAKE) -f CMakeFiles/manipulator.dir/build.make CMakeFiles/manipulator.dir/mirmik.cc.o
+	$(MAKE) -f CMakeFiles/mirmik.dir/build.make CMakeFiles/mirmik.dir/mirmik.cc.o
 .PHONY : mirmik.cc.o
 
 mirmik.i: mirmik.cc.i
@@ -151,7 +178,7 @@ mirmik.i: mirmik.cc.i
 
 # target to preprocess a source file
 mirmik.cc.i:
-	$(MAKE) -f CMakeFiles/manipulator.dir/build.make CMakeFiles/manipulator.dir/mirmik.cc.i
+	$(MAKE) -f CMakeFiles/mirmik.dir/build.make CMakeFiles/mirmik.dir/mirmik.cc.i
 .PHONY : mirmik.cc.i
 
 mirmik.s: mirmik.cc.s
@@ -160,7 +187,7 @@ mirmik.s: mirmik.cc.s
 
 # target to generate assembly for a file
 mirmik.cc.s:
-	$(MAKE) -f CMakeFiles/manipulator.dir/build.make CMakeFiles/manipulator.dir/mirmik.cc.s
+	$(MAKE) -f CMakeFiles/mirmik.dir/build.make CMakeFiles/mirmik.dir/mirmik.cc.s
 .PHONY : mirmik.cc.s
 
 world.o: world.cc.o
@@ -198,8 +225,11 @@ help:
 	@echo "... depend"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
-	@echo "... manipulator"
+	@echo "... mirmik"
 	@echo "... world"
+	@echo "... alur.o"
+	@echo "... alur.i"
+	@echo "... alur.s"
 	@echo "... mirmik.o"
 	@echo "... mirmik.i"
 	@echo "... mirmik.s"

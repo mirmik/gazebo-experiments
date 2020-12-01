@@ -108,7 +108,7 @@ arm_template = """
          <parent>body</parent>
          <child>shoulder_{number}</child>
          <axis>
-         	<xyz>0 0 1</xyz>
+         	<xyz>0 0 {axis}</xyz>
 	        <use_parent_model_frame>true</use_parent_model_frame>
 	     </axis>
       </joint>
@@ -118,7 +118,7 @@ arm_template = """
          <parent>shoulder_{number}</parent>
          <child>high_leg_{number}</child>
          <axis>
-         	<xyz>0 1 0</xyz>
+         	<xyz>0 {axis} 0</xyz>
 	        <use_parent_model_frame>true</use_parent_model_frame>
 	     </axis>
       </joint>
@@ -128,7 +128,7 @@ arm_template = """
          <parent>high_leg_{number}</parent>
          <child>low_leg_{number}</child>
          <axis>
-          <xyz>0 1 0</xyz>
+          <xyz>0 {axis} 0</xyz>
 	      <use_parent_model_frame>true</use_parent_model_frame>
          </axis>
       </joint>
@@ -150,17 +150,17 @@ R = 0.5
 
 LHWR = { "L":L, "H":H, "W":W, "R":R }
 
-arm[0] = arm_template.format(number=0, pose_shoulder=f"-{WW}  {BODY_LENGTH/2}  0  0  0  0   ", pose_high=f"-{WW+L/2}  {BODY_LENGTH/2}  0  0  0  0   ", pose_low=f"-{WW+L/2*3}  {BODY_LENGTH/2}  0  0  0  0   ", pose_fin=f"-{WW+L/2*4}  {BODY_LENGTH/2}  0  0  0  0   ", pjoint_shoulder=f"-{WW}  {BODY_LENGTH/2}  0  0  0  0   ", pjoint_low=f"-{WW+L}  {BODY_LENGTH/2}  0  0  0  0   ", pjoint_fin=f"-{WW+L*2}  {BODY_LENGTH/2}  0  0  0  0   ", **LHWR)
-arm[1] = arm_template.format(number=1, pose_shoulder=f"-{WW}  0                0  0  0  0   ", pose_high=f"-{WW+L/2}  0                0  0  0  0   ", pose_low=f"-{WW+L/2*3}  0                0  0  0  0   ", pose_fin=f"-{WW+L/2*4}  0                0  0  0  0   ", pjoint_shoulder=f"-{WW}  0                0  0  0  0   ", pjoint_low=f"-{WW+L}  0                0  0  0  0   ", pjoint_fin=f"-{WW+L*2}  0                0  0  0  0   ", **LHWR)
-arm[2] = arm_template.format(number=2, pose_shoulder=f"-{WW} -{BODY_LENGTH/2}  0  0  0  0   ", pose_high=f"-{WW+L/2} -{BODY_LENGTH/2}  0  0  0  0   ", pose_low=f"-{WW+L/2*3} -{BODY_LENGTH/2}  0  0  0  0   ", pose_fin=f"-{WW+L/2*4} -{BODY_LENGTH/2}  0  0  0  0   ", pjoint_shoulder=f"-{WW} -{BODY_LENGTH/2}  0  0  0  0   ", pjoint_low=f"-{WW+L} -{BODY_LENGTH/2}  0  0  0  0   ", pjoint_fin=f"-{WW+L*2} -{BODY_LENGTH/2}  0  0  0  0   ", **LHWR)
-arm[3] = arm_template.format(number=3, pose_shoulder=f" {WW}  {BODY_LENGTH/2}  0  0  0  3.14", pose_high=f" {WW+L/2}  {BODY_LENGTH/2}  0  0  0  3.14", pose_low=f" {WW+L/2*3}  {BODY_LENGTH/2}  0  0  0  3.14", pose_fin=f" {WW+L/2*4}  {BODY_LENGTH/2}  0  0  0  3.14", pjoint_shoulder=f" {WW}  {BODY_LENGTH/2}  0  0  0  3.14", pjoint_low=f" {WW+L}  {BODY_LENGTH/2}  0  0  0  3.14", pjoint_fin=f" {WW+L*2}  {BODY_LENGTH/2}  0  0  0  3.14", **LHWR)
-arm[4] = arm_template.format(number=4, pose_shoulder=f" {WW}  0                0  0  0  3.14", pose_high=f" {WW+L/2}  0                0  0  0  3.14", pose_low=f" {WW+L/2*3}  0                0  0  0  3.14", pose_fin=f" {WW+L/2*4}  0                0  0  0  3.14", pjoint_shoulder=f" {WW}  0                0  0  0  3.14", pjoint_low=f" {WW+L}  0                0  0  0  3.14", pjoint_fin=f" {WW+L*2}  0                0  0  0  3.14", **LHWR)
-arm[5] = arm_template.format(number=5, pose_shoulder=f" {WW} -{BODY_LENGTH/2}  0  0  0  3.14", pose_high=f" {WW+L/2} -{BODY_LENGTH/2}  0  0  0  3.14", pose_low=f" {WW+L/2*3} -{BODY_LENGTH/2}  0  0  0  3.14", pose_fin=f" {WW+L/2*4} -{BODY_LENGTH/2}  0  0  0  3.14", pjoint_shoulder=f" {WW} -{BODY_LENGTH/2}  0  0  0  3.14", pjoint_low=f" {WW+L} -{BODY_LENGTH/2}  0  0  0  3.14", pjoint_fin=f" {WW+L*2} -{BODY_LENGTH/2}  0  0  0  3.14", **LHWR)
+arm[0] = arm_template.format(number=0, axis="-1", pose_shoulder=f"-{WW}  {BODY_LENGTH/2}  0  0  0  0   ", pose_high=f"-{WW+L/2}  {BODY_LENGTH/2}  0  0  0  0   ", pose_low=f"-{WW+L/2*3}  {BODY_LENGTH/2}  0  0  0  0   ", pose_fin=f"-{WW+L/2*4}  {BODY_LENGTH/2}  0  0  0  0   ", pjoint_shoulder=f"-{WW}  {BODY_LENGTH/2}  0  0  0  0   ", pjoint_low=f"-{WW+L}  {BODY_LENGTH/2}  0  0  0  0   ", pjoint_fin=f"-{WW+L*2}  {BODY_LENGTH/2}  0  0  0  0   ", **LHWR)
+arm[1] = arm_template.format(number=1, axis="-1", pose_shoulder=f"-{WW}  0                0  0  0  0   ", pose_high=f"-{WW+L/2}  0                0  0  0  0   ", pose_low=f"-{WW+L/2*3}  0                0  0  0  0   ", pose_fin=f"-{WW+L/2*4}  0                0  0  0  0   ", pjoint_shoulder=f"-{WW}  0                0  0  0  0   ", pjoint_low=f"-{WW+L}  0                0  0  0  0   ", pjoint_fin=f"-{WW+L*2}  0                0  0  0  0   ", **LHWR)
+arm[2] = arm_template.format(number=2, axis="-1", pose_shoulder=f"-{WW} -{BODY_LENGTH/2}  0  0  0  0   ", pose_high=f"-{WW+L/2} -{BODY_LENGTH/2}  0  0  0  0   ", pose_low=f"-{WW+L/2*3} -{BODY_LENGTH/2}  0  0  0  0   ", pose_fin=f"-{WW+L/2*4} -{BODY_LENGTH/2}  0  0  0  0   ", pjoint_shoulder=f"-{WW} -{BODY_LENGTH/2}  0  0  0  0   ", pjoint_low=f"-{WW+L} -{BODY_LENGTH/2}  0  0  0  0   ", pjoint_fin=f"-{WW+L*2} -{BODY_LENGTH/2}  0  0  0  0   ", **LHWR)
+arm[3] = arm_template.format(number=3, axis="1", pose_shoulder=f" {WW}  {BODY_LENGTH/2}  0  0  0  3.14", pose_high=f" {WW+L/2}  {BODY_LENGTH/2}  0  0  0  3.14", pose_low=f" {WW+L/2*3}  {BODY_LENGTH/2}  0  0  0  3.14", pose_fin=f" {WW+L/2*4}  {BODY_LENGTH/2}  0  0  0  3.14", pjoint_shoulder=f" {WW}  {BODY_LENGTH/2}  0  0  0  3.14", pjoint_low=f" {WW+L}  {BODY_LENGTH/2}  0  0  0  3.14", pjoint_fin=f" {WW+L*2}  {BODY_LENGTH/2}  0  0  0  3.14", **LHWR)
+arm[4] = arm_template.format(number=4, axis="1", pose_shoulder=f" {WW}  0                0  0  0  3.14", pose_high=f" {WW+L/2}  0                0  0  0  3.14", pose_low=f" {WW+L/2*3}  0                0  0  0  3.14", pose_fin=f" {WW+L/2*4}  0                0  0  0  3.14", pjoint_shoulder=f" {WW}  0                0  0  0  3.14", pjoint_low=f" {WW+L}  0                0  0  0  3.14", pjoint_fin=f" {WW+L*2}  0                0  0  0  3.14", **LHWR)
+arm[5] = arm_template.format(number=5, axis="1", pose_shoulder=f" {WW} -{BODY_LENGTH/2}  0  0  0  3.14", pose_high=f" {WW+L/2} -{BODY_LENGTH/2}  0  0  0  3.14", pose_low=f" {WW+L/2*3} -{BODY_LENGTH/2}  0  0  0  3.14", pose_fin=f" {WW+L/2*4} -{BODY_LENGTH/2}  0  0  0  3.14", pjoint_shoulder=f" {WW} -{BODY_LENGTH/2}  0  0  0  3.14", pjoint_low=f" {WW+L} -{BODY_LENGTH/2}  0  0  0  3.14", pjoint_fin=f" {WW+L*2} -{BODY_LENGTH/2}  0  0  0  3.14", **LHWR)
 
 spider = """
     <model name="spider">
       <plugin name="mirmik" filename="libmirmik.so"/>
-      <pose>0 0 2 0 0 0</pose>
+      <pose>0 0 1 0 0 0</pose>
 
       <link name="body">
         <collision name="collision_body_0">
@@ -203,9 +203,9 @@ txt = """<?xml version="1.0"?>
       <uri>model://sun</uri>
     </include>
 
-    <include>
+    <!--<include>
       <uri>model://ground_plane</uri>
-    </include>
+    </include>-->
 
     {spider}
 
