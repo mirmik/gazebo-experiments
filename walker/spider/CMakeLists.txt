@@ -6,8 +6,11 @@ find_package(gazebo REQUIRED)
 include_directories(${GAZEBO_INCLUDE_DIRS})
 link_directories(${GAZEBO_LIBRARY_DIRS})
 
+
 add_library(world SHARED world.cc)
 target_link_libraries(world ${GAZEBO_LIBRARIES} nos igris crow)
 
-add_library(manipulator SHARED mirmik.cc)
-target_link_libraries(manipulator ${GAZEBO_LIBRARIES} nos igris crow)
+add_library(mirmik SHARED mirmik.cc alur.cc)
+target_link_libraries(mirmik ${GAZEBO_LIBRARIES} nos igris crow rabbit ralgo)
+
+target_include_directories(mirmik PUBLIC .)

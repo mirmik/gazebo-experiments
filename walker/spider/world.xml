@@ -8,13 +8,14 @@
       <uri>model://sun</uri>
     </include>
 
-    <include>
+    <!--<include>
       <uri>model://ground_plane</uri>
-    </include>
+    </include>-->
 
     
     <model name="spider">
-      <pose>0 0 4 0 0 0</pose>
+      <plugin name="mirmik" filename="libmirmik.so"/>
+      <pose>0 0 1 0 0 0</pose>
 
       <link name="body">
         <collision name="collision_body_0">
@@ -83,6 +84,17 @@
 
         <inertial>
           <pose>-1.5  2.5  0  0  0  0   </pose>
+          
+  <mass> 1 </mass>
+  <inertia>
+    <ixx>0.005</ixx>
+    <iyy>0.083</iyy>
+    <izz>0.083</izz>
+    <ixy>0</ixy>
+    <ixz>0</ixz>
+    <iyz>0</iyz>
+  </inertia>
+
         </inertial>
       </link>
 
@@ -107,6 +119,17 @@
 
         <inertial>
           <pose>-3.5  2.5  0  0  0  0   </pose>
+          
+  <mass> 1 </mass>
+  <inertia>
+    <ixx>0.005</ixx>
+    <iyy>0.083</iyy>
+    <izz>0.083</izz>
+    <ixy>0</ixy>
+    <ixz>0</ixz>
+    <iyz>0</iyz>
+  </inertia>
+
         </inertial>
       </link>	
 
@@ -118,6 +141,17 @@
             	<radius>0.5</radius>
             </sphere>    
           </geometry>
+          <inertial>
+            <mass>0.0001</mass>
+            <inertia>
+              <ixx>0.001</ixx>
+              <iyy>0.001</iyy>
+              <izz>0.001</izz>
+              <ixy>0</ixy>
+              <ixz>0</ixz>
+              <iyz>0</iyz>
+            </inertia>
+          </inertial>
         </collision>
   
         <visual name="visual_fin_leg_0_0">
@@ -139,17 +173,17 @@
          <parent>body</parent>
          <child>shoulder_0</child>
          <axis>
-         	<xyz>0 0 1</xyz>
+         	<xyz>0 0 -1</xyz>
 	        <use_parent_model_frame>true</use_parent_model_frame>
 	     </axis>
       </joint>
 
-      <joint name="joint_high_0" type="revolute">
+      <joint name="joint_high_0" type="fixed">
       	 <pose> -0.5  2.5  0  0  0  0    </pose>
          <parent>shoulder_0</parent>
          <child>high_leg_0</child>
          <axis>
-         	<xyz>0 1 0</xyz>
+         	<xyz>0 -1 0</xyz>
 	        <use_parent_model_frame>true</use_parent_model_frame>
 	     </axis>
       </joint>
@@ -159,7 +193,7 @@
          <parent>high_leg_0</parent>
          <child>low_leg_0</child>
          <axis>
-          <xyz>0 1 0</xyz>
+          <xyz>0 -1 0</xyz>
 	      <use_parent_model_frame>true</use_parent_model_frame>
          </axis>
       </joint>
@@ -217,6 +251,17 @@
 
         <inertial>
           <pose>-1.5  0                0  0  0  0   </pose>
+          
+  <mass> 1 </mass>
+  <inertia>
+    <ixx>0.005</ixx>
+    <iyy>0.083</iyy>
+    <izz>0.083</izz>
+    <ixy>0</ixy>
+    <ixz>0</ixz>
+    <iyz>0</iyz>
+  </inertia>
+
         </inertial>
       </link>
 
@@ -241,6 +286,17 @@
 
         <inertial>
           <pose>-3.5  0                0  0  0  0   </pose>
+          
+  <mass> 1 </mass>
+  <inertia>
+    <ixx>0.005</ixx>
+    <iyy>0.083</iyy>
+    <izz>0.083</izz>
+    <ixy>0</ixy>
+    <ixz>0</ixz>
+    <iyz>0</iyz>
+  </inertia>
+
         </inertial>
       </link>	
 
@@ -252,6 +308,17 @@
             	<radius>0.5</radius>
             </sphere>    
           </geometry>
+          <inertial>
+            <mass>0.0001</mass>
+            <inertia>
+              <ixx>0.001</ixx>
+              <iyy>0.001</iyy>
+              <izz>0.001</izz>
+              <ixy>0</ixy>
+              <ixz>0</ixz>
+              <iyz>0</iyz>
+            </inertia>
+          </inertial>
         </collision>
   
         <visual name="visual_fin_leg_1_0">
@@ -273,17 +340,17 @@
          <parent>body</parent>
          <child>shoulder_1</child>
          <axis>
-         	<xyz>0 0 1</xyz>
+         	<xyz>0 0 -1</xyz>
 	        <use_parent_model_frame>true</use_parent_model_frame>
 	     </axis>
       </joint>
 
-      <joint name="joint_high_1" type="revolute">
+      <joint name="joint_high_1" type="fixed">
       	 <pose> -0.5  0                0  0  0  0    </pose>
          <parent>shoulder_1</parent>
          <child>high_leg_1</child>
          <axis>
-         	<xyz>0 1 0</xyz>
+         	<xyz>0 -1 0</xyz>
 	        <use_parent_model_frame>true</use_parent_model_frame>
 	     </axis>
       </joint>
@@ -293,7 +360,7 @@
          <parent>high_leg_1</parent>
          <child>low_leg_1</child>
          <axis>
-          <xyz>0 1 0</xyz>
+          <xyz>0 -1 0</xyz>
 	      <use_parent_model_frame>true</use_parent_model_frame>
          </axis>
       </joint>
@@ -351,6 +418,17 @@
 
         <inertial>
           <pose>-1.5 -2.5  0  0  0  0   </pose>
+          
+  <mass> 1 </mass>
+  <inertia>
+    <ixx>0.005</ixx>
+    <iyy>0.083</iyy>
+    <izz>0.083</izz>
+    <ixy>0</ixy>
+    <ixz>0</ixz>
+    <iyz>0</iyz>
+  </inertia>
+
         </inertial>
       </link>
 
@@ -375,6 +453,17 @@
 
         <inertial>
           <pose>-3.5 -2.5  0  0  0  0   </pose>
+          
+  <mass> 1 </mass>
+  <inertia>
+    <ixx>0.005</ixx>
+    <iyy>0.083</iyy>
+    <izz>0.083</izz>
+    <ixy>0</ixy>
+    <ixz>0</ixz>
+    <iyz>0</iyz>
+  </inertia>
+
         </inertial>
       </link>	
 
@@ -386,6 +475,17 @@
             	<radius>0.5</radius>
             </sphere>    
           </geometry>
+          <inertial>
+            <mass>0.0001</mass>
+            <inertia>
+              <ixx>0.001</ixx>
+              <iyy>0.001</iyy>
+              <izz>0.001</izz>
+              <ixy>0</ixy>
+              <ixz>0</ixz>
+              <iyz>0</iyz>
+            </inertia>
+          </inertial>
         </collision>
   
         <visual name="visual_fin_leg_2_0">
@@ -407,17 +507,17 @@
          <parent>body</parent>
          <child>shoulder_2</child>
          <axis>
-         	<xyz>0 0 1</xyz>
+         	<xyz>0 0 -1</xyz>
 	        <use_parent_model_frame>true</use_parent_model_frame>
 	     </axis>
       </joint>
 
-      <joint name="joint_high_2" type="revolute">
+      <joint name="joint_high_2" type="fixed">
       	 <pose> -0.5 -2.5  0  0  0  0    </pose>
          <parent>shoulder_2</parent>
          <child>high_leg_2</child>
          <axis>
-         	<xyz>0 1 0</xyz>
+         	<xyz>0 -1 0</xyz>
 	        <use_parent_model_frame>true</use_parent_model_frame>
 	     </axis>
       </joint>
@@ -427,7 +527,7 @@
          <parent>high_leg_2</parent>
          <child>low_leg_2</child>
          <axis>
-          <xyz>0 1 0</xyz>
+          <xyz>0 -1 0</xyz>
 	      <use_parent_model_frame>true</use_parent_model_frame>
          </axis>
       </joint>
@@ -485,6 +585,17 @@
 
         <inertial>
           <pose> 1.5  2.5  0  0  0  3.14</pose>
+          
+  <mass> 1 </mass>
+  <inertia>
+    <ixx>0.005</ixx>
+    <iyy>0.083</iyy>
+    <izz>0.083</izz>
+    <ixy>0</ixy>
+    <ixz>0</ixz>
+    <iyz>0</iyz>
+  </inertia>
+
         </inertial>
       </link>
 
@@ -509,6 +620,17 @@
 
         <inertial>
           <pose> 3.5  2.5  0  0  0  3.14</pose>
+          
+  <mass> 1 </mass>
+  <inertia>
+    <ixx>0.005</ixx>
+    <iyy>0.083</iyy>
+    <izz>0.083</izz>
+    <ixy>0</ixy>
+    <ixz>0</ixz>
+    <iyz>0</iyz>
+  </inertia>
+
         </inertial>
       </link>	
 
@@ -520,6 +642,17 @@
             	<radius>0.5</radius>
             </sphere>    
           </geometry>
+          <inertial>
+            <mass>0.0001</mass>
+            <inertia>
+              <ixx>0.001</ixx>
+              <iyy>0.001</iyy>
+              <izz>0.001</izz>
+              <ixy>0</ixy>
+              <ixz>0</ixz>
+              <iyz>0</iyz>
+            </inertia>
+          </inertial>
         </collision>
   
         <visual name="visual_fin_leg_3_0">
@@ -546,7 +679,7 @@
 	     </axis>
       </joint>
 
-      <joint name="joint_high_3" type="revolute">
+      <joint name="joint_high_3" type="fixed">
       	 <pose>  0.5  2.5  0  0  0  3.14 </pose>
          <parent>shoulder_3</parent>
          <child>high_leg_3</child>
@@ -619,6 +752,17 @@
 
         <inertial>
           <pose> 1.5  0                0  0  0  3.14</pose>
+          
+  <mass> 1 </mass>
+  <inertia>
+    <ixx>0.005</ixx>
+    <iyy>0.083</iyy>
+    <izz>0.083</izz>
+    <ixy>0</ixy>
+    <ixz>0</ixz>
+    <iyz>0</iyz>
+  </inertia>
+
         </inertial>
       </link>
 
@@ -643,6 +787,17 @@
 
         <inertial>
           <pose> 3.5  0                0  0  0  3.14</pose>
+          
+  <mass> 1 </mass>
+  <inertia>
+    <ixx>0.005</ixx>
+    <iyy>0.083</iyy>
+    <izz>0.083</izz>
+    <ixy>0</ixy>
+    <ixz>0</ixz>
+    <iyz>0</iyz>
+  </inertia>
+
         </inertial>
       </link>	
 
@@ -654,6 +809,17 @@
             	<radius>0.5</radius>
             </sphere>    
           </geometry>
+          <inertial>
+            <mass>0.0001</mass>
+            <inertia>
+              <ixx>0.001</ixx>
+              <iyy>0.001</iyy>
+              <izz>0.001</izz>
+              <ixy>0</ixy>
+              <ixz>0</ixz>
+              <iyz>0</iyz>
+            </inertia>
+          </inertial>
         </collision>
   
         <visual name="visual_fin_leg_4_0">
@@ -680,7 +846,7 @@
 	     </axis>
       </joint>
 
-      <joint name="joint_high_4" type="revolute">
+      <joint name="joint_high_4" type="fixed">
       	 <pose>  0.5  0                0  0  0  3.14 </pose>
          <parent>shoulder_4</parent>
          <child>high_leg_4</child>
@@ -753,6 +919,17 @@
 
         <inertial>
           <pose> 1.5 -2.5  0  0  0  3.14</pose>
+          
+  <mass> 1 </mass>
+  <inertia>
+    <ixx>0.005</ixx>
+    <iyy>0.083</iyy>
+    <izz>0.083</izz>
+    <ixy>0</ixy>
+    <ixz>0</ixz>
+    <iyz>0</iyz>
+  </inertia>
+
         </inertial>
       </link>
 
@@ -777,6 +954,17 @@
 
         <inertial>
           <pose> 3.5 -2.5  0  0  0  3.14</pose>
+          
+  <mass> 1 </mass>
+  <inertia>
+    <ixx>0.005</ixx>
+    <iyy>0.083</iyy>
+    <izz>0.083</izz>
+    <ixy>0</ixy>
+    <ixz>0</ixz>
+    <iyz>0</iyz>
+  </inertia>
+
         </inertial>
       </link>	
 
@@ -788,6 +976,17 @@
             	<radius>0.5</radius>
             </sphere>    
           </geometry>
+          <inertial>
+            <mass>0.0001</mass>
+            <inertia>
+              <ixx>0.001</ixx>
+              <iyy>0.001</iyy>
+              <izz>0.001</izz>
+              <ixy>0</ixy>
+              <ixz>0</ixz>
+              <iyz>0</iyz>
+            </inertia>
+          </inertial>
         </collision>
   
         <visual name="visual_fin_leg_5_0">
@@ -814,7 +1013,7 @@
 	     </axis>
       </joint>
 
-      <joint name="joint_high_5" type="revolute">
+      <joint name="joint_high_5" type="fixed">
       	 <pose>  0.5 -2.5  0  0  0  3.14 </pose>
          <parent>shoulder_5</parent>
          <child>high_leg_5</child>
@@ -840,6 +1039,12 @@
          <child>fin_leg_5</child>
       </joint>
 
+
+      <joint name="krep" type="fixed">
+         <pose> 0 0 0 0 0 0 </pose>
+         <parent>world</parent>
+         <child>body</child>
+      </joint>
 
     </model>
 
