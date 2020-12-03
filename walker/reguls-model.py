@@ -29,7 +29,7 @@ spd_ksi = (spd_T1 + spd_T2) / spd_T / 2
 spd_A = 1
 
 pos_T1 = 1
-pos_T2 = 10
+pos_T2 = 100
 
 pos_T= math.sqrt( pos_T1 * pos_T2 )
 pos_ksi = (pos_T1 + pos_T2) / pos_T / 2
