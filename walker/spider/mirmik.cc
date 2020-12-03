@@ -1,5 +1,7 @@
 #include <mirmik.h>
 
+#include <igris/util/iteration_counter.h>
+
 namespace gazebo
 {
 	extern physics::WorldPtr WORLD;
@@ -53,6 +55,8 @@ namespace gazebo
 			delta = curtime - lasttime;
 			double time = curtime - starttime;
 
+			PRINT(delta);
+
 			if (!inited)
 			{
 				body_controller.init(model);
@@ -64,7 +68,7 @@ namespace gazebo
 
 				for (int i = 0; i < 6; ++i) 
 				{
-					body_controller.legs[i].regulators[1].spd_A = 0.083 * 2;
+					body_controller.legs[i].regulators[1].spd_A = 0.33 * 2 * 1.5;
 				}
 
 				return;
@@ -82,11 +86,13 @@ namespace gazebo
 			/*body_controller.legs[i].regulators[1].speed2_loop_enabled=false;
 			body_controller.legs[i].regulators[1].position_loop_enabled=true;
 			body_controller.legs[i].regulators[1].position_target=M_PI/4;
-			body_controller.legs[i].regulators[1].Control(delta);
-*/
+			body_controller.legs[i].regulators[1].Control(delta);*/
+
 			body_controller.legs[i].regulators[2].speed2_loop_enabled=false;
-			body_controller.legs[i].regulators[2].position_loop_enabled=true;
-			body_controller.legs[i].regulators[2].position_target=M_PI/4;
+			body_controller.legs[i].regulators[2].position_loop_enabled=false;
+
+			body_controller.legs[i].regulators[2].speed_target=0.1;
+			//body_controller.legs[i].regulators[2].position_target=M_PI/4;
 			body_controller.legs[i].regulators[2].Control(delta);
 			}
 			lasttime = curtime;
@@ -218,13 +224,13 @@ void gazebo::Regulator::reset()
 	speed_error = 0;
 	position_error = 0;
 
-	speed_target = 0.2;
+	speed_target = 0;
 	position_target = 0;
 
 	speed_integral = 0;
 	position_integral = 0;
 
-	speed2_target = 0.1;
+	speed2_target = 0;
 }
 
 void gazebo::Regulator::Control(double delta)
@@ -247,13 +253,17 @@ void gazebo::Regulator::Control(double delta)
 		    - control_signal * ForceKoeff;
 	}
 
-	nos::println(speed_target);
+	do_after_iteration(3) exit(0);
 
 	speed_error = speed_target - current_speed;
 	speed_integral += speed_error * delta;
 	control_signal =
 	    spd_kp * speed_error +
 	    spd_ki * speed_integral;
+
+	PRINT(control_signal);
+	std::cout << "speed_integral: " << speed_integral << std::endl;
+	std::cout << "speed_error: " << speed_error << std::endl;
 
 	joint->SetForce(0, control_signal);
 }

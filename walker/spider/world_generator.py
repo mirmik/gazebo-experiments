@@ -8,9 +8,9 @@ BODY_LENGTH = 5
 inertia_st = """
   <mass> 1 </mass>
   <inertia>
-    <ixx>0.005</ixx>
-    <iyy>0.083</iyy>
-    <izz>0.083</izz>
+    <ixx>0.05893</ixx>
+    <iyy>0.33333</iyy>
+    <izz>0.33333</izz>
     <ixy>0</ixy>
     <ixz>0</ixz>
     <iyz>0</iyz>
@@ -101,6 +101,8 @@ arm_template = """
             	<radius>{R}</radius>
             </sphere>    
           </geometry>
+        </collision>
+
           <inertial>
             <mass>0.00001</mass>
             <inertia>
@@ -112,7 +114,6 @@ arm_template = """
               <iyz>0</iyz>
             </inertia>
           </inertial>
-        </collision>
   
         <visual name="visual_fin_leg_{number}_0">
           <pose>{pose_fin}</pose>

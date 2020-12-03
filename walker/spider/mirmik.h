@@ -38,12 +38,12 @@ namespace gazebo
 
 		double speed2_target;
 
-		double spd_T = 0.06;
-		double spd_ksi = 3;
-		double spd_A = 0.083;
+		double spd_T = 0.2;
+		double spd_ksi = 1;
+		double spd_A = 1.33;
 
 		double pos_T = 1;
-		double pos_ksi = 3;
+		double pos_ksi = 1;
 
 		double pos_kp = 0; 
 		double pos_ki = 0; 
@@ -55,7 +55,7 @@ namespace gazebo
 		//double force_compensation = 0.1;
 
 		double control_signal = 0;
-		double ForceKoeff = 0.1;
+		double ForceKoeff = 0;
 
 		void update_regs() 
 		{
