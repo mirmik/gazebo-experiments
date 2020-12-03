@@ -37,7 +37,7 @@ namespace gazebo
 
 		static constexpr double spd_T = 0.05;
 		static constexpr double spd_ksi = 0.75;
-		static constexpr double spd_A = 9;
+		static constexpr double spd_A = 0.083;
 
 		static constexpr double pos_T = 0.2;
 		static constexpr double pos_ksi = 2;
