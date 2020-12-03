@@ -102,11 +102,11 @@ arm_template = """
             </sphere>    
           </geometry>
           <inertial>
-            <mass>0.0001</mass>
+            <mass>0.00001</mass>
             <inertia>
-              <ixx>0.001</ixx>
-              <iyy>0.001</iyy>
-              <izz>0.001</izz>
+              <ixx>0.00001</ixx>
+              <iyy>0.00001</iyy>
+              <izz>0.00001</izz>
               <ixy>0</ixy>
               <ixz>0</ixz>
               <iyz>0</iyz>

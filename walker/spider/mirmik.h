@@ -38,7 +38,7 @@ namespace gazebo
 
 		double speed2_target;
 
-		double spd_T = 0.1;
+		double spd_T = 0.06;
 		double spd_ksi = 3;
 		double spd_A = 0.083;
 
@@ -66,7 +66,7 @@ namespace gazebo
 			pos_ki = 1. / pos_T / pos_T;
 
 
-			pos_kp = 0.8;
+			pos_kp = 1.6;
 			pos_ki = 0;
 		}
 
