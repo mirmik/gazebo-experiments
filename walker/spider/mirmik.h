@@ -58,7 +58,7 @@ namespace gazebo
 		physics::JointPtr joint;
 
 		double control_signal = 0;
-		double ForceKoeff = 0.003;
+		double ForceKoeff = 0.003 * 0;
 
 		void update_regs() 
 		{
@@ -97,6 +97,7 @@ namespace gazebo
 
 		physics::LinkPtr body_link;
 
+		physics::LinkPtr shoulder_link;
 		physics::LinkPtr high_link;
 		physics::LinkPtr low_link;
 		physics::LinkPtr fin_link;
@@ -126,6 +127,8 @@ namespace gazebo
 		std::vector<double> A_matrix_data;
 
 		std::vector<Regulator> regulators;
+
+		rabbit::htrans3<double> final_link_local_pose;
 
 		void enable_provide_feedback()
 		{
