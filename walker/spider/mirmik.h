@@ -26,36 +26,39 @@ namespace gazebo
 		bool speed2_loop_enabled = true;
 		bool position_loop_enabled = true;
 
-		double speed_error;
-		double position_error;
+		double speed_error = 0;
+		double position_error = 0;
 
 		double speed_target;
 		//double position_target = 45. / 180. * 3.14;
 		double position_target;
 
-		double speed_integral;
-		double position_integral;
+		double speed_integral = 0;
+		double position_integral = 0;
 
-		double speed2_target;
+		double speed2_target = 0;
 
-		double spd_T = 0.2;
+		double spd_T = 0.1;
 		double spd_ksi = 1;
 		double spd_A = 1.33;
 
-		double pos_T = 1;
+		double pos_T = 0.25;
 		double pos_ksi = 1;
 
 		double pos_kp = 0; 
 		double pos_ki = 0; 
 
+		double speed_integral_limit = 6;
+		double position_integral_limit = 6;
+		
+
 		double spd_kp = 0; 
 		double spd_ki = 0; 
 
 		physics::JointPtr joint;
-		//double force_compensation = 0.1;
 
 		double control_signal = 0;
-		double ForceKoeff = 0;
+		double ForceKoeff = 0.003;
 
 		void update_regs() 
 		{
@@ -68,6 +71,9 @@ namespace gazebo
 
 			pos_kp = 1.6;
 			pos_ki = 0;
+
+			speed_integral = 0;
+			position_integral = 0;
 		}
 
 		Regulator(physics::JointPtr joint);
@@ -175,6 +181,11 @@ namespace gazebo
 	{
 	public:
 		std::vector<LegController> legs;
+
+		std::vector<LegController*> forward_legs;
+		std::vector<LegController*> middle_legs;
+		std::vector<LegController*> backward_legs;
+
 		physics::ModelPtr model;
 
 		rabbit::htrans3<double> body_pose;

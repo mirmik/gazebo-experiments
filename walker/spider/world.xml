@@ -2,20 +2,49 @@
 <sdf version="1.4">
   <world name="default">
     <plugin name="world" filename="libworld.so"/>
-    <gravity>0 0 0</gravity>
-  
+
+    <gravity>0 0 -9.81</gravity>
+
     <include>
       <uri>model://sun</uri>
     </include>
 
-    <!--<include>
+    <!--<model name="arr">
+     <link name="arr0">
+        <collision name="collision_arr_0">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>10 10 1</size>
+            </box>    
+          </geometry>
+        </collision>
+
+        <visual name="visual_arr_0">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>10 10 1</size>
+            </box>    
+          </geometry>
+        </visual>
+      </link>
+    </model>
+
+      <joint name="krep2" type="fixed">
+         <pose> 0 0 0 0 0 0 </pose>
+         <parent>world</parent>
+         <child>arr</child>
+      </joint>-->
+
+    <include>
       <uri>model://ground_plane</uri>
-    </include>-->
+    </include>
 
     
     <model name="spider">
       <plugin name="mirmik" filename="libmirmik.so"/>
-      <pose>0 0 1 0 0 0</pose>
+      <pose>0 0 3 0 0 0</pose>
 
       <link name="body">
         <collision name="collision_body_0">
@@ -138,17 +167,17 @@
           <pose>-4.5  2.5  0  0  0  0   </pose>
           <geometry>
             <sphere>
-            	<radius>0.5</radius>
+            	<radius>0.4</radius>
             </sphere>    
           </geometry>
         </collision>
 
           <inertial>
-            <mass>0.00001</mass>
+            <mass>0.1</mass>
             <inertia>
-              <ixx>0.00001</ixx>
-              <iyy>0.00001</iyy>
-              <izz>0.00001</izz>
+              <ixx>0.1</ixx>
+              <iyy>0.1</iyy>
+              <izz>0.1</izz>
               <ixy>0</ixy>
               <ixz>0</ixz>
               <iyz>0</iyz>
@@ -159,7 +188,7 @@
           <pose>-4.5  2.5  0  0  0  0   </pose>
           <geometry>
             <sphere>
-            	<radius>0.5</radius>
+            	<radius>0.4</radius>
             </sphere>    
           </geometry>
         </visual>
@@ -179,7 +208,7 @@
 	     </axis>
       </joint>
 
-      <joint name="joint_high_0" type="fixed">
+      <joint name="joint_high_0" type="revolute">
       	 <pose> -0.5  2.5  0  0  0  0    </pose>
          <parent>shoulder_0</parent>
          <child>high_leg_0</child>
@@ -306,17 +335,17 @@
           <pose>-4.5  0                0  0  0  0   </pose>
           <geometry>
             <sphere>
-            	<radius>0.5</radius>
+            	<radius>0.4</radius>
             </sphere>    
           </geometry>
         </collision>
 
           <inertial>
-            <mass>0.00001</mass>
+            <mass>0.1</mass>
             <inertia>
-              <ixx>0.00001</ixx>
-              <iyy>0.00001</iyy>
-              <izz>0.00001</izz>
+              <ixx>0.1</ixx>
+              <iyy>0.1</iyy>
+              <izz>0.1</izz>
               <ixy>0</ixy>
               <ixz>0</ixz>
               <iyz>0</iyz>
@@ -327,7 +356,7 @@
           <pose>-4.5  0                0  0  0  0   </pose>
           <geometry>
             <sphere>
-            	<radius>0.5</radius>
+            	<radius>0.4</radius>
             </sphere>    
           </geometry>
         </visual>
@@ -347,7 +376,7 @@
 	     </axis>
       </joint>
 
-      <joint name="joint_high_1" type="fixed">
+      <joint name="joint_high_1" type="revolute">
       	 <pose> -0.5  0                0  0  0  0    </pose>
          <parent>shoulder_1</parent>
          <child>high_leg_1</child>
@@ -474,17 +503,17 @@
           <pose>-4.5 -2.5  0  0  0  0   </pose>
           <geometry>
             <sphere>
-            	<radius>0.5</radius>
+            	<radius>0.4</radius>
             </sphere>    
           </geometry>
         </collision>
 
           <inertial>
-            <mass>0.00001</mass>
+            <mass>0.1</mass>
             <inertia>
-              <ixx>0.00001</ixx>
-              <iyy>0.00001</iyy>
-              <izz>0.00001</izz>
+              <ixx>0.1</ixx>
+              <iyy>0.1</iyy>
+              <izz>0.1</izz>
               <ixy>0</ixy>
               <ixz>0</ixz>
               <iyz>0</iyz>
@@ -495,7 +524,7 @@
           <pose>-4.5 -2.5  0  0  0  0   </pose>
           <geometry>
             <sphere>
-            	<radius>0.5</radius>
+            	<radius>0.4</radius>
             </sphere>    
           </geometry>
         </visual>
@@ -515,7 +544,7 @@
 	     </axis>
       </joint>
 
-      <joint name="joint_high_2" type="fixed">
+      <joint name="joint_high_2" type="revolute">
       	 <pose> -0.5 -2.5  0  0  0  0    </pose>
          <parent>shoulder_2</parent>
          <child>high_leg_2</child>
@@ -642,17 +671,17 @@
           <pose> 4.5  2.5  0  0  0  3.14</pose>
           <geometry>
             <sphere>
-            	<radius>0.5</radius>
+            	<radius>0.4</radius>
             </sphere>    
           </geometry>
         </collision>
 
           <inertial>
-            <mass>0.00001</mass>
+            <mass>0.1</mass>
             <inertia>
-              <ixx>0.00001</ixx>
-              <iyy>0.00001</iyy>
-              <izz>0.00001</izz>
+              <ixx>0.1</ixx>
+              <iyy>0.1</iyy>
+              <izz>0.1</izz>
               <ixy>0</ixy>
               <ixz>0</ixz>
               <iyz>0</iyz>
@@ -663,7 +692,7 @@
           <pose> 4.5  2.5  0  0  0  3.14</pose>
           <geometry>
             <sphere>
-            	<radius>0.5</radius>
+            	<radius>0.4</radius>
             </sphere>    
           </geometry>
         </visual>
@@ -683,7 +712,7 @@
 	     </axis>
       </joint>
 
-      <joint name="joint_high_3" type="fixed">
+      <joint name="joint_high_3" type="revolute">
       	 <pose>  0.5  2.5  0  0  0  3.14 </pose>
          <parent>shoulder_3</parent>
          <child>high_leg_3</child>
@@ -810,17 +839,17 @@
           <pose> 4.5  0                0  0  0  3.14</pose>
           <geometry>
             <sphere>
-            	<radius>0.5</radius>
+            	<radius>0.4</radius>
             </sphere>    
           </geometry>
         </collision>
 
           <inertial>
-            <mass>0.00001</mass>
+            <mass>0.1</mass>
             <inertia>
-              <ixx>0.00001</ixx>
-              <iyy>0.00001</iyy>
-              <izz>0.00001</izz>
+              <ixx>0.1</ixx>
+              <iyy>0.1</iyy>
+              <izz>0.1</izz>
               <ixy>0</ixy>
               <ixz>0</ixz>
               <iyz>0</iyz>
@@ -831,7 +860,7 @@
           <pose> 4.5  0                0  0  0  3.14</pose>
           <geometry>
             <sphere>
-            	<radius>0.5</radius>
+            	<radius>0.4</radius>
             </sphere>    
           </geometry>
         </visual>
@@ -851,7 +880,7 @@
 	     </axis>
       </joint>
 
-      <joint name="joint_high_4" type="fixed">
+      <joint name="joint_high_4" type="revolute">
       	 <pose>  0.5  0                0  0  0  3.14 </pose>
          <parent>shoulder_4</parent>
          <child>high_leg_4</child>
@@ -978,17 +1007,17 @@
           <pose> 4.5 -2.5  0  0  0  3.14</pose>
           <geometry>
             <sphere>
-            	<radius>0.5</radius>
+            	<radius>0.4</radius>
             </sphere>    
           </geometry>
         </collision>
 
           <inertial>
-            <mass>0.00001</mass>
+            <mass>0.1</mass>
             <inertia>
-              <ixx>0.00001</ixx>
-              <iyy>0.00001</iyy>
-              <izz>0.00001</izz>
+              <ixx>0.1</ixx>
+              <iyy>0.1</iyy>
+              <izz>0.1</izz>
               <ixy>0</ixy>
               <ixz>0</ixz>
               <iyz>0</iyz>
@@ -999,7 +1028,7 @@
           <pose> 4.5 -2.5  0  0  0  3.14</pose>
           <geometry>
             <sphere>
-            	<radius>0.5</radius>
+            	<radius>0.4</radius>
             </sphere>    
           </geometry>
         </visual>
@@ -1019,7 +1048,7 @@
 	     </axis>
       </joint>
 
-      <joint name="joint_high_5" type="fixed">
+      <joint name="joint_high_5" type="revolute">
       	 <pose>  0.5 -2.5  0  0  0  3.14 </pose>
          <parent>shoulder_5</parent>
          <child>high_leg_5</child>
@@ -1046,11 +1075,11 @@
       </joint>
 
 
-      <joint name="krep" type="fixed">
+      <!--<joint name="krep" type="fixed">
          <pose> 0 0 0 0 0 0 </pose>
          <parent>world</parent>
          <child>body</child>
-      </joint>
+      </joint>-->
 
     </model>
 

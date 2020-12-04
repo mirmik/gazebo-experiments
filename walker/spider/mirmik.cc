@@ -55,7 +55,7 @@ namespace gazebo
 			delta = curtime - lasttime;
 			double time = curtime - starttime;
 
-			PRINT(delta);
+			//PRINT(delta);
 
 			if (!inited)
 			{
@@ -66,36 +66,52 @@ namespace gazebo
 				inited = 1;
 				lasttime = curtime;
 
-				for (int i = 0; i < 6; ++i) 
+				for (int i = 0; i < 6; ++i)
 				{
-					body_controller.legs[i].regulators[1].spd_A = 0.33 * 2 * 1.5;
+					body_controller.legs[i].regulators[1].spd_A = 5.33;
+					body_controller.legs[i].regulators[1].update_regs();
 				}
 
 				return;
 			}
 
+			static int i = 0;
+			do_iteration(3000) {
+				nos::println(i++);
+				lasttime = curtime;
+				return;
+			}
+
 			//body_controller.serve(delta);
 
-			nos::println("Control");
-			for (int i = 0; i < 1; ++i) {
-			/*body_controller.legs[i].regulators[0].speed2_loop_enabled=false;
-			body_controller.legs[i].regulators[0].position_loop_enabled=true;
-			body_controller.legs[i].regulators[0].position_target=M_PI/8;
-			body_controller.legs[i].regulators[0].Control(delta);
-			*/
-			/*body_controller.legs[i].regulators[1].speed2_loop_enabled=false;
-			body_controller.legs[i].regulators[1].position_loop_enabled=true;
-			body_controller.legs[i].regulators[1].position_target=M_PI/4;
-			body_controller.legs[i].regulators[1].Control(delta);*/
+			for (auto * a : body_controller.forward_legs) { a->regulators[0].position_target = M_PI/8; }
+			for (auto * a : body_controller.middle_legs) { a->regulators[0].position_target = 0; }
+			for (auto * a : body_controller.backward_legs) { a->regulators[0].position_target = -M_PI/8; }
 
-			body_controller.legs[i].regulators[2].speed2_loop_enabled=false;
-			body_controller.legs[i].regulators[2].position_loop_enabled=false;
+//			nos::println("Control");
+			for (int i = 0; i < 6; ++i)
+			{
+//				nos::println("Iter1");
+				body_controller.legs[i].regulators[0].speed2_loop_enabled=false;
+				body_controller.legs[i].regulators[0].position_loop_enabled=true;
+				//body_controller.legs[i].regulators[0].position_target=0;
+				body_controller.legs[i].regulators[0].Control(delta);
+				
+				body_controller.legs[i].regulators[1].speed2_loop_enabled = false;
+				body_controller.legs[i].regulators[1].position_loop_enabled = true;
+				body_controller.legs[i].regulators[1].position_target = -M_PI / 4 / 2;
+				body_controller.legs[i].regulators[1].Control(delta);
 
-			body_controller.legs[i].regulators[2].speed_target=0.1;
-			//body_controller.legs[i].regulators[2].position_target=M_PI/4;
-			body_controller.legs[i].regulators[2].Control(delta);
+				body_controller.legs[i].regulators[2].speed2_loop_enabled = false;
+				body_controller.legs[i].regulators[2].position_loop_enabled = true;
+				//body_controller.legs[i].regulators[2].speed_target=0.1;
+				body_controller.legs[i].regulators[2].position_target = M_PI / 2;
+				body_controller.legs[i].regulators[2].Control(delta);
+			
+//				nos::println("Iter2");
 			}
 			lasttime = curtime;
+//			nos::println("Control2");
 		}
 
 	};
@@ -247,25 +263,44 @@ void gazebo::Regulator::Control(double delta)
 	{
 		position_error = position_target - current_position;
 		position_integral += position_error * delta;
+
+		position_integral = igris::clamp(position_integral, 
+			-position_integral_limit,
+			position_integral_limit);
+
 		speed_target =
 		    pos_kp * position_error +
 		    pos_ki * position_integral
 		    - control_signal * ForceKoeff;
 	}
 
-	do_after_iteration(3) exit(0);
+	//do_after_iteration(3) exit(0);
+
 
 	speed_error = speed_target - current_speed;
 	speed_integral += speed_error * delta;
+	if (speed_integral_limit)
+		speed_integral = igris::clamp(speed_integral, 
+			-speed_integral_limit,
+			speed_integral_limit);  
 	control_signal =
 	    spd_kp * speed_error +
 	    spd_ki * speed_integral;
 
-	PRINT(control_signal);
-	std::cout << "speed_integral: " << speed_integral << std::endl;
-	std::cout << "speed_error: " << speed_error << std::endl;
+	//PRINT(control_signal);
+	do_iteration(3) {
+		std::cout << "speed_error: " << speed_error << std::endl;
+		std::cout << "delta: " << delta << std::endl;	
+		std::cout << "speed_integral: " << speed_integral << std::endl;
+		std::cout << "control_signal: " << control_signal << std::endl;
+		std::cout << "spd_kp: " << spd_kp << std::endl;
+		std::cout << "spd_ki: " << spd_ki << std::endl;
+	}
+	//std::cout << "speed_error: " << speed_error << std::endl;
 
 	joint->SetForce(0, control_signal);
+
+	//std::cout << "FIN" << std::endl;
 }
 
 
@@ -289,6 +324,15 @@ void gazebo::BodyController::init(physics::ModelPtr model)
 	legs[3].relax_pose = { 1, 1, 0 };
 	legs[4].relax_pose = { 1, 0, 0 };
 	legs[5].relax_pose = { 1, -1, 0 };
+
+	forward_legs.push_back(&legs[0]);
+	forward_legs.push_back(&legs[3]);
+
+	middle_legs.push_back(&legs[1]);
+	middle_legs.push_back(&legs[4]);
+
+	backward_legs.push_back(&legs[2]);
+	backward_legs.push_back(&legs[5]);
 }
 
 void gazebo::BodyController::Control(double delta)

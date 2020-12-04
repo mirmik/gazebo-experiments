@@ -2,7 +2,7 @@
 
 file = open("world.xml", "w")
 
-GRAVITY = 0
+GRAVITY = -9.81
 BODY_LENGTH = 5
 
 inertia_st = """
@@ -104,11 +104,11 @@ arm_template = """
         </collision>
 
           <inertial>
-            <mass>0.00001</mass>
+            <mass>0.1</mass>
             <inertia>
-              <ixx>0.00001</ixx>
-              <iyy>0.00001</iyy>
-              <izz>0.00001</izz>
+              <ixx>0.1</ixx>
+              <iyy>0.1</iyy>
+              <izz>0.1</izz>
               <ixy>0</ixy>
               <ixz>0</ixz>
               <iyz>0</iyz>
@@ -139,7 +139,7 @@ arm_template = """
 	     </axis>
       </joint>
 
-      <joint name="joint_high_{number}" type="fixed">
+      <joint name="joint_high_{number}" type="revolute">
       	 <pose> {pjoint_shoulder} </pose>
          <parent>shoulder_{number}</parent>
          <child>high_leg_{number}</child>
@@ -172,7 +172,7 @@ WW = 0.5
 L = 2
 H = 0.5
 W = 0.5
-R = 0.5
+R = 0.4
 
 LHWR = { "L":L, "H":H, "W":W, "R":R }
 
@@ -186,7 +186,7 @@ arm[5] = arm_template.format(number=5, axis="1",  inertia_st=inertia_st, pose_sh
 spider = """
     <model name="spider">
       <plugin name="mirmik" filename="libmirmik.so"/>
-      <pose>0 0 1 0 0 0</pose>
+      <pose>0 0 3 0 0 0</pose>
 
       <link name="body">
         <collision name="collision_body_0">
@@ -215,11 +215,11 @@ spider = """
       {4}
       {5}
 
-      <joint name="krep" type="fixed">
+      <!--<joint name="krep" type="fixed">
          <pose> 0 0 0 0 0 0 </pose>
          <parent>world</parent>
          <child>body</child>
-      </joint>
+      </joint>-->
 
     </model>
 """.format(*arm, 
@@ -229,15 +229,44 @@ txt = """<?xml version="1.0"?>
 <sdf version="1.4">
   <world name="default">
     <plugin name="world" filename="libworld.so"/>
+
     <gravity>0 0 {gravity}</gravity>
-  
+
     <include>
       <uri>model://sun</uri>
     </include>
 
-    <!--<include>
+    <!--<model name="arr">
+     <link name="arr0">
+        <collision name="collision_arr_0">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>10 10 1</size>
+            </box>    
+          </geometry>
+        </collision>
+
+        <visual name="visual_arr_0">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>10 10 1</size>
+            </box>    
+          </geometry>
+        </visual>
+      </link>
+    </model>
+
+      <joint name="krep2" type="fixed">
+         <pose> 0 0 0 0 0 0 </pose>
+         <parent>world</parent>
+         <child>arr</child>
+      </joint>-->
+
+    <include>
       <uri>model://ground_plane</uri>
-    </include>-->
+    </include>
 
     {spider}
 
