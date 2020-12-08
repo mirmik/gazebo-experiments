@@ -18,8 +18,10 @@
 #include <rabbit/space/gazebo.h>
 #include <igris/math.h>
 
-namespace gazebo 
+namespace gazebo
 {
+	class BodyController;
+
 	class Regulator
 	{
 	public:
@@ -45,22 +47,22 @@ namespace gazebo
 		double pos_T = 0.25;
 		double pos_ksi = 1;
 
-		double pos_kp = 0; 
-		double pos_ki = 0; 
+		double pos_kp = 0;
+		double pos_ki = 0;
 
 		double speed_integral_limit = 6;
 		double position_integral_limit = 6;
-		
 
-		double spd_kp = 0; 
-		double spd_ki = 0; 
+
+		double spd_kp = 0;
+		double spd_ki = 0;
 
 		physics::JointPtr joint;
 
 		double control_signal = 0;
 		double ForceKoeff = 0.003 * 0;
 
-		void update_regs() 
+		void update_regs()
 		{
 			spd_kp = 2.*spd_ksi / spd_T * spd_A;
 			spd_ki = 1. / spd_T / spd_T * spd_A;
@@ -94,6 +96,7 @@ namespace gazebo
 
 	public:
 		LegMode mode;
+		BodyController * body_controller;
 
 		physics::LinkPtr body_link;
 
@@ -130,14 +133,17 @@ namespace gazebo
 
 		rabbit::htrans3<double> final_link_local_pose;
 
+		rabbit::htrans3<double> relative_shoulder_pose();
+		rabbit::htrans3<double> relative_output_pose();
+
 		void enable_provide_feedback()
 		{
 			for (auto j : joints) j->SetProvideFeedback(true);
 		}
 
-		linalg::vec<double,3> relax_pose;
+		linalg::vec<double, 3> relax_pose;
 
-		LegController(physics::ModelPtr model, int number);
+		LegController(physics::ModelPtr model, BodyController * body_controller, int number);
 
 		void SpeedControl(linalg::vec<double, 3> vec);
 
@@ -146,27 +152,32 @@ namespace gazebo
 		bool is_landed();
 
 		void serve(double delta);
-	};
 
-	class BodyController;
+		rabbit::screw<double, 3> reaction() 
+		{
+			return rabbit::gazebo_joint_reaction(fin_joint);
+		}
+	};
 
 	class TrotController
 	{
 	public:
-		int stage = 0;
+		//int stage = 0;
+		bool relax_end_step = false;
 
 		BodyController * body_controller;
 
-		std::vector<LegController *> * active_group;
-		std::vector<LegController *> * relax_group;
+		std::vector<LegController *> active_group;
+		std::vector<LegController *> relax_group;
 
 		std::vector<LegController *> group0;
 		std::vector<LegController *> group1;
 
 
 		TrotController(BodyController * body_controller);
-		bool evaluate_active_group();
 		void serve(double delta);
+
+		void change_active_group();
 	};
 
 	class StepController
@@ -184,6 +195,7 @@ namespace gazebo
 	{
 	public:
 		std::vector<LegController> legs;
+		std::vector<LegController*> legs_ptrs;
 
 		std::vector<LegController*> forward_legs;
 		std::vector<LegController*> middle_legs;
@@ -195,7 +207,7 @@ namespace gazebo
 		rabbit::htrans3<double> body_target;
 		rabbit::screw<double, 3> body_error;
 
-		linalg::vec<double,3> target_body_speed;
+		rabbit::screw<double, 3> body_speed_target;
 
 		TrotController trot_controller;
 
@@ -203,9 +215,20 @@ namespace gazebo
 
 		void init(physics::ModelPtr model);
 
-		void Control(double delta);
+		void serve(double delta);
 
 		void TrotControl(double delta);
+
+		void body_serve_with_group(
+		    const std::vector<LegController *>& legs, 
+		    double delta);
+
+		void relax_movement_with_group(
+		    const std::vector<LegController *>& legs, 
+		    double delta,
+		    double level,
+		    linalg::vec<double, 3> speed);
+
 	};
 }
 

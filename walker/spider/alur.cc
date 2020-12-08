@@ -3,7 +3,8 @@
 gazebo::TrotController::TrotController(BodyController * body_controller) :
 	body_controller()
 {
-	active_group = &group0;
+	active_group = group0;
+	relax_group = group1;
 
 	group0.push_back(&body_controller->legs[0]);
 	group0.push_back(&body_controller->legs[2]);
@@ -14,37 +15,43 @@ gazebo::TrotController::TrotController(BodyController * body_controller) :
 	group1.push_back(&body_controller->legs[5]);
 };
 
-bool gazebo::TrotController::evaluate_active_group()
-{
-	return false;
-}
-
 void gazebo::TrotController::serve(double delta)
 {
-	evaluate_active_group();
+	body_controller->body_serve_with_group(active_group, delta);
 
-	for (auto l : *active_group)
+	if (relax_end_step)
 	{
-		l->SpeedControl(-body_controller->target_body_speed);
-		l->serve(delta);
+		bool all_landed = true;
+		for (auto * ptr : relax_group)
+		{
+			bool not_landed = !ptr->is_landed();
+			if (not_landed)
+			{
+
+				all_landed = false;
+				ptr->SpeedControl({0, 0, 0.1});
+			}
+		}
+
+		if (all_landed)
+		{
+			change_active_group();
+			relax_end_step = false;
+		}
 	}
-
-	for (auto l : *relax_group)
+	else
 	{
-		if (stage == 0)
+		for (auto * ptr : relax_group)
 		{
-			l->SpeedControl({0, 0, 0});
-		}
-		else if (stage == 0)
-		{
-			l->SpeedControl({0, 0, 0});
-		}
-		else if (stage == 0)
-		{
-			l->SpeedControl({0, 0, 0});
-		}
+			auto stress_factor = 0;
 
-		l->serve(delta);
+			if (stress_factor > 0.3)
+				relax_end_step = true;
+
+			body_controller->relax_movement_with_group(
+			    relax_group, delta, 0.1,
+			    - body_controller->body_speed_target.lin * 2);
+		}
 	}
 }
 
@@ -84,4 +91,10 @@ void gazebo::StepController::serve(double delta)
 
 		l->serve(delta);
 	}
+}
+
+void gazebo::TrotController::change_active_group() 
+{
+	std::swap(active_group, relax_group);
+
 }
