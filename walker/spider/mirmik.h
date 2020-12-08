@@ -230,6 +230,24 @@ namespace gazebo
 		    linalg::vec<double, 3> speed);
 
 	};
+
+	class ArmsController 
+	{
+		BodyController * body_controller;
+	public:
+		ArmsController(BodyController * body_controller)
+			: body_controller(body_controller)
+		{}
+	};
+
+	class FourLegStep 
+	{
+		BodyController * body_controller;
+	public:
+		FourLegStep(BodyController * body_controller)
+			: body_controller(body_controller)
+		{}
+	};
 }
 
 #endif

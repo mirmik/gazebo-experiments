@@ -17,7 +17,7 @@ inertia_st = """
   </inertia>
 """
 
-arm_template = """
+leg_template = """
 	  <link name="shoulder_{number}">
         <collision name="collision_shoulder_{number}_0">
           <pose>{pose_shoulder}</pose>
@@ -167,7 +167,7 @@ arm_template = """
       </joint>
 """
 
-arm = [0] * 6
+legs = [0] * 6
 
 WW = 0.5
 L = 2
@@ -177,12 +177,12 @@ R = 0.4
 
 LHWR = { "L":L, "H":H, "W":W, "R":R }
 
-arm[0] = arm_template.format(number=0, axis="-1", inertia_st=inertia_st, pose_shoulder=f"-{WW}  {BODY_LENGTH/2}  0  0  0  0", pose_high=f"-{WW+L/2}  {BODY_LENGTH/2}  0  0  0  0", pose_low=f"-{WW+L/2*3}  {BODY_LENGTH/2}  0  0  0  0", pose_fin=f"-{WW+L/2*4}  {BODY_LENGTH/2}  0  0  0  0", pjoint_shoulder=f"-{WW}  {BODY_LENGTH/2}  0  0  0  0   ", pjoint_low=f"-{WW+L}  {BODY_LENGTH/2}  0  0  0  0   ", pjoint_fin=f"-{WW+L*2}  {BODY_LENGTH/2}  0  0  0  0   ", **LHWR)
-arm[1] = arm_template.format(number=1, axis="-1", inertia_st=inertia_st, pose_shoulder=f"-{WW}  0                0  0  0  0", pose_high=f"-{WW+L/2}  0                0  0  0  0", pose_low=f"-{WW+L/2*3}  0                0  0  0  0", pose_fin=f"-{WW+L/2*4}  0                0  0  0  0", pjoint_shoulder=f"-{WW}  0                0  0  0  0   ", pjoint_low=f"-{WW+L}  0                0  0  0  0   ", pjoint_fin=f"-{WW+L*2}  0                0  0  0  0   ", **LHWR)
-arm[2] = arm_template.format(number=2, axis="-1", inertia_st=inertia_st, pose_shoulder=f"-{WW} -{BODY_LENGTH/2}  0  0  0  0", pose_high=f"-{WW+L/2} -{BODY_LENGTH/2}  0  0  0  0", pose_low=f"-{WW+L/2*3} -{BODY_LENGTH/2}  0  0  0  0", pose_fin=f"-{WW+L/2*4} -{BODY_LENGTH/2}  0  0  0  0", pjoint_shoulder=f"-{WW} -{BODY_LENGTH/2}  0  0  0  0   ", pjoint_low=f"-{WW+L} -{BODY_LENGTH/2}  0  0  0  0   ", pjoint_fin=f"-{WW+L*2} -{BODY_LENGTH/2}  0  0  0  0   ", **LHWR)
-arm[3] = arm_template.format(number=3, axis=" 1", inertia_st=inertia_st, pose_shoulder=f" {WW}  {BODY_LENGTH/2}  0  0  0  0", pose_high=f" {WW+L/2}  {BODY_LENGTH/2}  0  0  0  0", pose_low=f" {WW+L/2*3}  {BODY_LENGTH/2}  0  0  0  0", pose_fin=f" {WW+L/2*4}  {BODY_LENGTH/2}  0  0  0  0", pjoint_shoulder=f" {WW}  {BODY_LENGTH/2}  0  0  0  0", pjoint_low=f" {WW+L}  {BODY_LENGTH/2}  0  0  0  0", pjoint_fin=f" {WW+L*2}  {BODY_LENGTH/2}  0  0  0  0", **LHWR)
-arm[4] = arm_template.format(number=4, axis=" 1", inertia_st=inertia_st, pose_shoulder=f" {WW}  0                0  0  0  0", pose_high=f" {WW+L/2}  0                0  0  0  0", pose_low=f" {WW+L/2*3}  0                0  0  0  0", pose_fin=f" {WW+L/2*4}  0                0  0  0  0", pjoint_shoulder=f" {WW}  0                0  0  0  0", pjoint_low=f" {WW+L}  0                0  0  0  0", pjoint_fin=f" {WW+L*2}  0                0  0  0  0", **LHWR)
-arm[5] = arm_template.format(number=5, axis=" 1", inertia_st=inertia_st, pose_shoulder=f" {WW} -{BODY_LENGTH/2}  0  0  0  0", pose_high=f" {WW+L/2} -{BODY_LENGTH/2}  0  0  0  0", pose_low=f" {WW+L/2*3} -{BODY_LENGTH/2}  0  0  0  0", pose_fin=f" {WW+L/2*4} -{BODY_LENGTH/2}  0  0  0  0", pjoint_shoulder=f" {WW} -{BODY_LENGTH/2}  0  0  0  0", pjoint_low=f" {WW+L} -{BODY_LENGTH/2}  0  0  0  0", pjoint_fin=f" {WW+L*2} -{BODY_LENGTH/2}  0  0  0  0", **LHWR)
+legs[0] = leg_template.format(number=0, axis="-1", inertia_st=inertia_st, pose_shoulder=f"-{WW}  {BODY_LENGTH/2}  0  0  0  0", pose_high=f"-{WW+L/2}  {BODY_LENGTH/2}  0  0  0  0", pose_low=f"-{WW+L/2*3}  {BODY_LENGTH/2}  0  0  0  0", pose_fin=f"-{WW+L/2*4}  {BODY_LENGTH/2}  0  0  0  0", pjoint_shoulder=f"-{WW}  {BODY_LENGTH/2}  0  0  0  0   ", pjoint_low=f"-{WW+L}  {BODY_LENGTH/2}  0  0  0  0   ", pjoint_fin=f"-{WW+L*2}  {BODY_LENGTH/2}  0  0  0  0   ", **LHWR)
+legs[1] = leg_template.format(number=1, axis="-1", inertia_st=inertia_st, pose_shoulder=f"-{WW}  0                0  0  0  0", pose_high=f"-{WW+L/2}  0                0  0  0  0", pose_low=f"-{WW+L/2*3}  0                0  0  0  0", pose_fin=f"-{WW+L/2*4}  0                0  0  0  0", pjoint_shoulder=f"-{WW}  0                0  0  0  0   ", pjoint_low=f"-{WW+L}  0                0  0  0  0   ", pjoint_fin=f"-{WW+L*2}  0                0  0  0  0   ", **LHWR)
+legs[2] = leg_template.format(number=2, axis="-1", inertia_st=inertia_st, pose_shoulder=f"-{WW} -{BODY_LENGTH/2}  0  0  0  0", pose_high=f"-{WW+L/2} -{BODY_LENGTH/2}  0  0  0  0", pose_low=f"-{WW+L/2*3} -{BODY_LENGTH/2}  0  0  0  0", pose_fin=f"-{WW+L/2*4} -{BODY_LENGTH/2}  0  0  0  0", pjoint_shoulder=f"-{WW} -{BODY_LENGTH/2}  0  0  0  0   ", pjoint_low=f"-{WW+L} -{BODY_LENGTH/2}  0  0  0  0   ", pjoint_fin=f"-{WW+L*2} -{BODY_LENGTH/2}  0  0  0  0   ", **LHWR)
+legs[3] = leg_template.format(number=3, axis=" 1", inertia_st=inertia_st, pose_shoulder=f" {WW}  {BODY_LENGTH/2}  0  0  0  0", pose_high=f" {WW+L/2}  {BODY_LENGTH/2}  0  0  0  0", pose_low=f" {WW+L/2*3}  {BODY_LENGTH/2}  0  0  0  0", pose_fin=f" {WW+L/2*4}  {BODY_LENGTH/2}  0  0  0  0", pjoint_shoulder=f" {WW}  {BODY_LENGTH/2}  0  0  0  0", pjoint_low=f" {WW+L}  {BODY_LENGTH/2}  0  0  0  0", pjoint_fin=f" {WW+L*2}  {BODY_LENGTH/2}  0  0  0  0", **LHWR)
+legs[4] = leg_template.format(number=4, axis=" 1", inertia_st=inertia_st, pose_shoulder=f" {WW}  0                0  0  0  0", pose_high=f" {WW+L/2}  0                0  0  0  0", pose_low=f" {WW+L/2*3}  0                0  0  0  0", pose_fin=f" {WW+L/2*4}  0                0  0  0  0", pjoint_shoulder=f" {WW}  0                0  0  0  0", pjoint_low=f" {WW+L}  0                0  0  0  0", pjoint_fin=f" {WW+L*2}  0                0  0  0  0", **LHWR)
+legs[5] = leg_template.format(number=5, axis=" 1", inertia_st=inertia_st, pose_shoulder=f" {WW} -{BODY_LENGTH/2}  0  0  0  0", pose_high=f" {WW+L/2} -{BODY_LENGTH/2}  0  0  0  0", pose_low=f" {WW+L/2*3} -{BODY_LENGTH/2}  0  0  0  0", pose_fin=f" {WW+L/2*4} -{BODY_LENGTH/2}  0  0  0  0", pjoint_shoulder=f" {WW} -{BODY_LENGTH/2}  0  0  0  0", pjoint_low=f" {WW+L} -{BODY_LENGTH/2}  0  0  0  0", pjoint_fin=f" {WW+L*2} -{BODY_LENGTH/2}  0  0  0  0", **LHWR)
 
 spider = """
     <model name="spider">
@@ -223,7 +223,7 @@ spider = """
       </joint>-->
 
     </model>
-""".format(*arm, 
+""".format(*legs, 
 		body_length=BODY_LENGTH+1)
 
 txt = """<?xml version="1.0"?>
