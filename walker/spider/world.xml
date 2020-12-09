@@ -233,7 +233,14 @@
       	 <pose> -4.5  2.5  0  0  0  0    </pose>
          <parent>low_leg_0</parent>
          <child>fin_leg_0</child>
+         <!--<sensor type="force_torque" name="Relbj_FT">
+          <always_on>true</always_on>
+          <visualize>true</visualize>
+          <update_rate>1000</update_rate>
+         </sensor>-->
       </joint>
+
+
 
       
 	  <link name="shoulder_1">
@@ -402,7 +409,14 @@
       	 <pose> -4.5  0                0  0  0  0    </pose>
          <parent>low_leg_1</parent>
          <child>fin_leg_1</child>
+         <!--<sensor type="force_torque" name="Relbj_FT">
+          <always_on>true</always_on>
+          <visualize>true</visualize>
+          <update_rate>1000</update_rate>
+         </sensor>-->
       </joint>
+
+
 
       
 	  <link name="shoulder_2">
@@ -571,7 +585,14 @@
       	 <pose> -4.5 -2.5  0  0  0  0    </pose>
          <parent>low_leg_2</parent>
          <child>fin_leg_2</child>
+         <!--<sensor type="force_torque" name="Relbj_FT">
+          <always_on>true</always_on>
+          <visualize>true</visualize>
+          <update_rate>1000</update_rate>
+         </sensor>-->
       </joint>
+
+
 
       
 	  <link name="shoulder_3">
@@ -740,7 +761,14 @@
       	 <pose>  4.5  2.5  0  0  0  0 </pose>
          <parent>low_leg_3</parent>
          <child>fin_leg_3</child>
+         <!--<sensor type="force_torque" name="Relbj_FT">
+          <always_on>true</always_on>
+          <visualize>true</visualize>
+          <update_rate>1000</update_rate>
+         </sensor>-->
       </joint>
+
+
 
       
 	  <link name="shoulder_4">
@@ -909,7 +937,14 @@
       	 <pose>  4.5  0                0  0  0  0 </pose>
          <parent>low_leg_4</parent>
          <child>fin_leg_4</child>
+         <!--<sensor type="force_torque" name="Relbj_FT">
+          <always_on>true</always_on>
+          <visualize>true</visualize>
+          <update_rate>1000</update_rate>
+         </sensor>-->
       </joint>
+
+
 
       
 	  <link name="shoulder_5">
@@ -1078,7 +1113,14 @@
       	 <pose>  4.5 -2.5  0  0  0  0 </pose>
          <parent>low_leg_5</parent>
          <child>fin_leg_5</child>
+         <!--<sensor type="force_torque" name="Relbj_FT">
+          <always_on>true</always_on>
+          <visualize>true</visualize>
+          <update_rate>1000</update_rate>
+         </sensor>-->
       </joint>
+
+
 
 
       <!--<joint name="krep" type="fixed">

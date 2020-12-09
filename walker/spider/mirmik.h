@@ -138,7 +138,8 @@ namespace gazebo
 
 		void enable_provide_feedback()
 		{
-			for (auto j : joints) j->SetProvideFeedback(true);
+			//for (auto j : joints) j->SetProvideFeedback(true);
+			fin_joint->SetProvideFeedback(true);
 		}
 
 		linalg::vec<double, 3> relax_pose;
@@ -206,6 +207,7 @@ namespace gazebo
 		rabbit::htrans3<double> body_pose;
 		rabbit::htrans3<double> body_target;
 		rabbit::screw<double, 3> body_error;
+		rabbit::screw<double, 3> body_error_integral;
 
 		rabbit::screw<double, 3> body_speed_target;
 

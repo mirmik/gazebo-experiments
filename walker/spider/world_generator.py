@@ -164,7 +164,14 @@ leg_template = """
       	 <pose> {pjoint_fin} </pose>
          <parent>low_leg_{number}</parent>
          <child>fin_leg_{number}</child>
+         <!--<sensor type="force_torque" name="Relbj_FT">
+          <always_on>true</always_on>
+          <visualize>true</visualize>
+          <update_rate>1000</update_rate>
+         </sensor>-->
       </joint>
+
+
 """
 
 legs = [0] * 6

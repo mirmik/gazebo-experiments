@@ -68,7 +68,6 @@ namespace gazebo
 				body_controller.init(model);
 
 				nos::reset_terminal();
-				nos::println("Init plugin for", this->model->GetName());
 				inited = 1;
 				lasttime = curtime;
 
@@ -76,33 +75,36 @@ namespace gazebo
 				{
 					body_controller.legs[i].regulators[1].spd_A = 5.33;
 					body_controller.legs[i].regulators[1].update_regs();
+
+					//body_controller.legs[i].enable_provide_feedback();					
 				}
 
 				return;
 			}
 
-
-			for (auto * a : body_controller.forward_legs) { a->regulators[0].position_target = M_PI / 8 * 0; }
-			for (auto * a : body_controller.middle_legs) { a->regulators[0].position_target = 0; }
-			for (auto * a : body_controller.backward_legs) { a->regulators[0].position_target = -M_PI / 8 * 0; }
-
 			if (curtime < 5)
 			{
+				for (auto * a : body_controller.forward_legs) { a->regulators[0].position_target = M_PI / 8 * 0; }
+				for (auto * a : body_controller.middle_legs) { a->regulators[0].position_target = 0; }
+				for (auto * a : body_controller.backward_legs) { a->regulators[0].position_target = -M_PI / 8 * 0; }
+
 				for (int i = 0; i < 6; ++i)
 				{
-					body_controller.legs[i].regulators[0].speed2_loop_enabled = false;
+					body_controller.legs[i].regulators[0].speed2_loop_enabled = true;
 					body_controller.legs[i].regulators[0].position_loop_enabled = true;
-					//body_controller.legs[i].regulators[0].position_target=0;
+					body_controller.legs[i].regulators[0].position_target=0;
+					body_controller.legs[i].regulators[0].speed2_target=0;
 					body_controller.legs[i].regulators[0].Control(delta);
 
-					body_controller.legs[i].regulators[1].speed2_loop_enabled = false;
+					body_controller.legs[i].regulators[1].speed2_loop_enabled = true;
 					body_controller.legs[i].regulators[1].position_loop_enabled = true;
+					body_controller.legs[i].regulators[1].speed2_target=0;
 					body_controller.legs[i].regulators[1].position_target = -M_PI / 4 / 2;
 					body_controller.legs[i].regulators[1].Control(delta);
 
-					body_controller.legs[i].regulators[2].speed2_loop_enabled = false;
+					body_controller.legs[i].regulators[2].speed2_loop_enabled = true;
 					body_controller.legs[i].regulators[2].position_loop_enabled = true;
-					//body_controller.legs[i].regulators[2].speed_target=0.1;
+					body_controller.legs[i].regulators[2].speed2_target=0;
 					body_controller.legs[i].regulators[2].position_target = M_PI / 2;
 					body_controller.legs[i].regulators[2].Control(delta);
 				}
@@ -130,8 +132,6 @@ gazebo::LegController::LegController(
 {
 	this->body_controller = body_controller;
 	this->relax_pose = relax_pose;
-
-	nos::println("Construct LegController ", number);
 
 	body_link = model->GetLink("body");
 
@@ -178,7 +178,6 @@ gazebo::LegController::LegController(
 
 void gazebo::LegController::SpeedControl(linalg::vec<double, 3> vec)
 {
-	nos::println("SpeedControl");
 	mode = LegMode::SpeedMode;
 	speed_target = vec;
 }
@@ -344,12 +343,12 @@ void gazebo::BodyController::init(physics::ModelPtr model)
 
 	for (auto l : legs) l.enable_provide_feedback();
 
-	legs[0].relax_pose = { -1, 1, 0 };
-	legs[1].relax_pose = { -1, 0, 0 };
-	legs[2].relax_pose = { -1, -1, 0 };
-	legs[3].relax_pose = { 1, 1, 0 };
-	legs[4].relax_pose = { 1, 0, 0 };
-	legs[5].relax_pose = { 1, -1, 0 };
+	legs[0].relax_pose = { -3, 2.5, 0 };
+	legs[1].relax_pose = { -3, 0, 0 };
+	legs[2].relax_pose = { -3, -2.5, 0 };
+	legs[3].relax_pose = { 3, 2.5, 0 };
+	legs[4].relax_pose = { 3, 0, 0 };
+	legs[5].relax_pose = { 3, -2.5, 0 };
 
 	forward_legs.push_back(&legs[0]);
 	forward_legs.push_back(&legs[3]);
@@ -369,7 +368,8 @@ void gazebo::BodyController::serve(double delta)
 
 	auto time = evaltime();
 	// Режим удержания позиции.
-	body_target = {{0, 0, 0, 1}, {sin(time/4)/2, cos(time/4)/2, 1}};
+	//body_target = {{0, 0, 0, 1}, {sin(time/4)/2, cos(time/4)/2, 1}};
+	body_target = {{0, 0, 0, 1}, {0, 0, 1}};
 
 	body_serve_with_group(legs_ptrs, delta);
 }
@@ -380,19 +380,28 @@ void gazebo::BodyController::body_serve_with_group(
 {
 	body_error = (body_pose.inverse() * body_target).to_screw();
 
-	body_speed_target = body_error * 0.1;
+	body_error_integral += body_error * delta; 
+
+	body_speed_target = body_error * 0.5 + body_error_integral * 0.1;
 
 	for (auto l : legs)
 	{
+		auto relax_error = l->relax_pose - l->relative_output_pose().lin;
+		relax_error.z = 0;
+		PRINT(relax_error);
 		auto shoulder_pose = l->relative_shoulder_pose();
-		auto arm = -shoulder_pose.lin;
 
-		auto reaction_signal = l->reaction();
+		auto arm = shoulder_pose.lin;
+
+		//auto reaction_signal = l->reaction();
 		auto signal =
-		    body_speed_target.kinematic_carry(arm)
-		    + reaction_signal * 0;
+		    body_speed_target.kinematic_carry(arm);
+		    //+ reaction_signal * 0.05
+		    //+ rabbit::screw<double,3>{{},-relax_error * 0.5}
+		    //+ rabbit::screw<double,3>{{},{0,0,0.1}};
 
-		l->SpeedControl(signal.lin);
+		l->SpeedControl(-signal.lin);
+		l->serve(delta);
 	}
 };
 
