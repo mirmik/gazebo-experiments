@@ -222,6 +222,12 @@ bool gazebo::LegController::is_landed()
 
 void gazebo::LegController::serve(double delta)
 {
+	auto body_pose = rabbit::gazebo_link_pose(
+			body_controller->model->GetLink("body"));
+	auto react = body_pose.inverse().rotate_screw(reaction());
+	react2 = react2 + (react - react2) * 1 * delta; 
+	PRINT(react2);
+
 	for (size_t i = 0; i < joints.size(); ++i)
 	{
 		joint_coordinates[i] = joints[i]->Position();
@@ -281,11 +287,16 @@ void gazebo::LegController::serve(double delta)
 
 		position_integral += position_error * delta;
 
-		auto Ki = 0.0;
-		auto Kp = 2;
+		auto Ki = 0;
+		auto Kp = 1;
 
-		speed_target = position_error * Kp + position_integral * Ki;
+		speed_target = 
+			position_error * Kp 
+			+ position_integral * Ki
+			- react2.lin * 0.02;
 	}
+
+	PRINT(speed_target);
 
 	ralgo::svd_backpack(signals, speed_target, matrix_A);
 
@@ -443,7 +454,7 @@ void gazebo::BodyController::body_serve_with_group(
 	body_speed_target = 
 		body_error * 0.5 
 		+ body_error_integral * 0
-		- body_speed * 1;
+		- body_speed * 0;
 
 	PRINT(body_pose);
 
@@ -459,11 +470,12 @@ void gazebo::BodyController::body_serve_with_group(
 		//auto reaction_signal = l->reaction();
 		auto signal =
 		    body_speed_target.kinematic_carry(arm);
+
 		//+ reaction_signal * 0.05
 		//+ rabbit::screw<double,3>{{},-relax_error * 0.5}
 		//+ rabbit::screw<double,3>{{},{0,0,0.1}};
 
-		l->speed2_target = -signal.lin;
+		l->speed2_target = {0,0,0};//-signal.lin;
 		l->serve(delta);
 	}
 };

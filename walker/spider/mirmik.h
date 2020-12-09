@@ -60,7 +60,7 @@ namespace gazebo
 		physics::JointPtr joint;
 
 		double control_signal = 0;
-		double ForceKoeff = 0.00;
+		double ForceKoeff = 0;
 
 		void update_regs()
 		{
@@ -151,6 +151,7 @@ namespace gazebo
 		}
 
 		linalg::vec<double, 3> relax_pose;
+		rabbit::screw<double,3> react2;
 
 		LegController(physics::ModelPtr model, BodyController * body_controller, int number);
 
