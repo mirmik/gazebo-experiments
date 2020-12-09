@@ -97,6 +97,10 @@ leg_template = """
         <collision name="collision_fin_leg_{number}_0">
           <pose>{pose_fin}</pose>
           <geometry>
+            <!--<cylinder>
+              <radius>0.02</radius>
+              <height>{R}</height>
+            </cylinder>-->  
             <sphere>
             	<radius>{R}</radius>
             </sphere>    
@@ -119,6 +123,10 @@ leg_template = """
         <visual name="visual_fin_leg_{number}_0">
           <pose>{pose_fin}</pose>
           <geometry>
+            <!--<cylinder>
+              <radius>0.02</radius>
+              <height>{R}</height>
+            </cylinder>-->  
             <sphere>
             	<radius>{R}</radius>
             </sphere>    

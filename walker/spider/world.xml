@@ -166,6 +166,10 @@
         <collision name="collision_fin_leg_0_0">
           <pose>-4.5  2.5  0  0  0  0</pose>
           <geometry>
+            <!--<cylinder>
+              <radius>0.02</radius>
+              <height>0.4</height>
+            </cylinder>-->  
             <sphere>
             	<radius>0.4</radius>
             </sphere>    
@@ -188,6 +192,10 @@
         <visual name="visual_fin_leg_0_0">
           <pose>-4.5  2.5  0  0  0  0</pose>
           <geometry>
+            <!--<cylinder>
+              <radius>0.02</radius>
+              <height>0.4</height>
+            </cylinder>-->  
             <sphere>
             	<radius>0.4</radius>
             </sphere>    
@@ -342,6 +350,10 @@
         <collision name="collision_fin_leg_1_0">
           <pose>-4.5  0                0  0  0  0</pose>
           <geometry>
+            <!--<cylinder>
+              <radius>0.02</radius>
+              <height>0.4</height>
+            </cylinder>-->  
             <sphere>
             	<radius>0.4</radius>
             </sphere>    
@@ -364,6 +376,10 @@
         <visual name="visual_fin_leg_1_0">
           <pose>-4.5  0                0  0  0  0</pose>
           <geometry>
+            <!--<cylinder>
+              <radius>0.02</radius>
+              <height>0.4</height>
+            </cylinder>-->  
             <sphere>
             	<radius>0.4</radius>
             </sphere>    
@@ -518,6 +534,10 @@
         <collision name="collision_fin_leg_2_0">
           <pose>-4.5 -2.5  0  0  0  0</pose>
           <geometry>
+            <!--<cylinder>
+              <radius>0.02</radius>
+              <height>0.4</height>
+            </cylinder>-->  
             <sphere>
             	<radius>0.4</radius>
             </sphere>    
@@ -540,6 +560,10 @@
         <visual name="visual_fin_leg_2_0">
           <pose>-4.5 -2.5  0  0  0  0</pose>
           <geometry>
+            <!--<cylinder>
+              <radius>0.02</radius>
+              <height>0.4</height>
+            </cylinder>-->  
             <sphere>
             	<radius>0.4</radius>
             </sphere>    
@@ -694,6 +718,10 @@
         <collision name="collision_fin_leg_3_0">
           <pose> 4.5  2.5  0  0  0  0</pose>
           <geometry>
+            <!--<cylinder>
+              <radius>0.02</radius>
+              <height>0.4</height>
+            </cylinder>-->  
             <sphere>
             	<radius>0.4</radius>
             </sphere>    
@@ -716,6 +744,10 @@
         <visual name="visual_fin_leg_3_0">
           <pose> 4.5  2.5  0  0  0  0</pose>
           <geometry>
+            <!--<cylinder>
+              <radius>0.02</radius>
+              <height>0.4</height>
+            </cylinder>-->  
             <sphere>
             	<radius>0.4</radius>
             </sphere>    
@@ -870,6 +902,10 @@
         <collision name="collision_fin_leg_4_0">
           <pose> 4.5  0                0  0  0  0</pose>
           <geometry>
+            <!--<cylinder>
+              <radius>0.02</radius>
+              <height>0.4</height>
+            </cylinder>-->  
             <sphere>
             	<radius>0.4</radius>
             </sphere>    
@@ -892,6 +928,10 @@
         <visual name="visual_fin_leg_4_0">
           <pose> 4.5  0                0  0  0  0</pose>
           <geometry>
+            <!--<cylinder>
+              <radius>0.02</radius>
+              <height>0.4</height>
+            </cylinder>-->  
             <sphere>
             	<radius>0.4</radius>
             </sphere>    
@@ -1046,6 +1086,10 @@
         <collision name="collision_fin_leg_5_0">
           <pose> 4.5 -2.5  0  0  0  0</pose>
           <geometry>
+            <!--<cylinder>
+              <radius>0.02</radius>
+              <height>0.4</height>
+            </cylinder>-->  
             <sphere>
             	<radius>0.4</radius>
             </sphere>    
@@ -1068,6 +1112,10 @@
         <visual name="visual_fin_leg_5_0">
           <pose> 4.5 -2.5  0  0  0  0</pose>
           <geometry>
+            <!--<cylinder>
+              <radius>0.02</radius>
+              <height>0.4</height>
+            </cylinder>-->  
             <sphere>
             	<radius>0.4</radius>
             </sphere>    

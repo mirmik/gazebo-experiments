@@ -40,11 +40,11 @@ namespace gazebo
 
 		double speed2_target = 0;
 
-		double spd_T = 0.1;
+		double spd_T = 0.025;
 		double spd_ksi = 1;
 		double spd_A = 1.33;
 
-		double pos_T = 0.25;
+		double pos_T = 0.0675;
 		double pos_ksi = 1;
 
 		double pos_kp = 0;
@@ -60,7 +60,7 @@ namespace gazebo
 		physics::JointPtr joint;
 
 		double control_signal = 0;
-		double ForceKoeff = 0.003 * 0;
+		double ForceKoeff = 0.00;
 
 		void update_regs()
 		{
@@ -71,8 +71,8 @@ namespace gazebo
 			pos_ki = 1. / pos_T / pos_T;
 
 
-			pos_kp = 1.6;
-			pos_ki = 0;
+			//pos_kp = 1.6;
+			//pos_ki = 0;
 
 			speed_integral = 0;
 			position_integral = 0;
@@ -110,10 +110,7 @@ namespace gazebo
 		physics::JointPtr low_joint;
 		physics::JointPtr fin_joint;
 
-		linalg::vec<double, 3> final_target;
-
 		linalg::vec<double, 3> speed_target;
-		linalg::vec<double, 3> position_target;
 
 		std::vector<physics::JointPtr> joints;
 
@@ -131,10 +128,21 @@ namespace gazebo
 
 		std::vector<Regulator> regulators;
 
+		bool speed2_loop_enabled = true;
+		linalg::vec<double,3> speed2_target {0,0,0};
+
+		bool position_loop_enabled = true;
+		linalg::vec<double,3> position_target {0,0,0};
+
+		linalg::vec<double,3> position_error;		
+		linalg::vec<double,3> position_integral;		
+
 		rabbit::htrans3<double> final_link_local_pose;
 
 		rabbit::htrans3<double> relative_shoulder_pose();
-		rabbit::htrans3<double> relative_output_pose();
+		rabbit::htrans3<double> relative_output_pose2();
+
+		rabbit::htrans3<double> inited_shoulder_pose;
 
 		void enable_provide_feedback()
 		{
@@ -157,6 +165,11 @@ namespace gazebo
 		rabbit::screw<double, 3> reaction() 
 		{
 			return rabbit::gazebo_joint_reaction(fin_joint);
+		}
+
+		void reset_position_target() 
+		{
+			position_target = relative_output_pose2().lin;
 		}
 	};
 
