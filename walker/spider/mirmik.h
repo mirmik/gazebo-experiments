@@ -60,7 +60,7 @@ namespace gazebo
 		physics::JointPtr joint;
 
 		double control_signal = 0;
-		double ForceKoeff = 0;
+		double ForceKoeff = 0.001;
 
 		void update_regs()
 		{

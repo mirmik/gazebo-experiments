@@ -88,9 +88,9 @@ namespace gazebo
 
 			if (curtime < 5)
 			{
-				for (auto * a : body_controller.forward_legs) { a->regulators[0].position_target = M_PI / 8 * 0; }
+				for (auto * a : body_controller.forward_legs) { a->regulators[0].position_target = M_PI / 8; }
 				for (auto * a : body_controller.middle_legs) { a->regulators[0].position_target = 0; }
-				for (auto * a : body_controller.backward_legs) { a->regulators[0].position_target = -M_PI / 8 * 0; }
+				for (auto * a : body_controller.backward_legs) { a->regulators[0].position_target = -M_PI / 8; }
 
 				for (int i = 0; i < 6; ++i)
 				{
@@ -119,12 +119,12 @@ namespace gazebo
 			{
 				for (int i = 0; i < 6; ++i)
 				{
-					body_controller.legs[i].position_loop_enabled = true;
-					body_controller.legs[i].speed2_loop_enabled = true;
-					//body_controller.legs[i].speed2_target = {0, 0, 0.01};
-					//body_controller.legs[i].serve(delta);
+					body_controller.legs[i].position_loop_enabled = false;
+					body_controller.legs[i].speed2_loop_enabled = false;
+					body_controller.legs[i].speed_target = {0.4*sin(evaltime()*1), 0.4*cos(evaltime()*1), 0};
+					body_controller.legs[i].serve(delta);
 				}
-				body_controller.serve(delta);
+				//body_controller.serve(delta);
 			}
 
 
@@ -293,10 +293,12 @@ void gazebo::LegController::serve(double delta)
 		speed_target = 
 			position_error * Kp 
 			+ position_integral * Ki
-			- react2.lin * 0.02;
+			- react2.lin * 0.02 * 0;
 	}
 
 	PRINT(speed_target);
+
+	speed_target = speed_target - react2.lin * 0.02 * 0;
 
 	ralgo::svd_backpack(signals, speed_target, matrix_A);
 

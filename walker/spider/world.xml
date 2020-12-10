@@ -168,10 +168,10 @@
           <geometry>
             <!--<cylinder>
               <radius>0.02</radius>
-              <height>0.4</height>
+              <height>0.3</height>
             </cylinder>-->  
             <sphere>
-            	<radius>0.4</radius>
+            	<radius>0.3</radius>
             </sphere>    
           </geometry>
         </collision>
@@ -194,10 +194,10 @@
           <geometry>
             <!--<cylinder>
               <radius>0.02</radius>
-              <height>0.4</height>
+              <height>0.3</height>
             </cylinder>-->  
             <sphere>
-            	<radius>0.4</radius>
+            	<radius>0.3</radius>
             </sphere>    
           </geometry>
         </visual>
@@ -352,10 +352,10 @@
           <geometry>
             <!--<cylinder>
               <radius>0.02</radius>
-              <height>0.4</height>
+              <height>0.3</height>
             </cylinder>-->  
             <sphere>
-            	<radius>0.4</radius>
+            	<radius>0.3</radius>
             </sphere>    
           </geometry>
         </collision>
@@ -378,10 +378,10 @@
           <geometry>
             <!--<cylinder>
               <radius>0.02</radius>
-              <height>0.4</height>
+              <height>0.3</height>
             </cylinder>-->  
             <sphere>
-            	<radius>0.4</radius>
+            	<radius>0.3</radius>
             </sphere>    
           </geometry>
         </visual>
@@ -536,10 +536,10 @@
           <geometry>
             <!--<cylinder>
               <radius>0.02</radius>
-              <height>0.4</height>
+              <height>0.3</height>
             </cylinder>-->  
             <sphere>
-            	<radius>0.4</radius>
+            	<radius>0.3</radius>
             </sphere>    
           </geometry>
         </collision>
@@ -562,10 +562,10 @@
           <geometry>
             <!--<cylinder>
               <radius>0.02</radius>
-              <height>0.4</height>
+              <height>0.3</height>
             </cylinder>-->  
             <sphere>
-            	<radius>0.4</radius>
+            	<radius>0.3</radius>
             </sphere>    
           </geometry>
         </visual>
@@ -720,10 +720,10 @@
           <geometry>
             <!--<cylinder>
               <radius>0.02</radius>
-              <height>0.4</height>
+              <height>0.3</height>
             </cylinder>-->  
             <sphere>
-            	<radius>0.4</radius>
+            	<radius>0.3</radius>
             </sphere>    
           </geometry>
         </collision>
@@ -746,10 +746,10 @@
           <geometry>
             <!--<cylinder>
               <radius>0.02</radius>
-              <height>0.4</height>
+              <height>0.3</height>
             </cylinder>-->  
             <sphere>
-            	<radius>0.4</radius>
+            	<radius>0.3</radius>
             </sphere>    
           </geometry>
         </visual>
@@ -904,10 +904,10 @@
           <geometry>
             <!--<cylinder>
               <radius>0.02</radius>
-              <height>0.4</height>
+              <height>0.3</height>
             </cylinder>-->  
             <sphere>
-            	<radius>0.4</radius>
+            	<radius>0.3</radius>
             </sphere>    
           </geometry>
         </collision>
@@ -930,10 +930,10 @@
           <geometry>
             <!--<cylinder>
               <radius>0.02</radius>
-              <height>0.4</height>
+              <height>0.3</height>
             </cylinder>-->  
             <sphere>
-            	<radius>0.4</radius>
+            	<radius>0.3</radius>
             </sphere>    
           </geometry>
         </visual>
@@ -1088,10 +1088,10 @@
           <geometry>
             <!--<cylinder>
               <radius>0.02</radius>
-              <height>0.4</height>
+              <height>0.3</height>
             </cylinder>-->  
             <sphere>
-            	<radius>0.4</radius>
+            	<radius>0.3</radius>
             </sphere>    
           </geometry>
         </collision>
@@ -1114,10 +1114,10 @@
           <geometry>
             <!--<cylinder>
               <radius>0.02</radius>
-              <height>0.4</height>
+              <height>0.3</height>
             </cylinder>-->  
             <sphere>
-            	<radius>0.4</radius>
+            	<radius>0.3</radius>
             </sphere>    
           </geometry>
         </visual>
