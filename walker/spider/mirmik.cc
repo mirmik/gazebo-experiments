@@ -94,36 +94,25 @@ namespace gazebo
 
 				for (int i = 0; i < 6; ++i)
 				{
-					body_controller.legs[i].regulators[0].speed2_loop_enabled = true;
-					body_controller.legs[i].regulators[0].position_loop_enabled = true;
+					//body_controller.legs[i].regulators[0].speed2_loop_enabled = true;
+					//body_controller.legs[i].regulators[0].position_loop_enabled = true;
 					//body_controller.legs[i].regulators[0].position_target = 0;
 					body_controller.legs[i].regulators[0].speed2_target = 0;
-					body_controller.legs[i].regulators[0].Control(delta);
+					body_controller.legs[i].regulators[0].Control(delta, Speed2Mode);
 
-					body_controller.legs[i].regulators[1].speed2_loop_enabled = true;
-					body_controller.legs[i].regulators[1].position_loop_enabled = true;
 					body_controller.legs[i].regulators[1].speed2_target = 0;
 					body_controller.legs[i].regulators[1].position_target = -M_PI/8;
-					body_controller.legs[i].regulators[1].Control(delta);
+					body_controller.legs[i].regulators[1].Control(delta, Speed2Mode);
 
-					body_controller.legs[i].regulators[2].speed2_loop_enabled = true;
-					body_controller.legs[i].regulators[2].position_loop_enabled = true;
 					body_controller.legs[i].regulators[2].speed2_target = 0;
 					body_controller.legs[i].regulators[2].position_target = M_PI/2;
-					body_controller.legs[i].regulators[2].Control(delta);
+					body_controller.legs[i].regulators[2].Control(delta, Speed2Mode);
 
 					body_controller.legs[i].reset_position_target();
 				}
 			}
 			else
 			{
-				for (int i = 0; i < 6; ++i)
-				{
-					body_controller.legs[i].position_loop_enabled = true;
-					body_controller.legs[i].speed2_loop_enabled = true;
-					//body_controller.legs[i].speed2_target = {0, 0, 0.01};
-					//body_controller.legs[i].serve(delta);
-				}
 				body_controller.serve(delta);
 			}
 
@@ -220,7 +209,7 @@ bool gazebo::LegController::is_landed()
 	return ret;
 }
 
-void gazebo::LegController::serve(double delta)
+void gazebo::LegController::serve(double delta, uint8_t legmode, uint8_t regulmode)
 {
 	auto body_pose = rabbit::gazebo_link_pose(
 			body_controller->model->GetLink("body"));
@@ -275,12 +264,12 @@ void gazebo::LegController::serve(double delta)
 		}
 	}
 
-	if (speed2_loop_enabled)
+	if (legmode & Speed2Loop)
 	{
 		position_target += speed2_target * delta;
 	}
 
-	if (position_loop_enabled)
+	if (legmode & PositionLoop)
 	{
 		auto curpos = relative_output_pose2().lin;
 		position_error = position_target - curpos;
@@ -303,7 +292,7 @@ void gazebo::LegController::serve(double delta)
 	for (int i = 0; i < joints.size(); ++i)
 	{
 		regulators[i].speed2_target = signals[i];
-		regulators[i].Control(delta);
+		regulators[i].Control(delta, regulmode);
 	}
 }
 
@@ -327,17 +316,17 @@ void gazebo::Regulator::reset()
 	speed2_target = 0;
 }
 
-void gazebo::Regulator::Control(double delta)
+void gazebo::Regulator::Control(double delta, uint8_t mode)
 {
 	double current_position = joint->Position(0);
 	double current_speed = joint->GetVelocity(0);
 
-	if (speed2_loop_enabled)
+	if (mode & Speed2Loop)
 	{
 		position_target += speed2_target * delta;
 	}
 
-	if (position_loop_enabled)
+	if (mode & PositionLoop)
 	{
 		position_error = position_target - current_position;
 		position_integral += position_error * delta;
@@ -476,7 +465,7 @@ void gazebo::BodyController::body_serve_with_group(
 		//+ rabbit::screw<double,3>{{},{0,0,0.1}};
 
 		l->speed2_target = {0,0,0};//-signal.lin;
-		l->serve(delta);
+		l->serve(delta, SpeedMode, SpeedMode);
 	}
 };
 

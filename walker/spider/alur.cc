@@ -89,7 +89,7 @@ void gazebo::StepController::serve(double delta)
 			}
 		}
 
-		l->serve(delta);
+		l->serve(delta, SpeedMode, SpeedMode);
 	}
 }
 

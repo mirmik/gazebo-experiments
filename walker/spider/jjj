@@ -1,0 +1,76 @@
+/home/mirmik/project/gazebo-expirements/walker/spider/mirmik.cc: In member function ‘void gazebo::ModelPush::OnUpdate()’:
+/home/mirmik/project/gazebo-expirements/walker/spider/mirmik.cc:97:44: error: ‘__gnu_cxx::__alloc_traits<std::allocator<gazebo::Regulator>, gazebo::Regulator>::value_type’ {aka ‘class gazebo::Regulator’} has no member named ‘speed2_loop_enabled’
+   97 |      body_controller.legs[i].regulators[0].speed2_loop_enabled = true;
+      |                                            ^~~~~~~~~~~~~~~~~~~
+/home/mirmik/project/gazebo-expirements/walker/spider/mirmik.cc:98:44: error: ‘__gnu_cxx::__alloc_traits<std::allocator<gazebo::Regulator>, gazebo::Regulator>::value_type’ {aka ‘class gazebo::Regulator’} has no member named ‘position_loop_enabled’
+   98 |      body_controller.legs[i].regulators[0].position_loop_enabled = true;
+      |                                            ^~~~~~~~~~~~~~~~~~~~~
+/home/mirmik/project/gazebo-expirements/walker/spider/mirmik.cc:101:57: error: no matching function for call to ‘gazebo::Regulator::Control(double&)’
+  101 |      body_controller.legs[i].regulators[0].Control(delta);
+      |                                                         ^
+In file included from /home/mirmik/project/gazebo-expirements/walker/spider/mirmik.cc:1:
+/home/mirmik/project/gazebo-expirements/walker/spider/./mirmik.h:91:8: note: candidate: ‘void gazebo::Regulator::Control(double, uint8_t, uint8_t)’
+   91 |   void Control(double delta, uint8_t legmode, uint8_t regmode);
+      |        ^~~~~~~
+/home/mirmik/project/gazebo-expirements/walker/spider/./mirmik.h:91:8: note:   candidate expects 3 arguments, 1 provided
+/home/mirmik/project/gazebo-expirements/walker/spider/mirmik.cc:103:44: error: ‘__gnu_cxx::__alloc_traits<std::allocator<gazebo::Regulator>, gazebo::Regulator>::value_type’ {aka ‘class gazebo::Regulator’} has no member named ‘speed2_loop_enabled’
+  103 |      body_controller.legs[i].regulators[1].speed2_loop_enabled = true;
+      |                                            ^~~~~~~~~~~~~~~~~~~
+/home/mirmik/project/gazebo-expirements/walker/spider/mirmik.cc:104:44: error: ‘__gnu_cxx::__alloc_traits<std::allocator<gazebo::Regulator>, gazebo::Regulator>::value_type’ {aka ‘class gazebo::Regulator’} has no member named ‘position_loop_enabled’
+  104 |      body_controller.legs[i].regulators[1].position_loop_enabled = true;
+      |                                            ^~~~~~~~~~~~~~~~~~~~~
+/home/mirmik/project/gazebo-expirements/walker/spider/mirmik.cc:107:57: error: no matching function for call to ‘gazebo::Regulator::Control(double&)’
+  107 |      body_controller.legs[i].regulators[1].Control(delta);
+      |                                                         ^
+In file included from /home/mirmik/project/gazebo-expirements/walker/spider/mirmik.cc:1:
+/home/mirmik/project/gazebo-expirements/walker/spider/./mirmik.h:91:8: note: candidate: ‘void gazebo::Regulator::Control(double, uint8_t, uint8_t)’
+   91 |   void Control(double delta, uint8_t legmode, uint8_t regmode);
+      |        ^~~~~~~
+/home/mirmik/project/gazebo-expirements/walker/spider/./mirmik.h:91:8: note:   candidate expects 3 arguments, 1 provided
+/home/mirmik/project/gazebo-expirements/walker/spider/mirmik.cc:109:44: error: ‘__gnu_cxx::__alloc_traits<std::allocator<gazebo::Regulator>, gazebo::Regulator>::value_type’ {aka ‘class gazebo::Regulator’} has no member named ‘speed2_loop_enabled’
+  109 |      body_controller.legs[i].regulators[2].speed2_loop_enabled = true;
+      |                                            ^~~~~~~~~~~~~~~~~~~
+/home/mirmik/project/gazebo-expirements/walker/spider/mirmik.cc:110:44: error: ‘__gnu_cxx::__alloc_traits<std::allocator<gazebo::Regulator>, gazebo::Regulator>::value_type’ {aka ‘class gazebo::Regulator’} has no member named ‘position_loop_enabled’
+  110 |      body_controller.legs[i].regulators[2].position_loop_enabled = true;
+      |                                            ^~~~~~~~~~~~~~~~~~~~~
+/home/mirmik/project/gazebo-expirements/walker/spider/mirmik.cc:113:57: error: no matching function for call to ‘gazebo::Regulator::Control(double&)’
+  113 |      body_controller.legs[i].regulators[2].Control(delta);
+      |                                                         ^
+In file included from /home/mirmik/project/gazebo-expirements/walker/spider/mirmik.cc:1:
+/home/mirmik/project/gazebo-expirements/walker/spider/./mirmik.h:91:8: note: candidate: ‘void gazebo::Regulator::Control(double, uint8_t, uint8_t)’
+   91 |   void Control(double delta, uint8_t legmode, uint8_t regmode);
+      |        ^~~~~~~
+/home/mirmik/project/gazebo-expirements/walker/spider/./mirmik.h:91:8: note:   candidate expects 3 arguments, 1 provided
+/home/mirmik/project/gazebo-expirements/walker/spider/mirmik.cc: At global scope:
+/home/mirmik/project/gazebo-expirements/walker/spider/mirmik.cc:223:6: error: no declaration matches ‘void gazebo::LegController::serve(double, uint8_t, uint8_t)’
+  223 | void gazebo::LegController::serve(double delta, uint8_t legmode, uint8_t regulmode)
+      |      ^~~~~~
+In file included from /home/mirmik/project/gazebo-expirements/walker/spider/mirmik.cc:1:
+/home/mirmik/project/gazebo-expirements/walker/spider/./mirmik.h:163:8: note: candidate is: ‘void gazebo::LegController::serve(double, uint8_t)’
+  163 |   void serve(double delta, uint8_t mode);
+      |        ^~~~~
+/home/mirmik/project/gazebo-expirements/walker/spider/./mirmik.h:95:8: note: ‘class gazebo::LegController’ defined here
+   95 |  class LegController
+      |        ^~~~~~~~~~~~~
+/home/mirmik/project/gazebo-expirements/walker/spider/mirmik.cc:330:6: error: no declaration matches ‘void gazebo::Regulator::Control(double, uint8_t)’
+  330 | void gazebo::Regulator::Control(double delta, uint8_t mode)
+      |      ^~~~~~
+In file included from /home/mirmik/project/gazebo-expirements/walker/spider/mirmik.cc:1:
+/home/mirmik/project/gazebo-expirements/walker/spider/./mirmik.h:91:8: note: candidate is: ‘void gazebo::Regulator::Control(double, uint8_t, uint8_t)’
+   91 |   void Control(double delta, uint8_t legmode, uint8_t regmode);
+      |        ^~~~~~~
+/home/mirmik/project/gazebo-expirements/walker/spider/./mirmik.h:31:8: note: ‘class gazebo::Regulator’ defined here
+   31 |  class Regulator
+      |        ^~~~~~~~~
+/home/mirmik/project/gazebo-expirements/walker/spider/mirmik.cc: In member function ‘void gazebo::BodyController::body_serve_with_group(const std::vector<gazebo::LegController*>&, double)’:
+/home/mirmik/project/gazebo-expirements/walker/spider/mirmik.cc:479:17: error: no matching function for call to ‘gazebo::LegController::serve(double&)’
+  479 |   l->serve(delta);
+      |                 ^
+In file included from /home/mirmik/project/gazebo-expirements/walker/spider/mirmik.cc:1:
+/home/mirmik/project/gazebo-expirements/walker/spider/./mirmik.h:163:8: note: candidate: ‘void gazebo::LegController::serve(double, uint8_t)’
+  163 |   void serve(double delta, uint8_t mode);
+      |        ^~~~~
+/home/mirmik/project/gazebo-expirements/walker/spider/./mirmik.h:163:8: note:   candidate expects 2 arguments, 1 provided
+make[2]: *** [CMakeFiles/mirmik.dir/build.make:63: CMakeFiles/mirmik.dir/mirmik.cc.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:78: CMakeFiles/mirmik.dir/all] Error 2
+make: *** [Makefile:84: all] Error 2

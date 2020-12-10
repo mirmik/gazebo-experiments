@@ -18,6 +18,12 @@
 #include <rabbit/space/gazebo.h>
 #include <igris/math.h>
 
+#define Speed2Loop 0x1
+#define	PositionLoop 0x2
+#define SpeedMode 0
+#define PositionMode (PositionLoop)
+#define Speed2Mode (PositionLoop | Speed2Loop)
+
 namespace gazebo
 {
 	class BodyController;
@@ -25,8 +31,8 @@ namespace gazebo
 	class Regulator
 	{
 	public:
-		bool speed2_loop_enabled = true;
-		bool position_loop_enabled = true;
+		//bool speed2_loop_enabled = true;
+		//bool position_loop_enabled = true;
 
 		double speed_error = 0;
 		double position_error = 0;
@@ -82,20 +88,13 @@ namespace gazebo
 
 		void reset();
 
-		void Control(double delta);
+		void Control(double delta, uint8_t mode);
 	};
 
 
 	class LegController
 	{
-		enum class LegMode
-		{
-			SpeedMode,
-			PositionMode
-		};
-
 	public:
-		LegMode mode;
 		BodyController * body_controller;
 
 		physics::LinkPtr body_link;
@@ -161,7 +160,7 @@ namespace gazebo
 
 		bool is_landed();
 
-		void serve(double delta);
+		void serve(double delta, uint8_t legmode, uint8_t servemode);
 
 		rabbit::screw<double, 3> reaction() 
 		{
