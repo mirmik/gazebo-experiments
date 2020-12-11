@@ -1,22 +1,33 @@
 #include <mirmik.h>
 
 gazebo::TrotController::TrotController(BodyController * body_controller) :
-	body_controller()
+	body_controller(body_controller)
 {
-	active_group = group0;
-	relax_group = group1;
+};
 
+void gazebo::TrotController::init() 
+{
 	group0.push_back(&body_controller->legs[0]);
 	group0.push_back(&body_controller->legs[2]);
 	group0.push_back(&body_controller->legs[4]);
 
 	group1.push_back(&body_controller->legs[1]);
 	group1.push_back(&body_controller->legs[3]);
-	group1.push_back(&body_controller->legs[5]);
-};
+	group1.push_back(&body_controller->legs[5]);	
+
+	active_group = group0;
+	relax_group = group1;
+}
 
 void gazebo::TrotController::serve(double delta)
 {
+	if (iteration_start) 
+	{
+		iteration_start = false;
+		start_iteration = evaltime();
+	}
+
+	//body_controller->body_target = {{0,0,0,1},{0,0,1}};
 	body_controller->body_serve_with_group(active_group, delta);
 
 	if (relax_end_step)
@@ -27,9 +38,10 @@ void gazebo::TrotController::serve(double delta)
 			bool not_landed = !ptr->is_landed();
 			if (not_landed)
 			{
-
 				all_landed = false;
-				ptr->SpeedControl({0, 0, 0.1});
+
+				ptr->speed_target = {0, 0, -0.1};
+				ptr->serve(delta, SpeedMode, SpeedMode);
 			}
 		}
 
@@ -51,6 +63,11 @@ void gazebo::TrotController::serve(double delta)
 			body_controller->relax_movement_with_group(
 			    relax_group, delta, 0.1,
 			    - body_controller->body_speed_target.lin * 2);
+		}
+
+		if (evaltime() - start_iteration) 
+		{
+			relax_end_step = false;
 		}
 	}
 }

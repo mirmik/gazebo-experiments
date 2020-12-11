@@ -26,6 +26,9 @@
 
 namespace gazebo
 {
+	double evaltime();
+
+
 	class BodyController;
 
 	class Regulator
@@ -187,6 +190,10 @@ namespace gazebo
 		std::vector<LegController *> group0;
 		std::vector<LegController *> group1;
 
+		bool iteration_start = true;
+		double start_iteration;
+
+		void init();
 
 		TrotController(BodyController * body_controller);
 		void serve(double delta);
@@ -225,6 +232,7 @@ namespace gazebo
 		rabbit::screw<double, 3> body_speed_target;
 
 		TrotController trot_controller;
+		linalg::vec<double,3> body_speed_control;
 
 		BodyController();
 
