@@ -459,22 +459,22 @@ void gazebo::BodyController::serve(double delta)
 		if (t2 < T) 
 		{
 			double koeff = (t2) / T;
-			body_target = {{0, 0, sin(alpha), cos(alpha)}, {0, R*koeff, 1.5}};			 
+			body_target = {{0, 0, 0, 1}, {0, R*koeff, 1.5}};			 
 		} 
 		else if (t2 < 2*T) 
 		{
 			double koeff = (t2-T) / T;
-			body_target = {{0, 0,sin(alpha), cos(alpha)}, {R*koeff, R, 1.5}};	
+			body_target = {{0, 0, 0, 1}, {R*koeff, R, 1.5}};	
 		}
 		else if (t2 < 3*T) 
 		{
 			double koeff = (t2-2*T) / T;
-			body_target = {{0, 0,sin(alpha), cos(alpha)}, {R, R-R*koeff, 1.5}};	
+			body_target = {{0, 0, 0, 1}, {R, R-R*koeff, 1.5}};	
 		}
 		else if (t2 < 4*T) 
 		{
 			double koeff = (t2-3*T) / T;
-			body_target = {{0, 0, sin(alpha), cos(alpha)}, {R-R*koeff, 0, 1.5}};
+			body_target = {{0, 0, 0, 1}, {R-R*koeff, 0, 1.5}};
 		}
 	}
 

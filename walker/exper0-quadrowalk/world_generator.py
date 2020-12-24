@@ -3,7 +3,7 @@
 file = open("world.xml", "w")
 
 GRAVITY = -1
-BODY_LENGTH = 3
+BODY_LENGTH = 5
 
 inertia_st = """
   <mass> 1 </mass>
