@@ -213,15 +213,10 @@ CMakeFiles/world.dir/world.cc.o
  /usr/include/gazebo-11/gazebo/transport/transport.hh
  /usr/include/gazebo-11/gazebo/util/system.hh
  /usr/include/ignition/common3/ignition/common/Export.hh
- /usr/include/ignition/common3/ignition/common/Profiler.hh
- /usr/include/ignition/common3/ignition/common/SingletonT.hh
  /usr/include/ignition/common3/ignition/common/SuppressWarning.hh
  /usr/include/ignition/common3/ignition/common/URI.hh
- /usr/include/ignition/common3/ignition/common/config.hh
  /usr/include/ignition/common3/ignition/common/detail/Export.hh
  /usr/include/ignition/common3/ignition/common/detail/SuppressWarning.hh
- /usr/include/ignition/common3/ignition/common/profiler/Export.hh
- /usr/include/ignition/common3/ignition/common/profiler/detail/Export.hh
  /usr/include/ignition/fuel_tools4/ignition/fuel_tools/ClientConfig.hh
  /usr/include/ignition/fuel_tools4/ignition/fuel_tools/Export.hh
  /usr/include/ignition/fuel_tools4/ignition/fuel_tools/Helpers.hh

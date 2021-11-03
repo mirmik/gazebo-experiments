@@ -51,7 +51,7 @@
           <pose>0 0 0 0 0 0</pose>
           <geometry>
             <box>
-            	<size>1 4 0.5</size>
+            	<size>1 6 0.5</size>
             </box>    
           </geometry>
         </collision>
@@ -60,7 +60,7 @@
           <pose>0 0 0 0 0 0</pose>
           <geometry>
             <box>
-            	<size>1 4 0.5</size>
+            	<size>1 6 0.5</size>
             </box>    
           </geometry>
         </visual>
@@ -69,7 +69,7 @@
       
 	  <link name="shoulder_0">
         <collision name="collision_shoulder_0_0">
-          <pose>-0.5  1.5  0  0  0  0</pose>
+          <pose>-0.5  2.5  0  0  0  0</pose>
           <geometry>
             <sphere>
             	<radius>0.3</radius>
@@ -78,7 +78,7 @@
         </collision>
   
         <visual name="visual_shoulder_0_0">
-          <pose>-0.5  1.5  0  0  0  0</pose>
+          <pose>-0.5  2.5  0  0  0  0</pose>
           <geometry>
             <sphere>
             	<radius>0.3</radius>
@@ -87,14 +87,14 @@
         </visual>
 
         <inertial>
-          <pose>-0.5  1.5  0  0  0  0</pose>
+          <pose>-0.5  2.5  0  0  0  0</pose>
         </inertial>
       </link>
 
 
 	  <link name="high_leg_0">
         <collision name="collision_high_leg_0_0">
-          <pose>-1.5  1.5  0  0  0  0</pose>
+          <pose>-1.5  2.5  0  0  0  0</pose>
           <geometry>
             <box>
             	<size>2 0.5 0.5</size>
@@ -103,7 +103,7 @@
         </collision>
   
         <visual name="visual_high_leg_0_0">
-          <pose>-1.5  1.5  0  0  0  0</pose>
+          <pose>-1.5  2.5  0  0  0  0</pose>
           <geometry>
             <box>
             	<size>2 0.5 0.5</size>
@@ -112,7 +112,7 @@
         </visual>
 
         <inertial>
-          <pose>-1.5  1.5  0  0  0  0</pose>
+          <pose>-1.5  2.5  0  0  0  0</pose>
           
   <mass> 1 </mass>
   <inertia>
@@ -129,7 +129,7 @@
 
       <link name="low_leg_0">
         <collision name="collision_low_leg_0_0">
-          <pose>-3.5  1.5  0  0  0  0</pose>
+          <pose>-3.5  2.5  0  0  0  0</pose>
           <geometry>
             <box>
             	<size>2 0.5 0.5</size>
@@ -138,7 +138,7 @@
         </collision>
   
         <visual name="visual_low_leg_0_0">
-          <pose>-3.5  1.5  0  0  0  0</pose>
+          <pose>-3.5  2.5  0  0  0  0</pose>
           <geometry>
             <box>
             	<size>2 0.5 0.5</size>
@@ -147,7 +147,7 @@
         </visual>
 
         <inertial>
-          <pose>-3.5  1.5  0  0  0  0</pose>
+          <pose>-3.5  2.5  0  0  0  0</pose>
           
   <mass> 1 </mass>
   <inertia>
@@ -164,7 +164,7 @@
 
       <link name="fin_leg_0">
         <collision name="collision_fin_leg_0_0">
-          <pose>-4.5  1.5  0  0  0  0</pose>
+          <pose>-4.5  2.5  0  0  0  0</pose>
           <geometry>
             <!--<cylinder>
               <radius>0.02</radius>
@@ -177,7 +177,7 @@
         </collision>
 
           <inertial>
-            <pose>-4.5  1.5  0  0  0  0</pose>
+            <pose>-4.5  2.5  0  0  0  0</pose>
             <mass>0.1</mass>
             <inertia>
               <ixx>0.1</ixx>
@@ -190,7 +190,7 @@
           </inertial>
   
         <visual name="visual_fin_leg_0_0">
-          <pose>-4.5  1.5  0  0  0  0</pose>
+          <pose>-4.5  2.5  0  0  0  0</pose>
           <geometry>
             <!--<cylinder>
               <radius>0.02</radius>
@@ -203,12 +203,12 @@
         </visual>
 
         <inertial>
-          <pose>-4.5  1.5  0  0  0  0</pose>
+          <pose>-4.5  2.5  0  0  0  0</pose>
         </inertial>
       </link>
 
       <joint name="joint_shoulder_0" type="revolute">
-      	 <pose> -0.5  1.5  0  0  0  0    </pose>
+      	 <pose> -0.5  2.5  0  0  0  0    </pose>
          <parent>body</parent>
          <child>shoulder_0</child>
          <axis>
@@ -218,7 +218,7 @@
       </joint>
 
       <joint name="joint_high_0" type="revolute">
-      	 <pose> -0.5  1.5  0  0  0  0    </pose>
+      	 <pose> -0.5  2.5  0  0  0  0    </pose>
          <parent>shoulder_0</parent>
          <child>high_leg_0</child>
          <axis>
@@ -228,7 +228,7 @@
       </joint>
 
       <joint name="joint_low_0" type="revolute">
-      	 <pose> -2.5  1.5  0  0  0  0    </pose>
+      	 <pose> -2.5  2.5  0  0  0  0    </pose>
          <parent>high_leg_0</parent>
          <child>low_leg_0</child>
          <axis>
@@ -238,7 +238,7 @@
       </joint>
 
       <joint name="joint_fin_0" type="fixed">
-      	 <pose> -4.5  1.5  0  0  0  0    </pose>
+      	 <pose> -4.5  2.5  0  0  0  0    </pose>
          <parent>low_leg_0</parent>
          <child>fin_leg_0</child>
          <!--<sensor type="force_torque" name="Relbj_FT">
@@ -437,7 +437,7 @@
       
 	  <link name="shoulder_2">
         <collision name="collision_shoulder_2_0">
-          <pose>-0.5 -1.5  0  0  0  0</pose>
+          <pose>-0.5 -2.5  0  0  0  0</pose>
           <geometry>
             <sphere>
             	<radius>0.3</radius>
@@ -446,7 +446,7 @@
         </collision>
   
         <visual name="visual_shoulder_2_0">
-          <pose>-0.5 -1.5  0  0  0  0</pose>
+          <pose>-0.5 -2.5  0  0  0  0</pose>
           <geometry>
             <sphere>
             	<radius>0.3</radius>
@@ -455,14 +455,14 @@
         </visual>
 
         <inertial>
-          <pose>-0.5 -1.5  0  0  0  0</pose>
+          <pose>-0.5 -2.5  0  0  0  0</pose>
         </inertial>
       </link>
 
 
 	  <link name="high_leg_2">
         <collision name="collision_high_leg_2_0">
-          <pose>-1.5 -1.5  0  0  0  0</pose>
+          <pose>-1.5 -2.5  0  0  0  0</pose>
           <geometry>
             <box>
             	<size>2 0.5 0.5</size>
@@ -471,7 +471,7 @@
         </collision>
   
         <visual name="visual_high_leg_2_0">
-          <pose>-1.5 -1.5  0  0  0  0</pose>
+          <pose>-1.5 -2.5  0  0  0  0</pose>
           <geometry>
             <box>
             	<size>2 0.5 0.5</size>
@@ -480,7 +480,7 @@
         </visual>
 
         <inertial>
-          <pose>-1.5 -1.5  0  0  0  0</pose>
+          <pose>-1.5 -2.5  0  0  0  0</pose>
           
   <mass> 1 </mass>
   <inertia>
@@ -497,7 +497,7 @@
 
       <link name="low_leg_2">
         <collision name="collision_low_leg_2_0">
-          <pose>-3.5 -1.5  0  0  0  0</pose>
+          <pose>-3.5 -2.5  0  0  0  0</pose>
           <geometry>
             <box>
             	<size>2 0.5 0.5</size>
@@ -506,7 +506,7 @@
         </collision>
   
         <visual name="visual_low_leg_2_0">
-          <pose>-3.5 -1.5  0  0  0  0</pose>
+          <pose>-3.5 -2.5  0  0  0  0</pose>
           <geometry>
             <box>
             	<size>2 0.5 0.5</size>
@@ -515,7 +515,7 @@
         </visual>
 
         <inertial>
-          <pose>-3.5 -1.5  0  0  0  0</pose>
+          <pose>-3.5 -2.5  0  0  0  0</pose>
           
   <mass> 1 </mass>
   <inertia>
@@ -532,7 +532,7 @@
 
       <link name="fin_leg_2">
         <collision name="collision_fin_leg_2_0">
-          <pose>-4.5 -1.5  0  0  0  0</pose>
+          <pose>-4.5 -2.5  0  0  0  0</pose>
           <geometry>
             <!--<cylinder>
               <radius>0.02</radius>
@@ -545,7 +545,7 @@
         </collision>
 
           <inertial>
-            <pose>-4.5 -1.5  0  0  0  0</pose>
+            <pose>-4.5 -2.5  0  0  0  0</pose>
             <mass>0.1</mass>
             <inertia>
               <ixx>0.1</ixx>
@@ -558,7 +558,7 @@
           </inertial>
   
         <visual name="visual_fin_leg_2_0">
-          <pose>-4.5 -1.5  0  0  0  0</pose>
+          <pose>-4.5 -2.5  0  0  0  0</pose>
           <geometry>
             <!--<cylinder>
               <radius>0.02</radius>
@@ -571,12 +571,12 @@
         </visual>
 
         <inertial>
-          <pose>-4.5 -1.5  0  0  0  0</pose>
+          <pose>-4.5 -2.5  0  0  0  0</pose>
         </inertial>
       </link>
 
       <joint name="joint_shoulder_2" type="revolute">
-      	 <pose> -0.5 -1.5  0  0  0  0    </pose>
+      	 <pose> -0.5 -2.5  0  0  0  0    </pose>
          <parent>body</parent>
          <child>shoulder_2</child>
          <axis>
@@ -586,7 +586,7 @@
       </joint>
 
       <joint name="joint_high_2" type="revolute">
-      	 <pose> -0.5 -1.5  0  0  0  0    </pose>
+      	 <pose> -0.5 -2.5  0  0  0  0    </pose>
          <parent>shoulder_2</parent>
          <child>high_leg_2</child>
          <axis>
@@ -596,7 +596,7 @@
       </joint>
 
       <joint name="joint_low_2" type="revolute">
-      	 <pose> -2.5 -1.5  0  0  0  0    </pose>
+      	 <pose> -2.5 -2.5  0  0  0  0    </pose>
          <parent>high_leg_2</parent>
          <child>low_leg_2</child>
          <axis>
@@ -606,7 +606,7 @@
       </joint>
 
       <joint name="joint_fin_2" type="fixed">
-      	 <pose> -4.5 -1.5  0  0  0  0    </pose>
+      	 <pose> -4.5 -2.5  0  0  0  0    </pose>
          <parent>low_leg_2</parent>
          <child>fin_leg_2</child>
          <!--<sensor type="force_torque" name="Relbj_FT">
@@ -621,7 +621,7 @@
       
 	  <link name="shoulder_3">
         <collision name="collision_shoulder_3_0">
-          <pose> 0.5  1.5  0  0  0  0</pose>
+          <pose> 0.5  2.5  0  0  0  0</pose>
           <geometry>
             <sphere>
             	<radius>0.3</radius>
@@ -630,7 +630,7 @@
         </collision>
   
         <visual name="visual_shoulder_3_0">
-          <pose> 0.5  1.5  0  0  0  0</pose>
+          <pose> 0.5  2.5  0  0  0  0</pose>
           <geometry>
             <sphere>
             	<radius>0.3</radius>
@@ -639,14 +639,14 @@
         </visual>
 
         <inertial>
-          <pose> 0.5  1.5  0  0  0  0</pose>
+          <pose> 0.5  2.5  0  0  0  0</pose>
         </inertial>
       </link>
 
 
 	  <link name="high_leg_3">
         <collision name="collision_high_leg_3_0">
-          <pose> 1.5  1.5  0  0  0  0</pose>
+          <pose> 1.5  2.5  0  0  0  0</pose>
           <geometry>
             <box>
             	<size>2 0.5 0.5</size>
@@ -655,7 +655,7 @@
         </collision>
   
         <visual name="visual_high_leg_3_0">
-          <pose> 1.5  1.5  0  0  0  0</pose>
+          <pose> 1.5  2.5  0  0  0  0</pose>
           <geometry>
             <box>
             	<size>2 0.5 0.5</size>
@@ -664,7 +664,7 @@
         </visual>
 
         <inertial>
-          <pose> 1.5  1.5  0  0  0  0</pose>
+          <pose> 1.5  2.5  0  0  0  0</pose>
           
   <mass> 1 </mass>
   <inertia>
@@ -681,7 +681,7 @@
 
       <link name="low_leg_3">
         <collision name="collision_low_leg_3_0">
-          <pose> 3.5  1.5  0  0  0  0</pose>
+          <pose> 3.5  2.5  0  0  0  0</pose>
           <geometry>
             <box>
             	<size>2 0.5 0.5</size>
@@ -690,7 +690,7 @@
         </collision>
   
         <visual name="visual_low_leg_3_0">
-          <pose> 3.5  1.5  0  0  0  0</pose>
+          <pose> 3.5  2.5  0  0  0  0</pose>
           <geometry>
             <box>
             	<size>2 0.5 0.5</size>
@@ -699,7 +699,7 @@
         </visual>
 
         <inertial>
-          <pose> 3.5  1.5  0  0  0  0</pose>
+          <pose> 3.5  2.5  0  0  0  0</pose>
           
   <mass> 1 </mass>
   <inertia>
@@ -716,7 +716,7 @@
 
       <link name="fin_leg_3">
         <collision name="collision_fin_leg_3_0">
-          <pose> 4.5  1.5  0  0  0  0</pose>
+          <pose> 4.5  2.5  0  0  0  0</pose>
           <geometry>
             <!--<cylinder>
               <radius>0.02</radius>
@@ -729,7 +729,7 @@
         </collision>
 
           <inertial>
-            <pose> 4.5  1.5  0  0  0  0</pose>
+            <pose> 4.5  2.5  0  0  0  0</pose>
             <mass>0.1</mass>
             <inertia>
               <ixx>0.1</ixx>
@@ -742,7 +742,7 @@
           </inertial>
   
         <visual name="visual_fin_leg_3_0">
-          <pose> 4.5  1.5  0  0  0  0</pose>
+          <pose> 4.5  2.5  0  0  0  0</pose>
           <geometry>
             <!--<cylinder>
               <radius>0.02</radius>
@@ -755,12 +755,12 @@
         </visual>
 
         <inertial>
-          <pose> 4.5  1.5  0  0  0  0</pose>
+          <pose> 4.5  2.5  0  0  0  0</pose>
         </inertial>
       </link>
 
       <joint name="joint_shoulder_3" type="revolute">
-      	 <pose>  0.5  1.5  0  0  0  0 </pose>
+      	 <pose>  0.5  2.5  0  0  0  0 </pose>
          <parent>body</parent>
          <child>shoulder_3</child>
          <axis>
@@ -770,7 +770,7 @@
       </joint>
 
       <joint name="joint_high_3" type="revolute">
-      	 <pose>  0.5  1.5  0  0  0  0 </pose>
+      	 <pose>  0.5  2.5  0  0  0  0 </pose>
          <parent>shoulder_3</parent>
          <child>high_leg_3</child>
          <axis>
@@ -780,7 +780,7 @@
       </joint>
 
       <joint name="joint_low_3" type="revolute">
-      	 <pose>  2.5  1.5  0  0  0  0 </pose>
+      	 <pose>  2.5  2.5  0  0  0  0 </pose>
          <parent>high_leg_3</parent>
          <child>low_leg_3</child>
          <axis>
@@ -790,7 +790,7 @@
       </joint>
 
       <joint name="joint_fin_3" type="fixed">
-      	 <pose>  4.5  1.5  0  0  0  0 </pose>
+      	 <pose>  4.5  2.5  0  0  0  0 </pose>
          <parent>low_leg_3</parent>
          <child>fin_leg_3</child>
          <!--<sensor type="force_torque" name="Relbj_FT">
@@ -989,7 +989,7 @@
       
 	  <link name="shoulder_5">
         <collision name="collision_shoulder_5_0">
-          <pose> 0.5 -1.5  0  0  0  0</pose>
+          <pose> 0.5 -2.5  0  0  0  0</pose>
           <geometry>
             <sphere>
             	<radius>0.3</radius>
@@ -998,7 +998,7 @@
         </collision>
   
         <visual name="visual_shoulder_5_0">
-          <pose> 0.5 -1.5  0  0  0  0</pose>
+          <pose> 0.5 -2.5  0  0  0  0</pose>
           <geometry>
             <sphere>
             	<radius>0.3</radius>
@@ -1007,14 +1007,14 @@
         </visual>
 
         <inertial>
-          <pose> 0.5 -1.5  0  0  0  0</pose>
+          <pose> 0.5 -2.5  0  0  0  0</pose>
         </inertial>
       </link>
 
 
 	  <link name="high_leg_5">
         <collision name="collision_high_leg_5_0">
-          <pose> 1.5 -1.5  0  0  0  0</pose>
+          <pose> 1.5 -2.5  0  0  0  0</pose>
           <geometry>
             <box>
             	<size>2 0.5 0.5</size>
@@ -1023,7 +1023,7 @@
         </collision>
   
         <visual name="visual_high_leg_5_0">
-          <pose> 1.5 -1.5  0  0  0  0</pose>
+          <pose> 1.5 -2.5  0  0  0  0</pose>
           <geometry>
             <box>
             	<size>2 0.5 0.5</size>
@@ -1032,7 +1032,7 @@
         </visual>
 
         <inertial>
-          <pose> 1.5 -1.5  0  0  0  0</pose>
+          <pose> 1.5 -2.5  0  0  0  0</pose>
           
   <mass> 1 </mass>
   <inertia>
@@ -1049,7 +1049,7 @@
 
       <link name="low_leg_5">
         <collision name="collision_low_leg_5_0">
-          <pose> 3.5 -1.5  0  0  0  0</pose>
+          <pose> 3.5 -2.5  0  0  0  0</pose>
           <geometry>
             <box>
             	<size>2 0.5 0.5</size>
@@ -1058,7 +1058,7 @@
         </collision>
   
         <visual name="visual_low_leg_5_0">
-          <pose> 3.5 -1.5  0  0  0  0</pose>
+          <pose> 3.5 -2.5  0  0  0  0</pose>
           <geometry>
             <box>
             	<size>2 0.5 0.5</size>
@@ -1067,7 +1067,7 @@
         </visual>
 
         <inertial>
-          <pose> 3.5 -1.5  0  0  0  0</pose>
+          <pose> 3.5 -2.5  0  0  0  0</pose>
           
   <mass> 1 </mass>
   <inertia>
@@ -1084,7 +1084,7 @@
 
       <link name="fin_leg_5">
         <collision name="collision_fin_leg_5_0">
-          <pose> 4.5 -1.5  0  0  0  0</pose>
+          <pose> 4.5 -2.5  0  0  0  0</pose>
           <geometry>
             <!--<cylinder>
               <radius>0.02</radius>
@@ -1097,7 +1097,7 @@
         </collision>
 
           <inertial>
-            <pose> 4.5 -1.5  0  0  0  0</pose>
+            <pose> 4.5 -2.5  0  0  0  0</pose>
             <mass>0.1</mass>
             <inertia>
               <ixx>0.1</ixx>
@@ -1110,7 +1110,7 @@
           </inertial>
   
         <visual name="visual_fin_leg_5_0">
-          <pose> 4.5 -1.5  0  0  0  0</pose>
+          <pose> 4.5 -2.5  0  0  0  0</pose>
           <geometry>
             <!--<cylinder>
               <radius>0.02</radius>
@@ -1123,12 +1123,12 @@
         </visual>
 
         <inertial>
-          <pose> 4.5 -1.5  0  0  0  0</pose>
+          <pose> 4.5 -2.5  0  0  0  0</pose>
         </inertial>
       </link>
 
       <joint name="joint_shoulder_5" type="revolute">
-      	 <pose>  0.5 -1.5  0  0  0  0 </pose>
+      	 <pose>  0.5 -2.5  0  0  0  0 </pose>
          <parent>body</parent>
          <child>shoulder_5</child>
          <axis>
@@ -1138,7 +1138,7 @@
       </joint>
 
       <joint name="joint_high_5" type="revolute">
-      	 <pose>  0.5 -1.5  0  0  0  0 </pose>
+      	 <pose>  0.5 -2.5  0  0  0  0 </pose>
          <parent>shoulder_5</parent>
          <child>high_leg_5</child>
          <axis>
@@ -1148,7 +1148,7 @@
       </joint>
 
       <joint name="joint_low_5" type="revolute">
-      	 <pose>  2.5 -1.5  0  0  0  0 </pose>
+      	 <pose>  2.5 -2.5  0  0  0  0 </pose>
          <parent>high_leg_5</parent>
          <child>low_leg_5</child>
          <axis>
@@ -1158,7 +1158,7 @@
       </joint>
 
       <joint name="joint_fin_5" type="fixed">
-      	 <pose>  4.5 -1.5  0  0  0  0 </pose>
+      	 <pose>  4.5 -2.5  0  0  0  0 </pose>
          <parent>low_leg_5</parent>
          <child>fin_leg_5</child>
          <!--<sensor type="force_torque" name="Relbj_FT">
