@@ -12,10 +12,13 @@
 #include <ralgo/linalg/backpack.h>
 #include <rabbit/space/htrans2.h>
 
+#include <crow/crow.h>
 #include <igris/math.h>
 
 extern rabbit::screw2<double> CARGO_TARGET_VELOCITY;
 extern rabbit::htrans2<double> CARGO_POSITION;
+
+extern crow::hostaddr crowker;
 
 struct Regulator
 {
@@ -41,11 +44,11 @@ struct Regulator
 	static constexpr double pos_T = 0.15;
 	static constexpr double pos_ksi = 2;
 
-	double pos_kp = 2.*pos_ksi/pos_T;
-	double pos_ki = 1./pos_T/pos_T;
+	double pos_kp = 2.*pos_ksi / pos_T;
+	double pos_ki = 1. / pos_T / pos_T;
 
-	double spd_kp = 2.*spd_ksi/spd_T*spd_A;
-	double spd_ki = 1./spd_T/spd_T*spd_A;
+	double spd_kp = 2.*spd_ksi / spd_T * spd_A;
+	double spd_ki = 1. / spd_T / spd_T * spd_A;
 
 	//double force_compensation = 0.1;
 
@@ -91,7 +94,7 @@ namespace gazebo
 
 	public:
 
-		double evaltime() 
+		double evaltime()
 		{
 			auto t = WORLD->SimTime();
 
@@ -146,12 +149,12 @@ namespace gazebo
 		// Called by the world update start event
 	public:
 
-		linalg::vec<double,2> position_integral {};
+		linalg::vec<double, 2> position_integral {};
 		void OnUpdate()
 		{
 			double curtime = evaltime();
 			delta = curtime - lasttime;
-			double time = curtime - starttime;			
+			double time = curtime - starttime;
 
 			if (!inited)
 			{
@@ -178,7 +181,7 @@ namespace gazebo
 			auto force1 = wrench.body1Force;
 			auto torque1 = wrench.body1Torque;
 
-			linalg::vec<double,2> local_force = {-force1.X(), -force1.Z()};
+			linalg::vec<double, 2> local_force = { -force1.X(), -force1.Z()};
 
 			auto link0 = model->GetLink("link_0");
 			auto pos0 = link0->WorldCoGPose().Pos();
@@ -188,7 +191,7 @@ namespace gazebo
 			auto joint1_pose = joint0_pose * joint0_rot * trans;
 			auto output_pose = joint1_pose * joint1_rot * trans;
 
-			linalg::vec<double,2> global_force = linalg::rot(output_pose.orient, local_force);
+			linalg::vec<double, 2> global_force = linalg::rot(output_pose.orient, local_force);
 
 			auto sens = rabbit::screw<double, 2>(-1, {0, 0});
 
@@ -202,37 +205,38 @@ namespace gazebo
 			int left = model->GetName() == "manip1";
 
 			linalg::vec<double, 2> position_target;
-			
+
 			double X = 0.45 + 0.05 * time;
 			if (X > 1.3) X = 1.3;
 			position_target = {left ? -0.35 : 0.35, X};
 
-			
-			if (time < 5) 
+
+			if (time < 5)
 			{
 				position_target = {left ? -1. : 1., 1.2};
 			}
 
 			auto position_error = position_target - output_pose.translation();
-			position_error += linalg::vec<double,2>{global_force.x, 0} * ForceKoeff;
-			
+			position_error += linalg::vec<double, 2> {global_force.x, 0} * ForceKoeff;
+
 			position_integral += position_error * delta;
 
-			linalg::vec<double, 2> target;	
-			if (time < 10) 
+			linalg::vec<double, 2> target;
+			if (time < 10)
 			{
-				target = 
-				1 * position_error +
-				0.05 * position_integral 
-				+ global_force * ForceKoeff;
+				target =
+				    1 * position_error +
+				    0.05 * position_integral
+				    + global_force * ForceKoeff;
 			}
-			else {
+			else
+			{
 				auto to_cargo = CARGO_POSITION.center - output_pose.center;
 
-				target = 
-					to_cargo * 0.1 +
-					CARGO_TARGET_VELOCITY.kinematic_carry(to_cargo).lin
-					+ global_force * ForceKoeff;
+				target =
+				    to_cargo * 0.1 +
+				    CARGO_TARGET_VELOCITY.kinematic_carry(to_cargo).lin
+				    + global_force * ForceKoeff;
 
 				//nos::println(CARGO_TARGET_VELOCITY.kinematic_carry(-to_cargo).lin);
 			}
@@ -253,19 +257,33 @@ namespace gazebo
 
 			//if (control_error < 1e-3)
 			//{
-				joint0_regulator.speed2_target = coords[0];
-				joint1_regulator.speed2_target = coords[1];
+			joint0_regulator.speed2_target = coords[0];
+			joint1_regulator.speed2_target = coords[1];
 			//}
 			//else
 			//{
 			//	joint0_regulator.speed2_target = 0;
 			//	joint1_regulator.speed2_target = 0;
 			//}
-
-			if (model->GetName() == "manip1")
 			{
-				//nos::println(model->GetName(), delta);
-				//nos::println(force1.X(), force1.Y(), force1.Z(), global_force);
+				std::string theme;
+
+				double data[7];
+				data[0] = crow::millis();
+				data[1] = 1;
+				data[2] = 2;
+				data[3] = 3;
+				data[4] = 4;
+				data[5] = 5;
+				data[6] = 6;
+
+				auto buffer = igris::buffer((uint8_t*)data, sizeof(data));
+
+				theme = model->GetName() == "manip1" ?
+					"bimanip/manip1" :
+					"bimanip/manip2";
+				
+				crow::publish(crowker, theme, buffer, 0, 50);
 			}
 
 			Control(model->GetJoint("joint0"), &joint0_regulator);
@@ -291,7 +309,7 @@ namespace gazebo
 				reg->speed_target =
 				    reg->pos_kp * reg->position_error +
 				    reg->pos_ki * reg->position_integral;
-				    //- reg->control_signal * ForceKoeff * 0.1;
+				//- reg->control_signal * ForceKoeff * 0.1;
 			}
 
 			reg->speed_error = reg->speed_target - current_speed;
