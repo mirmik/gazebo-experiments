@@ -8,7 +8,7 @@
 #include <nos/fprint.h>
 #include <nos/terminal.h>
 
-#include <linalg/linalg.h>
+#include <ralgo/linalg/linalg.h>
 #include <ralgo/linalg/backpack.h>
 #include <ralgo/space/pose2.h>
 #include <ralgo/space/screw.h>

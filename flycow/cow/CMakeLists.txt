@@ -7,7 +7,7 @@ include_directories(${GAZEBO_INCLUDE_DIRS})
 link_directories(${GAZEBO_LIBRARY_DIRS})
 
 add_library(world SHARED world.cc)
-target_link_libraries(world ${GAZEBO_LIBRARIES} nos igris crow rabbit)
+target_link_libraries(world ${GAZEBO_LIBRARIES} nos igris crow rabbit ralgo)
 
 add_library(cow SHARED cow.cc)
-target_link_libraries(cow ${GAZEBO_LIBRARIES} nos igris crow rabbit)
+target_link_libraries(cow ${GAZEBO_LIBRARIES} nos igris crow rabbit ralgo)

@@ -3,7 +3,7 @@
 #include <nos/terminal.h>
 
 #include <crow/gates/udpgate.h>
-#include <crow/proto/pubsub.h>
+#include <crow/pubsub/pubsub.h>
 #include <crow/address.h>
 #include <crow/tower.h>
 

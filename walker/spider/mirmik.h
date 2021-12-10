@@ -11,7 +11,7 @@
 #include <nos/fprint.h>
 #include <nos/terminal.h>
 
-#include <linalg/linalg.h>
+#include <ralgo/linalg/linalg.h>
 #include <ralgo/linalg/backpack.h>
 
 #include <rabbit/space/htrans3.h>
