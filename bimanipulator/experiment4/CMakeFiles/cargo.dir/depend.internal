@@ -267,10 +267,15 @@ CMakeFiles/cargo.dir/cargo.cc.o
  /usr/include/gazebo-11/gazebo/transport/transport.hh
  /usr/include/gazebo-11/gazebo/util/system.hh
  /usr/include/ignition/common3/ignition/common/Export.hh
+ /usr/include/ignition/common3/ignition/common/Profiler.hh
+ /usr/include/ignition/common3/ignition/common/SingletonT.hh
  /usr/include/ignition/common3/ignition/common/SuppressWarning.hh
  /usr/include/ignition/common3/ignition/common/URI.hh
+ /usr/include/ignition/common3/ignition/common/config.hh
  /usr/include/ignition/common3/ignition/common/detail/Export.hh
  /usr/include/ignition/common3/ignition/common/detail/SuppressWarning.hh
+ /usr/include/ignition/common3/ignition/common/profiler/Export.hh
+ /usr/include/ignition/common3/ignition/common/profiler/detail/Export.hh
  /usr/include/ignition/fuel_tools4/ignition/fuel_tools/ClientConfig.hh
  /usr/include/ignition/fuel_tools4/ignition/fuel_tools/Export.hh
  /usr/include/ignition/fuel_tools4/ignition/fuel_tools/Helpers.hh
@@ -377,6 +382,7 @@ CMakeFiles/cargo.dir/cargo.cc.o
  /usr/include/ignition/msgs5/ignition/msgs/empty.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/entity.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/entity_factory.pb.h
+ /usr/include/ignition/msgs5/ignition/msgs/entity_factory_v.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/float.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/float_v.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/fluid.pb.h
@@ -429,6 +435,7 @@ CMakeFiles/cargo.dir/cargo.cc.o
  /usr/include/ignition/msgs5/ignition/msgs/model.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/model_configuration.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/model_v.pb.h
+ /usr/include/ignition/msgs5/ignition/msgs/occupancy_grid.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/odometry.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/packet.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/param.pb.h
@@ -460,6 +467,7 @@ CMakeFiles/cargo.dir/cargo.cc.o
  /usr/include/ignition/msgs5/ignition/msgs/rest_response.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/road.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/scene.pb.h
+ /usr/include/ignition/msgs5/ignition/msgs/sdf_generator_config.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/selection.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/sensor.pb.h
  /usr/include/ignition/msgs5/ignition/msgs/sensor_noise.pb.h

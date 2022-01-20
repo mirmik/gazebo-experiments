@@ -109,11 +109,7 @@ libmanipulator.so: /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libboost_date_time.so.1.71.0
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libOgreTerrain.so
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libOgrePaging.so
-<<<<<<< HEAD
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-common3-graphics.so.3.11.1
-=======
-libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-common3-graphics.so.3.5.0
->>>>>>> 623d1e3ad7f27ab430ee829990aadc7ed4f63a8b
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libSimTKmath.so.3.6
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libSimTKcommon.so.3.6
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libblas.so
@@ -127,21 +123,12 @@ libmanipulator.so: /usr/lib/x86_64-linux-gnu/libassimp.so
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/liboctomap.so.1.9.3
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/liboctomath.so.1.9.3
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libboost_atomic.so.1.71.0
-<<<<<<< HEAD
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-transport8.so.8.2.0
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-fuel_tools4.so.4.3.0
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-msgs5.so.5.7.0
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-math6.so.6.7.0
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libprotobuf.so
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-common3.so.3.11.1
-=======
-libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-transport8.so.8.0.0
-libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-fuel_tools4.so.4.1.0
-libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-msgs5.so.5.1.0
-libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-math6.so.6.4.0
-libmanipulator.so: /usr/lib/x86_64-linux-gnu/libprotobuf.so
-libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-common3.so.3.5.0
->>>>>>> 623d1e3ad7f27ab430ee829990aadc7ed4f63a8b
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libuuid.so
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libuuid.so
 libmanipulator.so: CMakeFiles/manipulator.dir/link.txt

@@ -109,11 +109,7 @@ libcargo.so: /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0
 libcargo.so: /usr/lib/x86_64-linux-gnu/libboost_date_time.so.1.71.0
 libcargo.so: /usr/lib/x86_64-linux-gnu/libOgreTerrain.so
 libcargo.so: /usr/lib/x86_64-linux-gnu/libOgrePaging.so
-<<<<<<< HEAD
 libcargo.so: /usr/lib/x86_64-linux-gnu/libignition-common3-graphics.so.3.11.1
-=======
-libcargo.so: /usr/lib/x86_64-linux-gnu/libignition-common3-graphics.so.3.5.0
->>>>>>> 623d1e3ad7f27ab430ee829990aadc7ed4f63a8b
 libcargo.so: /usr/lib/x86_64-linux-gnu/libSimTKmath.so.3.6
 libcargo.so: /usr/lib/x86_64-linux-gnu/libSimTKcommon.so.3.6
 libcargo.so: /usr/lib/x86_64-linux-gnu/libblas.so
@@ -127,21 +123,12 @@ libcargo.so: /usr/lib/x86_64-linux-gnu/libassimp.so
 libcargo.so: /usr/lib/x86_64-linux-gnu/liboctomap.so.1.9.3
 libcargo.so: /usr/lib/x86_64-linux-gnu/liboctomath.so.1.9.3
 libcargo.so: /usr/lib/x86_64-linux-gnu/libboost_atomic.so.1.71.0
-<<<<<<< HEAD
 libcargo.so: /usr/lib/x86_64-linux-gnu/libignition-transport8.so.8.2.0
 libcargo.so: /usr/lib/x86_64-linux-gnu/libignition-fuel_tools4.so.4.3.0
 libcargo.so: /usr/lib/x86_64-linux-gnu/libignition-msgs5.so.5.7.0
 libcargo.so: /usr/lib/x86_64-linux-gnu/libignition-math6.so.6.7.0
 libcargo.so: /usr/lib/x86_64-linux-gnu/libprotobuf.so
 libcargo.so: /usr/lib/x86_64-linux-gnu/libignition-common3.so.3.11.1
-=======
-libcargo.so: /usr/lib/x86_64-linux-gnu/libignition-transport8.so.8.0.0
-libcargo.so: /usr/lib/x86_64-linux-gnu/libignition-fuel_tools4.so.4.1.0
-libcargo.so: /usr/lib/x86_64-linux-gnu/libignition-msgs5.so.5.1.0
-libcargo.so: /usr/lib/x86_64-linux-gnu/libignition-math6.so.6.4.0
-libcargo.so: /usr/lib/x86_64-linux-gnu/libprotobuf.so
-libcargo.so: /usr/lib/x86_64-linux-gnu/libignition-common3.so.3.5.0
->>>>>>> 623d1e3ad7f27ab430ee829990aadc7ed4f63a8b
 libcargo.so: /usr/lib/x86_64-linux-gnu/libuuid.so
 libcargo.so: /usr/lib/x86_64-linux-gnu/libuuid.so
 libcargo.so: CMakeFiles/cargo.dir/link.txt

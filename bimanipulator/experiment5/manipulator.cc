@@ -14,6 +14,7 @@
 #include <ralgo/linalg/linalg.h>
 #include <ralgo/linalg/backpack.h>
 #include <rabbit/space/htrans2.h>
+#include <rabbit/space/screw.h>
 
 #include <igris/math.h>
 
@@ -211,10 +212,10 @@ namespace gazebo
 			auto sens = rabbit::screw<double, 2>(-1, {0, 0});
 
 			auto joint0_sens =
-			    joint0_pose.rotate(
+			    joint0_pose.rotate_screw(
 			        sens.kinematic_carry((joint0_pose.inverse() * output_pose).center));
 			auto joint1_sens =
-			    joint1_pose.rotate(
+			    joint1_pose.rotate_screw(
 			        sens.kinematic_carry((joint1_pose.inverse() * output_pose).center));
 
 			int left = model->GetName() == "manip1";
