@@ -14,6 +14,7 @@
 #include <ralgo/linalg/linalg.h>
 #include <ralgo/linalg/backpack.h>
 #include <rabbit/space/htrans2.h>
+#include <rabbit/space/screw.h>
 
 #include <igris/math.h>
 
