@@ -46,9 +46,7 @@ namespace gazebo
 		}
 
 		void Load(physics::ModelPtr _parent, sdf::ElementPtr /*_sdf*/)
-		{
-			nos::println("Load cargo");
-		
+		{		
 			this->model = _parent;
 			this->updateConnection = event::Events::ConnectWorldUpdateBegin(
 			                             std::bind(&ModelCargo::OnUpdate, this));
@@ -77,18 +75,14 @@ namespace gazebo
 				ralgo::pose2<double>(rot0.Pitch(), {0,0});		
 
 			target_position = {0, {sin(evaltime())/2 , 1.2 + cos(evaltime())*0.2}};
-			//target_position = {0, {0,1}};
 			loctime += delta;
 
 			double FT =10;
 
 			if (loctime > FT) loctime = 0;
-
-			PRINT(loctime);
 			if (loctime < FT/4) 
 			{
 				double koeff = loctime / (FT/4);
-				PRINT(koeff);
 				target_position = {0,
 					linalg::vec<double,2>{-0.4, 1.0} * koeff +
 					linalg::vec<double,2>{0.4, 1.0} * (1-koeff)};
@@ -97,7 +91,6 @@ namespace gazebo
 			if (loctime < FT/2) 
 			{
 				double koeff = (loctime-FT/4) / (FT/4);
-				PRINT(koeff);
 				target_position = {0,
 					linalg::vec<double,2>{-0.4, 1.3} * koeff +
 					linalg::vec<double,2>{-0.4, 1.0} * (1-koeff)};
@@ -106,7 +99,6 @@ namespace gazebo
 			if (loctime < FT/4*3) 
 			{
 				double koeff = (loctime-FT/2) / (FT/4);
-				PRINT(koeff);
 				target_position = {0,
 					linalg::vec<double,2>{0.4, 1.3} * koeff +
 					linalg::vec<double,2>{-0.4, 1.3} * (1-koeff)};
@@ -115,13 +107,10 @@ namespace gazebo
 			if (loctime < FT) 
 			{
 				double koeff = (loctime-FT/4*3) / (FT/4);
-				PRINT(koeff);
 				target_position = {0,
 					linalg::vec<double,2>{0.4, 1.0} * koeff +
 					linalg::vec<double,2>{0.4, 1.3} * (1-koeff)};
 			}
-
-			PRINT(target_position);
 
 			error_position = l0pose.inverse() * target_position;
 			ralgo::screw2<double> error_position_screw = {error_position.orient, error_position.center};
