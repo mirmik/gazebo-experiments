@@ -1,4 +1,4 @@
-# Install script for directory: /home/mirmik/project/rgazebo/experiment2
+# Install script for directory: /home/mirmik/project/gazebo-expirements/bimanipulator/experiment2
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/mirmik/project/rgazebo/experiment2/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/mirmik/project/gazebo-expirements/bimanipulator/experiment2/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

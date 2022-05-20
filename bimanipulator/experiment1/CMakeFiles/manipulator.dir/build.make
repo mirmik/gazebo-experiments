@@ -34,19 +34,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/bin/cmake
+CMAKE_COMMAND = /usr/local/bin/cmake
 
 # The command to remove a file.
-RM = /usr/bin/cmake -E remove -f
+RM = /usr/local/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mirmik/project/rgazebo/experiment1
+CMAKE_SOURCE_DIR = /home/mirmik/project/gazebo-expirements/bimanipulator/experiment1
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mirmik/project/rgazebo/experiment1
+CMAKE_BINARY_DIR = /home/mirmik/project/gazebo-expirements/bimanipulator/experiment1
 
 # Include any dependencies generated for this target.
 include CMakeFiles/manipulator.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/manipulator.dir/flags.make
 
 CMakeFiles/manipulator.dir/manipulator.cc.o: CMakeFiles/manipulator.dir/flags.make
 CMakeFiles/manipulator.dir/manipulator.cc.o: manipulator.cc
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mirmik/project/rgazebo/experiment1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/manipulator.dir/manipulator.cc.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/manipulator.dir/manipulator.cc.o -c /home/mirmik/project/rgazebo/experiment1/manipulator.cc
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/mirmik/project/gazebo-expirements/bimanipulator/experiment1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/manipulator.dir/manipulator.cc.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/manipulator.dir/manipulator.cc.o -c /home/mirmik/project/gazebo-expirements/bimanipulator/experiment1/manipulator.cc
 
 CMakeFiles/manipulator.dir/manipulator.cc.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/manipulator.dir/manipulator.cc.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mirmik/project/rgazebo/experiment1/manipulator.cc > CMakeFiles/manipulator.dir/manipulator.cc.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/mirmik/project/gazebo-expirements/bimanipulator/experiment1/manipulator.cc > CMakeFiles/manipulator.dir/manipulator.cc.i
 
 CMakeFiles/manipulator.dir/manipulator.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/manipulator.dir/manipulator.cc.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mirmik/project/rgazebo/experiment1/manipulator.cc -o CMakeFiles/manipulator.dir/manipulator.cc.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/mirmik/project/gazebo-expirements/bimanipulator/experiment1/manipulator.cc -o CMakeFiles/manipulator.dir/manipulator.cc.s
 
 # Object files for target manipulator
 manipulator_OBJECTS = \
@@ -103,13 +103,13 @@ libmanipulator.so: /usr/lib/x86_64-linux-gnu/libboost_regex.so.1.71.0
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libboost_iostreams.so.1.71.0
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libboost_date_time.so.1.71.0
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libprotobuf.so
-libmanipulator.so: /usr/lib/x86_64-linux-gnu/libsdformat9.so.9.2.0
+libmanipulator.so: /usr/lib/x86_64-linux-gnu/libsdformat9.so.9.5.0
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libOgreMain.so
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libboost_date_time.so.1.71.0
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libOgreTerrain.so
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libOgrePaging.so
-libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-common3-graphics.so.3.6.0
+libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-common3-graphics.so.3.11.1
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libSimTKmath.so.3.6
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libSimTKcommon.so.3.6
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libblas.so
@@ -123,16 +123,16 @@ libmanipulator.so: /usr/lib/x86_64-linux-gnu/libassimp.so
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/liboctomap.so.1.9.3
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/liboctomath.so.1.9.3
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libboost_atomic.so.1.71.0
-libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-transport8.so.8.1.0
-libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-fuel_tools4.so.4.2.1
-libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-msgs5.so.5.3.0
-libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-math6.so.6.4.0
+libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-transport8.so.8.2.0
+libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-fuel_tools4.so.4.3.0
+libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-msgs5.so.5.7.0
+libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-math6.so.6.7.0
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libprotobuf.so
-libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-common3.so.3.6.0
+libmanipulator.so: /usr/lib/x86_64-linux-gnu/libignition-common3.so.3.11.1
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libuuid.so
 libmanipulator.so: /usr/lib/x86_64-linux-gnu/libuuid.so
 libmanipulator.so: CMakeFiles/manipulator.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mirmik/project/rgazebo/experiment1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared library libmanipulator.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/mirmik/project/gazebo-expirements/bimanipulator/experiment1/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX shared library libmanipulator.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/manipulator.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -145,6 +145,6 @@ CMakeFiles/manipulator.dir/clean:
 .PHONY : CMakeFiles/manipulator.dir/clean
 
 CMakeFiles/manipulator.dir/depend:
-	cd /home/mirmik/project/rgazebo/experiment1 && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mirmik/project/rgazebo/experiment1 /home/mirmik/project/rgazebo/experiment1 /home/mirmik/project/rgazebo/experiment1 /home/mirmik/project/rgazebo/experiment1 /home/mirmik/project/rgazebo/experiment1/CMakeFiles/manipulator.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/mirmik/project/gazebo-expirements/bimanipulator/experiment1 && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/mirmik/project/gazebo-expirements/bimanipulator/experiment1 /home/mirmik/project/gazebo-expirements/bimanipulator/experiment1 /home/mirmik/project/gazebo-expirements/bimanipulator/experiment1 /home/mirmik/project/gazebo-expirements/bimanipulator/experiment1 /home/mirmik/project/gazebo-expirements/bimanipulator/experiment1/CMakeFiles/manipulator.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/manipulator.dir/depend
 

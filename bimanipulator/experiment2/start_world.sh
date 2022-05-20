@@ -1,1 +1,1 @@
-gazebo-11.1.0 ./world.xml --verbose
+gazebo ./world.xml --verbose

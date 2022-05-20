@@ -1,4 +1,4 @@
-/home/mirmik/project/rgazebo/experiment1/CMakeFiles/rebuild_cache.dir
-/home/mirmik/project/rgazebo/experiment1/CMakeFiles/edit_cache.dir
-/home/mirmik/project/rgazebo/experiment1/CMakeFiles/manipulator.dir
-/home/mirmik/project/rgazebo/experiment1/CMakeFiles/world.dir
+/home/mirmik/project/gazebo-expirements/bimanipulator/experiment1/CMakeFiles/rebuild_cache.dir
+/home/mirmik/project/gazebo-expirements/bimanipulator/experiment1/CMakeFiles/edit_cache.dir
+/home/mirmik/project/gazebo-expirements/bimanipulator/experiment1/CMakeFiles/manipulator.dir
+/home/mirmik/project/gazebo-expirements/bimanipulator/experiment1/CMakeFiles/world.dir

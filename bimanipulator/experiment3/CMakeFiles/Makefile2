@@ -35,19 +35,19 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/bin/cmake
+CMAKE_COMMAND = /usr/local/bin/cmake
 
 # The command to remove a file.
-RM = /usr/bin/cmake -E remove -f
+RM = /usr/local/bin/cmake -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/mirmik/project/rgazebo/experiment3
+CMAKE_SOURCE_DIR = /home/mirmik/project/gazebo-expirements/bimanipulator/experiment3
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/mirmik/project/rgazebo/experiment3
+CMAKE_BINARY_DIR = /home/mirmik/project/gazebo-expirements/bimanipulator/experiment3
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -78,14 +78,14 @@ clean: CMakeFiles/world.dir/clean
 CMakeFiles/cargo.dir/all:
 	$(MAKE) -f CMakeFiles/cargo.dir/build.make CMakeFiles/cargo.dir/depend
 	$(MAKE) -f CMakeFiles/cargo.dir/build.make CMakeFiles/cargo.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mirmik/project/rgazebo/experiment3/CMakeFiles --progress-num=1,2 "Built target cargo"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mirmik/project/gazebo-expirements/bimanipulator/experiment3/CMakeFiles --progress-num=1,2 "Built target cargo"
 .PHONY : CMakeFiles/cargo.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/cargo.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mirmik/project/rgazebo/experiment3/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mirmik/project/gazebo-expirements/bimanipulator/experiment3/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/cargo.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mirmik/project/rgazebo/experiment3/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mirmik/project/gazebo-expirements/bimanipulator/experiment3/CMakeFiles 0
 .PHONY : CMakeFiles/cargo.dir/rule
 
 # Convenience name for target.
@@ -105,14 +105,14 @@ CMakeFiles/cargo.dir/clean:
 CMakeFiles/manipulator.dir/all:
 	$(MAKE) -f CMakeFiles/manipulator.dir/build.make CMakeFiles/manipulator.dir/depend
 	$(MAKE) -f CMakeFiles/manipulator.dir/build.make CMakeFiles/manipulator.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mirmik/project/rgazebo/experiment3/CMakeFiles --progress-num=3,4 "Built target manipulator"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mirmik/project/gazebo-expirements/bimanipulator/experiment3/CMakeFiles --progress-num=3,4 "Built target manipulator"
 .PHONY : CMakeFiles/manipulator.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/manipulator.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mirmik/project/rgazebo/experiment3/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mirmik/project/gazebo-expirements/bimanipulator/experiment3/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/manipulator.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mirmik/project/rgazebo/experiment3/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mirmik/project/gazebo-expirements/bimanipulator/experiment3/CMakeFiles 0
 .PHONY : CMakeFiles/manipulator.dir/rule
 
 # Convenience name for target.
@@ -132,14 +132,14 @@ CMakeFiles/manipulator.dir/clean:
 CMakeFiles/world.dir/all:
 	$(MAKE) -f CMakeFiles/world.dir/build.make CMakeFiles/world.dir/depend
 	$(MAKE) -f CMakeFiles/world.dir/build.make CMakeFiles/world.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mirmik/project/rgazebo/experiment3/CMakeFiles --progress-num=5,6 "Built target world"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/mirmik/project/gazebo-expirements/bimanipulator/experiment3/CMakeFiles --progress-num=5,6 "Built target world"
 .PHONY : CMakeFiles/world.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/world.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mirmik/project/rgazebo/experiment3/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mirmik/project/gazebo-expirements/bimanipulator/experiment3/CMakeFiles 2
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/world.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/mirmik/project/rgazebo/experiment3/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/mirmik/project/gazebo-expirements/bimanipulator/experiment3/CMakeFiles 0
 .PHONY : CMakeFiles/world.dir/rule
 
 # Convenience name for target.

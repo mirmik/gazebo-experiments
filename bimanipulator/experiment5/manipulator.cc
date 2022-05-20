@@ -100,6 +100,8 @@ namespace gazebo
 		ralgo::moment_servo_filter reg0;
 		ralgo::moment_servo_filter reg1;
 
+		ralgo::aperiodic_filter<linalg::vec<double,2>> filtered_global_force;
+
 	public:
 		void init_servos() 
 		{
@@ -148,15 +150,11 @@ namespace gazebo
 
 		void Load(physics::ModelPtr _parent, sdf::ElementPtr /*_sdf*/)
 		{
-			nos::println("Load manipulator");
-			// Store the pointer to the model
 			this->model = _parent;
-
-			// Listen to the update event. This event is broadcast every
-			// simulation iteration.
 			this->updateConnection = event::Events::ConnectWorldUpdateBegin(
 			                             std::bind(&ModelPush::OnUpdate, this));
 
+			filtered_global_force.set_timeconst(0.1);
 			Reset();
 		}
 
@@ -173,7 +171,6 @@ namespace gazebo
 			if (!inited)
 			{
 				nos::reset_terminal();
-				nos::println("Init plugin for", this->model->GetName());
 				inited = 1;
 
 				init_servos();
@@ -212,10 +209,10 @@ namespace gazebo
 			auto sens = rabbit::screw<double, 2>(-1, {0, 0});
 
 			auto joint0_sens =
-			    joint0_pose.rotate(
+			    joint0_pose.rotate_screw(
 			        sens.kinematic_carry((joint0_pose.inverse() * output_pose).center));
 			auto joint1_sens =
-			    joint1_pose.rotate(
+			    joint1_pose.rotate_screw(
 			        sens.kinematic_carry((joint1_pose.inverse() * output_pose).center));
 
 			int left = model->GetName() == "manip1";
@@ -233,9 +230,13 @@ namespace gazebo
 			}
 
 			auto position_error = position_target - output_pose.translation();
-			position_error += linalg::vec<double,2>{global_force.x, 0} * ForceKoeff;
+			//position_error += global_force //linalg::vec<double,2>{global_force.x, 0} 
+			//	* ForceKoeff;
 			
 			position_integral += position_error * delta;
+			auto to_cargo = CARGO_POSITION.center - output_pose.center;
+
+			auto filtered_global_force = global_force_filter.serve(global_force, delta);
 
 			linalg::vec<double, 2> target;	
 			if (time < 10) 
@@ -243,20 +244,17 @@ namespace gazebo
 				target = 
 				1 * position_error +
 				0.05 * position_integral 
-				+ global_force * ForceKoeff;
+				+ filtered_global_force * ForceKoeff;
 			}
 			else {
-				auto to_cargo = CARGO_POSITION.center - output_pose.center;
-
 				target = 
 					to_cargo * 0.1 +
 					CARGO_TARGET_VELOCITY.kinematic_carry(to_cargo).lin
-					+ global_force * ForceKoeff;
-
-				//nos::println(CARGO_TARGET_VELOCITY.kinematic_carry(-to_cargo).lin);
+					+ filtered_global_force * ForceKoeff
+					;
 			}
 
-
+			nos::println(model->GetName(), global_force, to_cargo);
 
 			linalg::vec<double, 2> vectors[2] = { joint0_sens.lin, joint1_sens.lin };
 
@@ -269,24 +267,8 @@ namespace gazebo
 			linalg::vec<double, 2> result = joint0_sens.lin * coords[0] + joint1_sens.lin * coords[1];
 			auto control_error = linalg::length(target - result);
 
-
-			//if (control_error < 1e-3)
-			//{
-				joint0_regulator.speed2_target = coords[0];
-				joint1_regulator.speed2_target = coords[1];
-			//}
-			//else
-			//{
-			//	joint0_regulator.speed2_target = 0;
-			//	joint1_regulator.speed2_target = 0;
-			//}
-
-			if (model->GetName() == "manip1")
-			{
-				//nos::println(model->GetName(), delta);
-				//nos::println(force1.X(), force1.Y(), force1.Z(), global_force);
-			}
-
+			joint0_regulator.speed2_target = coords[0];
+			joint1_regulator.speed2_target = coords[1];
 			Control(&servo0, &joint0_regulator);
 			Control(&servo1, &joint1_regulator);
 
@@ -310,7 +292,6 @@ namespace gazebo
 				reg->speed_target =
 				    reg->pos_kp * reg->position_error +
 				    reg->pos_ki * reg->position_integral;
-				    //- reg->control_signal * ForceKoeff * 0.1;
 			}
 
 			reg->speed_error = reg->speed_target - current_speed;
