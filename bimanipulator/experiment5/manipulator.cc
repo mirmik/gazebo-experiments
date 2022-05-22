@@ -6,6 +6,7 @@
 
 #include <ralgo/robo/drivers/gazebo_joint.h>
 #include <ralgo/filter/moment_servo_filter.h>
+#include <ralgo/filter/aperiodic_filter.h>
 
 #include <nos/print.h>
 #include <nos/fprint.h>
@@ -100,7 +101,7 @@ namespace gazebo
 		ralgo::moment_servo_filter reg0;
 		ralgo::moment_servo_filter reg1;
 
-		ralgo::aperiodic_filter<linalg::vec<double,2>> filtered_global_force;
+		ralgo::aperiodic_filter<linalg::vec<double,2>> global_force_filter;
 
 	public:
 		void init_servos() 
@@ -154,7 +155,7 @@ namespace gazebo
 			this->updateConnection = event::Events::ConnectWorldUpdateBegin(
 			                             std::bind(&ModelPush::OnUpdate, this));
 
-			filtered_global_force.set_timeconst(0.1);
+			global_force_filter.set_timeconst(0.1);
 			Reset();
 		}
 

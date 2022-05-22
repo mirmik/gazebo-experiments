@@ -3,7 +3,7 @@
 #include <nos/terminal.h>
 
 #include <crow/gates/udpgate.h>
-#include <crow/pubsub/pubsub.h>
+#include <crow/nodes/publisher_node.h>
 #include <crow/address.h>
 #include <crow/tower.h>
 
@@ -16,6 +16,8 @@ namespace gazebo
 
 	class WorldPluginTutorial : public WorldPlugin
 	{
+		crow::publisher_node publisher;
+
 	public:
 		WorldPluginTutorial() : WorldPlugin()
 		{
@@ -23,6 +25,7 @@ namespace gazebo
 
 			crow::create_udpgate(12);
 			crow::start_spin();
+			publisher.init(crowker, "sim");
 		}
 
 		void world_init() 
@@ -31,7 +34,7 @@ namespace gazebo
 			nos::reset_terminal();
 			nos::println("world_init");
 
-			crow::publish(crowker, "sim", "reset", 0, 0);
+			publisher.publish("reset");
 
 			nos::println("world_init .. ok");
 		}
