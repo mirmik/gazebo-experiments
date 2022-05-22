@@ -18,6 +18,8 @@
 #include <ralgo/filter/aperiodic_filter.h>
 #include <rabbit/space/htrans2.h>
 #include <rabbit/space/screw.h>
+#include <crow/nodes/publisher_node.h>
+#include <crow/address.h>
 
 #include <igris/math.h>
 
@@ -79,6 +81,8 @@ namespace gazebo
 
 	class ModelPush : public ModelPlugin
 	{
+		crow::publisher_node telemetry;
+
 	private:
 		//double ForceKoeff = 0.00001;
 		//double ForceKoeff = 0.0001;
@@ -111,6 +115,11 @@ namespace gazebo
 		ralgo::aperiodic_filter<linalg::vec<double,2>> global_force_filter;
 
 	public:
+		/*ModelPush() : ModelPlugin()
+		{
+			telemetry.init(crow::crowker_address(), model->GetName() + "force");
+		}*/
+
 		void init_servos() 
 		{
 			servo0.bind(model->GetJoint("joint0"));
@@ -136,6 +145,7 @@ namespace gazebo
 
 			if (model->GetName() == "manip1")
 			{
+				telemetry.init(crow::crowker_address(), "manip1_force");
 				auto joint0 = model->GetJoint("joint0");
 				auto joint1 = model->GetJoint("joint1");
 				joint0->SetPosition(0, -3.14 / 4);
@@ -145,6 +155,7 @@ namespace gazebo
 			}
 			else
 			{
+				telemetry.init(crow::crowker_address(), "manip2_force");
 				auto joint0 = model->GetJoint("joint0");
 				auto joint1 = model->GetJoint("joint1");
 				joint0->SetPosition(0, 3.14 / 4);
@@ -249,6 +260,8 @@ namespace gazebo
 
 			auto filtered_global_force = global_force_filter.serve(global_force, delta);
 			auto compensation_force_signal = global_force;
+
+			telemetry.publish_timestamped_float(igris::millis(), length(compensation_force_signal));
 
 			linalg::vec<double, 2> target;	
 			if (time < 10) 
