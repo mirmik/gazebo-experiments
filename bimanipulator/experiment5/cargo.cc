@@ -32,6 +32,7 @@ namespace gazebo
 		ralgo::pose2<double> current_position;			
 		ralgo::pose2<double> error_position;				
 		ralgo::screw2<double> error_position_integral;		
+		std::fstream fil;
 
 	public:
 
@@ -50,6 +51,7 @@ namespace gazebo
 			this->model = _parent;
 			this->updateConnection = event::Events::ConnectWorldUpdateBegin(
 			                             std::bind(&ModelCargo::OnUpdate, this));
+			fil.open("cargo.txt", std::ios_base::out);
 
 			Reset();
 		}
@@ -136,6 +138,9 @@ namespace gazebo
 			}
 
 			lasttime = curtime;
+
+			fil << linalg::length(error_position_screw.lin) << std::endl;
+			if (time > 20) exit(0);
 		}
 	};
 	// Register this plugin with the simulator
