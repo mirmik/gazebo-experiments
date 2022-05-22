@@ -3,6 +3,7 @@
 #include <gazebo/physics/physics.hh>
 #include <gazebo/common/common.hh>
 #include <ignition/math/Vector3.hh>
+#include <nos/io/file.h>
 
 #include <ralgo/robo/drivers/gazebo_joint.h>
 #include <ralgo/filter/moment_servo_filter.h>
@@ -13,6 +14,7 @@
 
 #include <ralgo/linalg/linalg.h>
 #include <ralgo/linalg/backpack.h>
+#include <ralgo/filter/aperiodic_filter.h>
 #include <rabbit/space/htrans2.h>
 #include <rabbit/space/screw.h>
 
@@ -77,9 +79,14 @@ namespace gazebo
 	class ModelPush : public ModelPlugin
 	{
 	private:
-		double ForceKoeff = 0.001;
+		//double ForceKoeff = 0.00001;
+		//double ForceKoeff = 0.0001;
+		//double ForceKoeff = 0.001;
+		double ForceKoeff = 0.01;
+		//double ForceKoeff = 0.1;       // упали.
 		// Pointer to the model
 		physics::ModelPtr model;
+		std::fstream fil;
 
 		// Pointer to the update event connection
 		event::ConnectionPtr updateConnection;
@@ -100,7 +107,7 @@ namespace gazebo
 		ralgo::moment_servo_filter reg0;
 		ralgo::moment_servo_filter reg1;
 
-		ralgo::aperiodic_filter<linalg::vec<double,2>> filtered_global_force;
+		ralgo::aperiodic_filter<linalg::vec<double,2>> global_force_filter;
 
 	public:
 		void init_servos() 
@@ -154,7 +161,11 @@ namespace gazebo
 			this->updateConnection = event::Events::ConnectWorldUpdateBegin(
 			                             std::bind(&ModelPush::OnUpdate, this));
 
-			filtered_global_force.set_timeconst(0.1);
+			fil.open(model->GetName() + ".txt", std::ios_base::out);
+			//fil.open(model->GetName().c_str(), O_WRONLY);
+			//nos::println(fil);
+
+			global_force_filter.set_timeconst(0.1);
 			Reset();
 		}
 
@@ -237,6 +248,7 @@ namespace gazebo
 			auto to_cargo = CARGO_POSITION.center - output_pose.center;
 
 			auto filtered_global_force = global_force_filter.serve(global_force, delta);
+			auto compensation_force_signal = global_force;
 
 			linalg::vec<double, 2> target;	
 			if (time < 10) 
@@ -244,18 +256,17 @@ namespace gazebo
 				target = 
 				1 * position_error +
 				0.05 * position_integral 
-				+ filtered_global_force * ForceKoeff;
+				+ compensation_force_signal * ForceKoeff;
 			}
 			else {
 				target = 
 					to_cargo * 0.1 +
 					CARGO_TARGET_VELOCITY.kinematic_carry(to_cargo).lin
-					+ filtered_global_force * ForceKoeff
+					+ compensation_force_signal * ForceKoeff
 					;
 			}
 
-			nos::println(model->GetName(), global_force, to_cargo);
-
+			fil << linalg::length(global_force) << std::endl;
 			linalg::vec<double, 2> vectors[2] = { joint0_sens.lin, joint1_sens.lin };
 
 			double coords[2];
