@@ -82,8 +82,8 @@ namespace gazebo
 	private:
 		//double ForceKoeff = 0.00001;
 		//double ForceKoeff = 0.0001;
-		//double ForceKoeff = 0.001;
-		double ForceKoeff = 0.01;
+		double ForceKoeff = 0.001;
+		//double ForceKoeff = 0.01;
 		//double ForceKoeff = 0.1;       // упали.
 		// Pointer to the model
 		physics::ModelPtr model;
