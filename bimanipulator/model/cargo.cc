@@ -115,7 +115,9 @@ namespace gazebo
 			}
 
 			error_position = l0pose.inverse() * target_position;
-			ralgo::screw2<double> error_position_screw = {error_position.orient, error_position.center};
+			ralgo::screw2<double> error_position_screw = {
+				error_position.ang, error_position.lin
+			};
 
 			error_position_integral += error_position_screw * delta;
 			if (time < 10) error_position_integral = {0, {0,0}};
@@ -140,7 +142,7 @@ namespace gazebo
 			lasttime = curtime;
 
 			fil << linalg::length(error_position_screw.lin) << std::endl;
-			if (time > 20) exit(0);
+			//if (time > 20) exit(0);
 		}
 	};
 	// Register this plugin with the simulator

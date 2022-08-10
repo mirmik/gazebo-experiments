@@ -7,6 +7,7 @@
 
 #include <ralgo/robo/drivers/gazebo_joint.h>
 #include <ralgo/filter/moment_servo_filter.h>
+#include <ralgo/filter/aperiodic_filter.h>
 
 #include <nos/print.h>
 #include <nos/fprint.h>
@@ -17,6 +18,8 @@
 #include <ralgo/filter/aperiodic_filter.h>
 #include <rabbit/space/htrans2.h>
 #include <rabbit/space/screw.h>
+#include <crow/nodes/publisher_node.h>
+#include <crow/address.h>
 
 #include <igris/math.h>
 
@@ -78,11 +81,13 @@ namespace gazebo
 
 	class ModelPush : public ModelPlugin
 	{
+		crow::publisher_node telemetry;
+
 	private:
 		//double ForceKoeff = 0.00001;
 		//double ForceKoeff = 0.0001;
-		//double ForceKoeff = 0.001;
-		double ForceKoeff = 0.01;
+		double ForceKoeff = 0.001;
+		//double ForceKoeff = 0.01;
 		//double ForceKoeff = 0.1;       // упали.
 		// Pointer to the model
 		physics::ModelPtr model;
@@ -110,6 +115,11 @@ namespace gazebo
 		ralgo::aperiodic_filter<linalg::vec<double,2>> global_force_filter;
 
 	public:
+		/*ModelPush() : ModelPlugin()
+		{
+			telemetry.init(crow::crowker_address(), model->GetName() + "force");
+		}*/
+
 		void init_servos() 
 		{
 			servo0.bind(model->GetJoint("joint0"));
@@ -135,6 +145,7 @@ namespace gazebo
 
 			if (model->GetName() == "manip1")
 			{
+				telemetry.init(crow::crowker_address(), "manip1_force");
 				auto joint0 = model->GetJoint("joint0");
 				auto joint1 = model->GetJoint("joint1");
 				joint0->SetPosition(0, -3.14 / 4);
@@ -144,6 +155,7 @@ namespace gazebo
 			}
 			else
 			{
+				telemetry.init(crow::crowker_address(), "manip2_force");
 				auto joint0 = model->GetJoint("joint0");
 				auto joint1 = model->GetJoint("joint1");
 				joint0->SetPosition(0, 3.14 / 4);
@@ -160,7 +172,6 @@ namespace gazebo
 			this->model = _parent;
 			this->updateConnection = event::Events::ConnectWorldUpdateBegin(
 			                             std::bind(&ModelPush::OnUpdate, this));
-
 			fil.open(model->GetName() + ".txt", std::ios_base::out);
 			//fil.open(model->GetName().c_str(), O_WRONLY);
 			//nos::println(fil);
@@ -215,16 +226,16 @@ namespace gazebo
 			auto joint1_pose = joint0_pose * joint0_rot * trans;
 			auto output_pose = joint1_pose * joint1_rot * trans;
 
-			linalg::vec<double,2> global_force = linalg::rot(output_pose.orient, local_force);
+			linalg::vec<double,2> global_force = linalg::rot(output_pose.ang, local_force);
 
 			auto sens = rabbit::screw<double, 2>(-1, {0, 0});
 
 			auto joint0_sens =
 			    joint0_pose.rotate_screw(
-			        sens.kinematic_carry((joint0_pose.inverse() * output_pose).center));
+			        sens.kinematic_carry((joint0_pose.inverse() * output_pose).lin));
 			auto joint1_sens =
 			    joint1_pose.rotate_screw(
-			        sens.kinematic_carry((joint1_pose.inverse() * output_pose).center));
+			        sens.kinematic_carry((joint1_pose.inverse() * output_pose).lin));
 
 			int left = model->GetName() == "manip1";
 
@@ -245,10 +256,12 @@ namespace gazebo
 			//	* ForceKoeff;
 			
 			position_integral += position_error * delta;
-			auto to_cargo = CARGO_POSITION.center - output_pose.center;
+			auto to_cargo = CARGO_POSITION.lin - output_pose.lin;
 
 			auto filtered_global_force = global_force_filter.serve(global_force, delta);
 			auto compensation_force_signal = global_force;
+
+			telemetry.publish_timestamped_float(igris::millis(), length(compensation_force_signal));
 
 			linalg::vec<double, 2> target;	
 			if (time < 10) 
