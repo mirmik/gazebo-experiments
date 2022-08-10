@@ -4,15 +4,12 @@
 #include <gazebo/common/common.hh>
 #include <ignition/math/Vector3.hh>
 #include <nos/io/file.h>
-
 #include <ralgo/robo/drivers/gazebo_joint.h>
 #include <ralgo/filter/moment_servo_filter.h>
 #include <ralgo/filter/aperiodic_filter.h>
-
 #include <nos/print.h>
 #include <nos/fprint.h>
 #include <nos/terminal.h>
-
 #include <ralgo/linalg/linalg.h>
 #include <ralgo/linalg/backpack.h>
 #include <ralgo/filter/aperiodic_filter.h>
@@ -20,7 +17,6 @@
 #include <rabbit/space/screw.h>
 #include <crow/nodes/publisher_node.h>
 #include <crow/address.h>
-
 #include <igris/math.h>
 
 extern rabbit::screw2<double> CARGO_TARGET_VELOCITY;

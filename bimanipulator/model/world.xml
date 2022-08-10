@@ -177,10 +177,7 @@
         <inertial>
           <pose>0 0 1.6 0 0 0</pose>
         </inertial>
-
       </link>
-
-
 
       <joint name="_joint_" type="fixed">
       	 <pose> 0 0 0 0 0 0 </pose>
@@ -213,20 +210,8 @@
          <child>link_3</child>
       </joint>
 
-      <plugin name="manip1" filename="libmanipulator.so"/>
+      <plugin name="manip1" filename="libremotectr.so"/>
     </model>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     <model name="manip2">
@@ -375,7 +360,7 @@
          <child>link_3</child>
       </joint>
 
-      <plugin name="manip2" filename="libmanipulator.so"/>
+      <plugin name="manip2" filename="libremotectr.so"/>
     </model>
 
 
