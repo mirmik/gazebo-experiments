@@ -140,7 +140,7 @@ namespace gazebo
 			lasttime = curtime;
 
 			fil << linalg::length(error_position_screw.lin) << std::endl;
-			if (time > 20) exit(0);
+			//if (time > 20) exit(0);
 		}
 	};
 	// Register this plugin with the simulator
