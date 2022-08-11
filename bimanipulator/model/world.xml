@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <sdf version="1.4">
-  <world name="default">
-    <plugin name="world" filename="libworld.so"/>
+  <world name="bimanip">
+    <plugin name="remotectr_world" filename="libremotectr_world.so"/>
     <gravity>0 0 -9.81</gravity>
   
     <include>
@@ -11,7 +11,6 @@
     <include>
       <uri>model://ground_plane</uri>
     </include>
-
 
     <model name="stuff">
       <pose>0 0 0.3 0 0 0</pose>

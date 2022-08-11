@@ -7,8 +7,8 @@ find_package(gazebo REQUIRED)
 include_directories(${GAZEBO_INCLUDE_DIRS})
 link_directories(${GAZEBO_LIBRARY_DIRS})
 
-add_library(world SHARED world.cc)
-target_link_libraries(world ${GAZEBO_LIBRARIES} nos igris crow)
+add_library(remotectr_world SHARED remotectr_world.cc)
+target_link_libraries(remotectr_world ${GAZEBO_LIBRARIES} nos igris crow)
 
 add_library(manipulator SHARED manipulator.cc)
 target_link_libraries(manipulator ${GAZEBO_LIBRARIES} nos igris crow)
