@@ -226,16 +226,16 @@ namespace gazebo
 			auto joint1_pose = joint0_pose * joint0_rot * trans;
 			auto output_pose = joint1_pose * joint1_rot * trans;
 
-			linalg::vec<double,2> global_force = linalg::rot(output_pose.orient, local_force);
+			linalg::vec<double,2> global_force = linalg::rot(output_pose.ang, local_force);
 
 			auto sens = rabbit::screw<double, 2>(-1, {0, 0});
 
 			auto joint0_sens =
 			    joint0_pose.rotate_screw(
-			        sens.kinematic_carry((joint0_pose.inverse() * output_pose).center));
+			        sens.kinematic_carry((joint0_pose.inverse() * output_pose).lin));
 			auto joint1_sens =
 			    joint1_pose.rotate_screw(
-			        sens.kinematic_carry((joint1_pose.inverse() * output_pose).center));
+			        sens.kinematic_carry((joint1_pose.inverse() * output_pose).lin));
 
 			int left = model->GetName() == "manip1";
 
@@ -256,7 +256,7 @@ namespace gazebo
 			//	* ForceKoeff;
 			
 			position_integral += position_error * delta;
-			auto to_cargo = CARGO_POSITION.center - output_pose.center;
+			auto to_cargo = CARGO_POSITION.lin - output_pose.lin;
 
 			auto filtered_global_force = global_force_filter.serve(global_force, delta);
 			auto compensation_force_signal = global_force;

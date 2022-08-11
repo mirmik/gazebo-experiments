@@ -361,9 +361,5 @@
 
       <plugin name="manip2" filename="libremotectr.so"/>
     </model>
-
-
-
-
   </world>
 </sdf>

@@ -12,9 +12,9 @@ namespace gazebo
 
     class RemoteControlWorldPlugin : public WorldPlugin
     {
-        event::ConnectionPtr updateConnection;
-        gazebo::transport::PublisherPtr hello_pub;
-        gazebo::transport::NodePtr node;
+        //event::ConnectionPtr updateConnection;
+        //gazebo::transport::PublisherPtr hello_pub;
+        //gazebo::transport::NodePtr node;
 
     public:
         RemoteControlWorldPlugin() : WorldPlugin() {}
@@ -25,21 +25,21 @@ namespace gazebo
             nos::fprintln("Load world: {}", _world->Name());
             WORLD = _world;
 
-            node = transport::NodePtr(new gazebo::transport::Node());
-            node->Init();
+            //node = transport::NodePtr(new gazebo::transport::Node());
+            //node->Init();
 
-            hello_pub = node->Advertise<gazebo::msgs::GzString>("~/hello");
+            //hello_pub = node->Advertise<gazebo::msgs::GzString>("~/hello");
 
-            this->updateConnection = event::Events::ConnectWorldUpdateBegin(
-                std::bind(&RemoteControlWorldPlugin::OnUpdate, this));
+            //this->updateConnection = event::Events::ConnectWorldUpdateBegin(
+            //    std::bind(&RemoteControlWorldPlugin::OnUpdate, this));
         }
 
-        void OnUpdate()
+        /*void OnUpdate()
         {
             gazebo::msgs::GzString msg;
             msg.set_data("hello from " + WORLD->Name());
             hello_pub->Publish(msg);
-        }
+        }*/
 
         ~RemoteControlWorldPlugin() {}
     };

@@ -1,1 +1,1 @@
-gazebo ./world.xml --verbose
+gzserver ./world.xml --verbose

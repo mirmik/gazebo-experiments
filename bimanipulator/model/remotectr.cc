@@ -3,6 +3,8 @@
 #include <gazebo/physics/physics.hh>
 #include <ignition/math/Vector3.hh>
 #include <nos/fprint.h>
+#include <user_message.pb.h>
+#include <chrono>
 
 const std::string remotectr_theme = "/rctr/";
 
@@ -14,6 +16,8 @@ namespace gazebo
     {
         physics::ModelPtr _parent;
         event::ConnectionPtr updateConnection;
+        gazebo::transport::PublisherPtr joint_pub;
+        gazebo::transport::NodePtr node;
 
         void Load(physics::ModelPtr _parent, sdf::ElementPtr /*_sdf*/) override
         {
@@ -37,6 +41,16 @@ namespace gazebo
             }
             this->updateConnection = event::Events::ConnectWorldUpdateBegin(
                 std::bind(&RemoteControlled::OnUpdate, this));
+        
+            node = transport::NodePtr(new gazebo::transport::Node());
+            node->Init();
+
+            std::string world_name = WORLD->Name();
+            std::string model_name = _parent->GetName();
+
+            std::string joint_topic = "/gazebo/" + 
+                world_name + "/" + model_name + "/joint_info";
+            joint_pub = this->node->Advertise<user_messages::msgs::JointStateArray>(joint_topic);
         }
 
         /*void publish(const std::string theme,
@@ -55,6 +69,8 @@ namespace gazebo
             crow::publish(theme, msg);
         }*/
 
+        // last send time
+        std::chrono::steady_clock::time_point last_send_time; 
         void OnUpdate()
         {
             auto pose = _parent->WorldPose();
@@ -72,16 +88,36 @@ namespace gazebo
                         pose);*/
             }
 
-            for (auto it = _parent->GetJoints().begin();
-                 it != _parent->GetJoints().end();
-                 ++it)
+            //gazebo::transport::JointState msg;
+            //if name == manip1 then return
+            //if (_parent->GetName() == "manip2")
+            //    return;
+
+
+            // send every 0.05s
+            std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+            if (std::chrono::duration_cast<std::chrono::milliseconds>(
+                now - last_send_time).count() > 1000) 
             {
-                auto &joint = **it;
-                auto dof = joint.DOF();
-                for (int i = 0; i < dof; ++i)
+                last_send_time = now;
+                user_messages::msgs::JointStateArray msg;
+                msg.set_name(_parent->GetName());
+                for (auto it = _parent->GetJoints().begin();
+                     it != _parent->GetJoints().end();
+                     ++it)
                 {
-                    double position = joint.Position(i);
+                    user_messages::msgs::JointState *state = msg.add_state();
+                    auto &joint = **it;
+                    state->set_name(joint.GetName());
+                    auto dof = joint.DOF();
+                    for (int i = 0; i < dof; ++i)
+                    {
+                        double position = joint.Position(i);
+                        state->add_coord(position);
+                    }
                 }
+
+                joint_pub->Publish(msg);
             }
         }
     };
