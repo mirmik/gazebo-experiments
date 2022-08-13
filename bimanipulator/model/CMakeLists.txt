@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+project(bimanip)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GAZEBO_CXX_FLAGS}")
+
+find_package(Protobuf REQUIRED)
+include_directories(${Protobuf_INCLUDE_DIRS})
 
 find_package(gazebo REQUIRED)
 include_directories(${GAZEBO_INCLUDE_DIRS})
@@ -10,13 +14,13 @@ link_directories(${GAZEBO_LIBRARY_DIRS})
 add_library(remotectr_world SHARED remotectr_world.cc)
 target_link_libraries(remotectr_world ${GAZEBO_LIBRARIES} nos igris crow)
 
-add_library(manipulator SHARED 
-    manipulator.cc  
-)
-target_link_libraries(manipulator ${GAZEBO_LIBRARIES} nos igris crow)
-
 add_library(cargo SHARED cargo.cc)
 target_link_libraries(cargo ${GAZEBO_LIBRARIES} nos igris crow)
+
+add_custom_command(OUTPUT protoout/user_message.pb.cc
+    COMMAND protoc user_message.proto --cpp_out protoout
+    DEPENDS user_message.proto
+)
 
 add_library(remotectr SHARED 
     remotectr.cc

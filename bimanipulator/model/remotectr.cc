@@ -1,10 +1,10 @@
+#include <chrono>
 #include <gazebo/common/common.hh>
 #include <gazebo/gazebo.hh>
 #include <gazebo/physics/physics.hh>
 #include <ignition/math/Vector3.hh>
 #include <nos/fprint.h>
 #include <user_message.pb.h>
-#include <chrono>
 
 const std::string remotectr_theme = "/rctr/";
 
@@ -41,65 +41,23 @@ namespace gazebo
             }
             this->updateConnection = event::Events::ConnectWorldUpdateBegin(
                 std::bind(&RemoteControlled::OnUpdate, this));
-        
+
             node = transport::NodePtr(new gazebo::transport::Node());
             node->Init();
 
             std::string world_name = WORLD->Name();
             std::string model_name = _parent->GetName();
 
-            std::string joint_topic = "/gazebo/" + 
-                world_name + "/" + model_name + "/joint_info";
-            joint_pub = this->node->Advertise<user_messages::msgs::JointStateArray>(joint_topic);
+            std::string joint_info_topic =
+                "/gazebo/" + world_name + "/" + model_name + "/joint_info";
+            joint_pub =
+                this->node->Advertise<user_messages::msgs::JointStateArray>(
+                    joint_info_topic);
         }
 
-        /*void publish(const std::string theme,
-                     const ignition::math::Pose3d &pose)
-        {
-            auto lin = pose.Pos();
-            auto ang = pose.Rot();
-            auto msg = nos::format("{{'lin':[{},{},{}],'ang':[{},{},{},{}]}",
-                                   lin.X(),
-                                   lin.Y(),
-                                   lin.Z(),
-                                   ang.X(),
-                                   ang.Y(),
-                                   ang.Z(),
-                                   ang.W());
-            crow::publish(theme, msg);
-        }*/
-
-        // last send time
-        std::chrono::steady_clock::time_point last_send_time; 
         void OnUpdate()
         {
-            auto pose = _parent->WorldPose();
-            // publish(remotectr_theme + _parent->GetName() + "/world_pose",
-            // pose);
-
-            for (auto it = _parent->GetLinks().begin();
-                 it != _parent->GetLinks().end();
-                 ++it)
             {
-                auto &link = **it;
-                auto pose = link.WorldPose();
-                /*publish(remotectr_theme + _parent->GetName() + "/" +
-                            link.GetName() + "/world_pose",
-                        pose);*/
-            }
-
-            //gazebo::transport::JointState msg;
-            //if name == manip1 then return
-            //if (_parent->GetName() == "manip2")
-            //    return;
-
-
-            // send every 0.05s
-            std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
-            if (std::chrono::duration_cast<std::chrono::milliseconds>(
-                now - last_send_time).count() > 1000) 
-            {
-                last_send_time = now;
                 user_messages::msgs::JointStateArray msg;
                 msg.set_name(_parent->GetName());
                 for (auto it = _parent->GetJoints().begin();
