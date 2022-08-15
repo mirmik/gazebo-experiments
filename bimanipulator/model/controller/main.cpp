@@ -131,22 +131,23 @@ int main(int argc, char *argv[])
 
     // publish to wrench topic
     gazebo::transport::PublisherPtr wrench_pub =
-        node->Advertise<gazebo::msgs::Wrench>("~/manip1/link_0/wrench");
+        node->Advertise<user_messages::msgs::JointTorque>(
+            "~/manip1/joint_torque");
 
     wrench_pub->WaitForConnection();
 
-    gazebo::msgs::Wrench wrenchMsg;
-    gazebo::msgs::Set(wrenchMsg.mutable_force(),
-                      ignition::math::Vector3d::Zero);
-    gazebo::msgs::Set(wrenchMsg.mutable_torque(),
-                      ignition::math::Vector3d(100, 100, 100));
-    gazebo::msgs::Set(wrenchMsg.mutable_force_offset(),
-                      ignition::math::Vector3d::Zero);
+    user_messages::msgs::JointTorque wrench;
+    wrench.set_name("joint1");
+    wrench.add_torque(100);
+    wrench_pub->Publish(wrench);
+
+    wrench.set_name("joint0");
+    wrench.add_torque(100);
+    wrench_pub->Publish(wrench);
 
     while (true)
     {
         gazebo::common::Time::MSleep(100);
-        wrench_pub->Publish(wrenchMsg);
     }
     return 0;
 }
