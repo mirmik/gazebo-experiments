@@ -12,6 +12,13 @@
     "initializer_list": "cpp",
     "ranges": "cpp",
     "regex": "cpp",
-    "functional": "cpp"
+    "functional": "cpp",
+    "bitset": "cpp",
+    "memory": "cpp",
+    "optional": "cpp",
+    "system_error": "cpp",
+    "typeindex": "cpp",
+    "variant": "cpp",
+    "thread": "cpp"
   }
 }

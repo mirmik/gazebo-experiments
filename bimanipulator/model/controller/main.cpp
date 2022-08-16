@@ -5,7 +5,9 @@
 #include <gazebo/transport/transport.hh>
 #include <igris/util/string.h>
 #include <nos/fprint.h>
+#include <ralgo/rxsignal/rxpid.h>
 #include <ralgo/space/pose3.h>
+#include <unordered_map>
 #include <user_message.pb.h>
 
 class ManipulatorState;
@@ -94,10 +96,50 @@ void link_stats_cb(const ConstPosesStampedPtr &msg)
     }
 }
 
+namespace std
+{
+    template <typename... TTypes> class hash<std::tuple<TTypes...>>
+    {
+    private:
+        typedef std::tuple<TTypes...> Tuple;
+
+        template <int N> size_t operator()(Tuple value) const
+        {
+            return 0;
+        }
+
+        template <int N, typename THead, typename... TTail>
+        size_t operator()(Tuple value) const
+        {
+            constexpr int Index = N - sizeof...(TTail) - 1;
+            return hash<THead>()(std::get<Index>(value)) ^
+                   operator()<N, TTail...>(value);
+        }
+
+    public:
+        size_t operator()(Tuple value) const
+        {
+            return operator()<sizeof...(TTypes), TTypes...>(value);
+        }
+    };
+}
+
+std::unordered_map<std::tuple<std::string, std::string, int>,
+                   rxcpp::subjects::subject<double>>
+    joint_position_subjects;
+
 void joint_stats_cb(
     const boost::shared_ptr<user_messages::msgs::JointStateArray const> &msg)
 {
-    // nos::println(msg->DebugString());
+    for (int i = 0; i < msg->state_size(); i++)
+    {
+        for (int j = 0; j < msg->state(i).coord_size(); j++)
+        {
+            joint_position_subjects[{msg->name(), msg->state(i).name(), j}]
+                .get_subscriber()
+                .on_next(msg->state(i).coord(j));
+        }
+    }
 }
 
 std::list<gazebo::transport::SubscriberPtr> subscribers;
@@ -136,14 +178,22 @@ int main(int argc, char *argv[])
 
     wrench_pub->WaitForConnection();
 
-    user_messages::msgs::JointTorque wrench;
-    wrench.set_name("joint1");
-    wrench.add_torque(100);
-    wrench_pub->Publish(wrench);
+    {
+        user_messages::msgs::JointTorque wrench;
+        wrench.set_name("joint1");
+        wrench.add_torque(100);
+        wrench_pub->Publish(wrench);
+    }
 
-    wrench.set_name("joint0");
-    wrench.add_torque(100);
-    wrench_pub->Publish(wrench);
+    {
+        user_messages::msgs::JointTorque wrench;
+        wrench.set_name("joint0");
+        wrench.add_torque(100);
+        wrench_pub->Publish(wrench);
+    }
+
+    joint_position_subjects[{"manip1", "joint0", 0}].get_observable().subscribe(
+        [](double value) { nos::println("joint0:", value); });
 
     while (true)
     {

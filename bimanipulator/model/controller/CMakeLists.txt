@@ -7,6 +7,8 @@ find_package(gazebo REQUIRED)
 include_directories(${GAZEBO_INCLUDE_DIRS})
 link_directories(${GAZEBO_LIBRARY_DIRS})
 
-add_executable(controller main.cpp /home/mirmik/project/gazebo-remotectr/protoout/user_message.pb.cc)
-target_include_directories(controller PRIVATE /home/mirmik/project/gazebo-remotectr/protoout)
+set(PROTO_PATH /home/mirmik/project/gazebo-experiments/remotectr/protoout)
+
+add_executable(controller main.cpp ${PROTO_PATH}/user_message.pb.cc)
+target_include_directories(controller PRIVATE ${PROTO_PATH})
 target_link_libraries(controller ${GAZEBO_LIBRARIES} nos igris crow tbb)
