@@ -19,4 +19,6 @@ add_custom_command(OUTPUT protoout/user_message.pb.cc
 )
 
 target_include_directories(remotectr PRIVATE protoout)
-target_link_libraries(remotectr ${GAZEBO_LIBRARIES} nos igris crow)
+target_link_libraries(remotectr ${GAZEBO_LIBRARIES} nos igris crow 
+    mosquittopp
+    mosquitto_client)

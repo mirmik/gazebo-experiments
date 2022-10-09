@@ -1,15 +1,16 @@
 <?xml version="1.0"?>
 <sdf version="1.4">
   <world name="bimanip">
+    <plugin name="worldctr" filename="libworldctr.so"/>
     <gravity>0 0 -9.81</gravity>
   
     <include>
       <uri>model://sun</uri>
     </include>
 
-    <include>
+    <!--<include>
       <uri>model://ground_plane</uri>
-    </include>
+    </include>-->
 
     <model name="stuff">
       <pose>0 0 0.3 0 0 0</pose>
@@ -58,7 +59,7 @@
       </link>
     </model>
 
-    <model name="manip1">
+    <model name="m1">
       <pose>-1 0 0.2 0 0 0</pose>
 
       <link name="link_0">
@@ -182,7 +183,7 @@
          <child>link_0</child>
       </joint>
 
-      <joint name="joint0" type="revolute">
+      <joint name="j0" type="revolute">
       	 <pose> 0 0 0 0 0 0 </pose>
          <parent>link_0</parent>
          <child>link_1</child>
@@ -191,7 +192,7 @@
 	        <use_parent_model_frame>true</use_parent_model_frame></axis>
       </joint>
 
-      <joint name="joint1" type="revolute">
+      <joint name="j1" type="revolute">
       	 <pose> 0 0 0.8 0 0 0 </pose>
          <parent>link_1</parent>
          <child>link_2</child>
@@ -201,17 +202,16 @@
          </axis>
       </joint>
 
-      <joint name="joint2" type="fixed">
+      <joint name="j2" type="fixed">
          <pose> 0 0 1.6 0 0 0 </pose>
          <parent>link_2</parent>
          <child>link_3</child>
       </joint>
 
-      <plugin name="manip1" filename="libremotectr.so"/>
+      <plugin name="m1" filename="libremotectr.so"/>
     </model>
 
-
-    <model name="manip2">
+    <model name="m2">
       <pose>1 0 0.2 0 0 0</pose>
 
       <link name="link_0">
@@ -333,7 +333,7 @@
          <child>link_0</child>
       </joint>
 
-      <joint name="joint0" type="revolute">
+      <joint name="j0" type="revolute">
          <pose> 0 0 0 0 0 0 </pose>
          <parent>link_0</parent>
          <child>link_1</child>
@@ -342,7 +342,7 @@
           <use_parent_model_frame>true</use_parent_model_frame></axis>
       </joint>
 
-      <joint name="joint1" type="revolute">
+      <joint name="j1" type="revolute">
          <pose> 0 0 0.8 0 0 0 </pose>
          <parent>link_1</parent>
          <child>link_2</child>
@@ -351,13 +351,13 @@
           <use_parent_model_frame>true</use_parent_model_frame></axis>
       </joint>
 
-      <joint name="joint2" type="fixed">
+      <joint name="j2" type="fixed">
          <pose> 0 0 1.6 0 0 0 </pose>
          <parent>link_2</parent>
          <child>link_3</child>
       </joint>
 
-      <plugin name="manip2" filename="libremotectr.so"/>
+      <plugin name="m2" filename="libremotectr.so"/>
     </model>
   </world>
 </sdf>
