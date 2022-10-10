@@ -284,29 +284,49 @@ control_model(0, postarget=target0, joint0_offset=[-2*L, 0],
 control_model(1, postarget=target1, joint0_offset=[2*L, 0],
               S=S1, subscriptions=subscriptions1)
 
-time.sleep(4)
-print("PHASE2")
 
-START0 = 0.38
-START1 = L+0.03
+def aaa():
+    time.sleep(4)
+    print("PHASE2")
 
-target0_task = TRIGGER.map(lambda x: Vec2(-START0, START1))
-target0.rebind(target0_task)
+    START0 = 0.38
+    START1 = L+0.03
 
-target1_task = TRIGGER.map(lambda x: Vec2(START0, START1))
-target1.rebind(target1_task)
+    target0_task = TRIGGER.map(lambda x: Vec2(-START0, START1))
+    target0.rebind(target0_task)
 
-time.sleep(4)
-print("PHASE3")
+    target1_task = TRIGGER.map(lambda x: Vec2(START0, START1))
+    target1.rebind(target1_task)
 
-curtime = time.time()
-target0_task = TRIGGER.map(lambda x: Vec2(-START0, START1+(time.time()-curtime)*0.1))
-target0.rebind(target0_task)
+    time.sleep(4)
+    print("PHASE3")
 
-target1_task = TRIGGER.map(lambda x: Vec2(START0, START1+(time.time()-curtime)*0.1))
-target1.rebind(target1_task)
+    curtime = time.time()
+    target0_task = TRIGGER.map(lambda x: Vec2(-START0, START1+(time.time()-curtime)*0.1))
+    target0.rebind(target0_task)
 
-time.sleep(4)
-print("PHASE4")
-target0.unbind()
-target1.unbind()
+    target1_task = TRIGGER.map(lambda x: Vec2(START0, START1+(time.time()-curtime)*0.1))
+    target1.rebind(target1_task)
+
+    time.sleep(4)
+    print("PHASE4")
+    target0.unbind()
+    target1.unbind()
+
+
+thr = threading.Thread(target=aaa)
+thr.start()
+
+
+app = QtWidgets.QApplication(sys.argv)
+
+t = rxinterval(0.01) * 0.01
+view = create_flowchart(t,
+                        cargo_vec.map(lambda x: x.x),
+                        cargo_vec.map(lambda x: x.y))
+view.resize(800, 600)
+view.show()
+
+app.exec()
+print("STOP_SPIN")
+rxmqtt.stop_spin()
