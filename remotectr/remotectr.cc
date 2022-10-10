@@ -5,6 +5,7 @@
 #include <ignition/math/Vector3.hh>
 #include <mosquitto_client/mqtt.h>
 #include <nos/fprint.h>
+#include <nos/util/string.h>
 #include <user_message.pb.h>
 
 extern mqtt_client *MQTT;
@@ -15,7 +16,9 @@ class Regulator
     double integral;
     double kp = 0, kd = 0, ki = 0;
     double target;
-    double ierror = 0;
+    double _ierror = 0;
+    double ierror_max = 0;
+    double ierror_min = 0;
 
 public:
     Regulator() = default;
@@ -26,18 +29,40 @@ public:
         this->kd = kd;
         this->ki = ki;
     }
+    void set_coeffs(double kp, double ki, double kd, double imin, double imax)
+    {
+        this->kp = kp;
+        this->kd = kd;
+        this->ki = ki;
+        this->ierror_max = imax;
+        this->ierror_min = imin;
+    }
+
+    void set_ierror(double val)
+    {
+        _ierror = val;
+    }
 
     void set_target(double target)
     {
         this->target = target;
     }
 
+    double ierror()
+    {
+        return _ierror;
+    }
+
     double update(double pos, double vel, double dt)
     {
         double error = target - pos;
         double derror = -vel;
-        ierror += error * dt;
-        return kp * error + ki * ierror + kd * derror;
+        _ierror += error * dt;
+        if (_ierror > ierror_max)
+            _ierror = ierror_max;
+        if (_ierror < ierror_min)
+            _ierror = ierror_min;
+        return kp * error + ki * _ierror + kd * derror;
     }
 };
 
@@ -47,10 +72,10 @@ namespace gazebo
 
     class RemoteControlled : public ModelPlugin
     {
+        std::mutex mutex;
         physics::ModelPtr _parent;
         event::ConnectionPtr updateConnection;
-        gazebo::transport::PublisherPtr joint_pub;
-        gazebo::transport::NodePtr node;
+        event::ConnectionPtr resetConnection;
         gazebo::transport::SubscriberPtr joint_torque_subscriber;
         gazebo::common::Time last_update_time;
 
@@ -65,12 +90,47 @@ namespace gazebo
             this->updateConnection = event::Events::ConnectWorldUpdateBegin(
                 std::bind(&RemoteControlled::OnUpdate, this));
 
-            node = transport::NodePtr(new gazebo::transport::Node());
-            node->Init();
+            this->resetConnection = event::Events::ConnectWorldReset(
+                std::bind(&RemoteControlled::OnReset, this));
 
             std::string world_name = _parent->GetWorld()->Name();
             std::string model_name = _parent->GetName();
 
+            restart_regulators();
+            update_simulation_time();
+
+            for (auto it = _parent->GetJoints().begin();
+                 it != _parent->GetJoints().end();
+                 ++it)
+            {
+                auto &joint = **it;
+
+                MQTT->subscribe("/" + model_name + "/" + joint.GetName() +
+                                    "/regulator",
+                                [this, &joint](const std::string &msg)
+                                {
+                                    std::lock_guard<std::mutex> lock(mutex);
+                                    auto coeffs = nos::split(msg, ',');
+                                    regulators[joint.GetName()].set_coeffs(
+                                        std::stod(coeffs[0]),
+                                        std::stod(coeffs[1]),
+                                        std::stod(coeffs[2]),
+                                        std::stod(coeffs[3]),
+                                        std::stod(coeffs[4]));
+                                });
+
+                MQTT->subscribe(
+                    "/" + model_name + "/" + joint.GetName() + "/target",
+                    [this, &joint](const std::string &msg)
+                    {
+                        std::lock_guard<std::mutex> lock(mutex);
+                        regulators[joint.GetName()].set_target(std::stod(msg));
+                    });
+            }
+        }
+
+        void restart_regulators()
+        {
             for (auto it = _parent->GetJoints().begin();
                  it != _parent->GetJoints().end();
                  ++it)
@@ -78,33 +138,28 @@ namespace gazebo
 
                 std::string joint_name = (*it)->GetName();
                 regulators[joint_name] = Regulator();
-                regulators[joint_name].set_coeffs(20, 0, 100);
-                regulators[joint_name].set_target(1);
-
-                /*auto &joint = **it;
-                std::string joint_name = joint.GetName();
-                std::string topic_name =
-                    "/" + model_name + "/" + joint_name + "/t";
-                auto dof = joint.DOF();*/
-
-                // for (int i = 0; i < dof; i++)
-                //{
-                /*std::string topic_name_full =
-                    topic_name + "/" + std::to_string(i);
-
-                MQTT->subscribe(
-                    topic_name_full,
-                    [this, &joint, i](const std::string &payload)
-                    {
-                        auto torque = std::stod(payload);
-                        joint.SetForce(i, torque);
-                    });*/
-                //}
+                regulators[joint_name].set_ierror(0);
+                regulators[joint_name].set_coeffs(0, 0, 0);
+                regulators[joint_name].set_target(0);
             }
+        }
+
+        void update_simulation_time()
+        {
+            last_update_time = _parent->GetWorld()->SimTime();
+        }
+
+        void OnReset()
+        {
+            std::lock_guard<std::mutex> lock(mutex);
+            restart_regulators();
+            update_simulation_time();
+            nos::println("restart subscriber");
         }
 
         void OnUpdate()
         {
+            std::lock_guard<std::mutex> lock(mutex);
             // get simulation time
             auto now = WORLD->SimTime();
 
@@ -113,6 +168,17 @@ namespace gazebo
 
             auto model_name = _parent->GetName();
             std::string modelname = _parent->GetName();
+
+            // pose
+            auto pose = _parent->WorldPose();
+            MQTT->publish("/" + model_name + "/pose",
+                          std::to_string(pose.Pos().X()) + "," +
+                              std::to_string(pose.Pos().Y()) + "," +
+                              std::to_string(pose.Pos().Z()) + "," +
+                              std::to_string(pose.Rot().W()) + "," +
+                              std::to_string(pose.Rot().X()) + "," +
+                              std::to_string(pose.Rot().Y()) + "," +
+                              std::to_string(pose.Rot().Z()));
 
             for (auto it = _parent->GetJoints().begin();
                  it != _parent->GetJoints().end();
@@ -135,6 +201,11 @@ namespace gazebo
                     MQTT->publish("/" + modelname + "/" + jointname + "/v/" +
                                       std::to_string(i),
                                   std::to_string(velocity));
+
+                    MQTT->publish(
+                        "/" + modelname + "/" + jointname + "/ie/" +
+                            std::to_string(i),
+                        std::to_string(regulators[jointname].ierror()));
                 }
 
                 // joint type

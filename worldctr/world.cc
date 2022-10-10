@@ -15,24 +15,6 @@ namespace gazebo
 
     class WorldCtr : public WorldPlugin
     {
-    private:
-        void command_handle(std::string msg)
-        {
-            msg = nos::trim(msg);
-            nos::fprintln("command: {}", msg);
-            if (msg == "restart")
-            {
-                nos::println("world restarted");
-                WORLD->Reset();
-            }
-            else if (msg == "hello")
-                nos::println("Hello, world!");
-            else
-            {
-                nos::fprintln("Unknown command: {}", msg);
-            }
-        }
-
     public:
         WorldCtr() : WorldPlugin()
         {
@@ -41,9 +23,12 @@ namespace gazebo
             MQTT = client;
             MQTT->loop_start();
 
-            MQTT->subscribe("/worldctr/command",
+            MQTT->subscribe("/worldctr/restart",
                             [this](const std::string &msg)
-                            { this->command_handle(msg); });
+                            {
+                                nos::println("world restarted");
+                                WORLD->Reset();
+                            });
         }
 
         virtual void Reset() {}

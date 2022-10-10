@@ -3,14 +3,21 @@
   <world name="bimanip">
     <plugin name="worldctr" filename="libworldctr.so"/>
     <gravity>0 0 -9.81</gravity>
+
+
+    <gui>
+        <camera name="user_camera">
+            <pose>3 7 4 0 0.4 -2</pose>
+        </camera>
+    </gui>
   
     <include>
       <uri>model://sun</uri>
     </include>
 
-    <!--<include>
+    <include>
       <uri>model://ground_plane</uri>
-    </include>-->
+    </include>
 
     <model name="stuff">
       <pose>0 0 0.3 0 0 0</pose>
@@ -57,10 +64,11 @@
           <geometry><box><size>0.6 0.3 0.1</size></box></geometry>
         </visual>
       </link>
+      <plugin name="cargo" filename="libremotectr.so"/>
     </model>
 
     <model name="m1">
-      <pose>-1 0 0.2 0 0 0</pose>
+      <pose>1 0 0.2 0 0 0</pose>
 
       <link name="link_0">
         <collision name="collision_0_0">
@@ -212,14 +220,14 @@
     </model>
 
     <model name="m2">
-      <pose>1 0 0.2 0 0 0</pose>
+      <pose>-1 0 0.2 0 0 0</pose>
 
       <link name="link_0">
         <collision name="collision_0_0">
           <pose>0 0 0 0 0 0</pose>
           <geometry>
             <sphere>
-              <radius>0.15</radius>
+            	<radius>0.15</radius>
             </sphere>    
           </geometry>
         </collision>
@@ -228,7 +236,7 @@
           <pose>0 0 0 0 0 0</pose>
           <geometry>
             <sphere>
-              <radius>0.15</radius>
+            	<radius>0.15</radius>
             </sphere>    
           </geometry>
         </visual>
@@ -239,8 +247,8 @@
           <pose>0 0 0.4 0 0 0</pose>
           <geometry>
             <cylinder>
-              <radius>0.1</radius>
-              <length>0.8</length>
+            	<radius>0.1</radius>
+            	<length>0.8</length>
             </cylinder>
           </geometry>
         </collision>
@@ -249,17 +257,17 @@
           <pose>0 0 0.4 0 0 0</pose>
           <geometry>
             <cylinder>
-              <radius>0.1</radius>
-              <length>0.8</length>
+            	<radius>0.1</radius>
+            	<length>0.8</length>
             </cylinder>
           </geometry>
         </visual>
 
-    <collision name="collision_1_1">
+		<collision name="collision_1_1">
           <pose>0 0 0.8 0 0 0</pose>
           <geometry>
             <sphere>
-              <radius>0.15</radius>
+            	<radius>0.15</radius>
             </sphere>          
           </geometry>
         </collision>
@@ -268,13 +276,13 @@
           <pose>0 0 0.8 0 0 0</pose>
           <geometry>
             <sphere>
-              <radius>0.15</radius>
+            	<radius>0.15</radius>
             </sphere>
           </geometry>
         </visual>
 
         <inertial>
-          <pose>0 0 0.4 0 0 0</pose>
+        	<pose>0 0 0.4 0 0 0</pose>
         </inertial>
       </link>
 
@@ -283,8 +291,8 @@
           <pose>0 0 1.2 0 0 0</pose>
           <geometry>
             <cylinder>
-              <radius>0.1</radius>
-              <length>0.8</length>
+            	<radius>0.1</radius>
+            	<length>0.8</length>
             </cylinder>
           </geometry>
         </collision>
@@ -293,13 +301,17 @@
           <pose>0 0 1.2 0 0 0</pose>
           <geometry>
             <cylinder>
-              <radius>0.1</radius>
-              <length>0.8</length>
+            	<radius>0.1</radius>
+            	<length>0.8</length>
             </cylinder>
           </geometry>
         </visual>
-      </link>
 
+        <inertial>
+        	<pose>0 0 1.2 0 0 0</pose>
+        </inertial>
+
+      </link>
 
       <link name="link_3">
         <collision name="collision_2_1">
@@ -323,32 +335,31 @@
         <inertial>
           <pose>0 0 1.6 0 0 0</pose>
         </inertial>
-
       </link>
 
-
       <joint name="_joint_" type="fixed">
-         <pose> 0 0 0 0 0 0 </pose>
+      	 <pose> 0 0 0 0 0 0 </pose>
          <parent>world</parent>
          <child>link_0</child>
       </joint>
 
       <joint name="j0" type="revolute">
-         <pose> 0 0 0 0 0 0 </pose>
+      	 <pose> 0 0 0 0 0 0 </pose>
          <parent>link_0</parent>
          <child>link_1</child>
          <axis>
-          <xyz>0 1 0</xyz>
-          <use_parent_model_frame>true</use_parent_model_frame></axis>
+         	<xyz>0 1 0</xyz>
+	        <use_parent_model_frame>true</use_parent_model_frame></axis>
       </joint>
 
       <joint name="j1" type="revolute">
-         <pose> 0 0 0.8 0 0 0 </pose>
+      	 <pose> 0 0 0.8 0 0 0 </pose>
          <parent>link_1</parent>
          <child>link_2</child>
          <axis>
           <xyz>0 1 0</xyz>
-          <use_parent_model_frame>true</use_parent_model_frame></axis>
+	        <use_parent_model_frame>true</use_parent_model_frame>
+         </axis>
       </joint>
 
       <joint name="j2" type="fixed">
