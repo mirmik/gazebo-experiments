@@ -6,6 +6,8 @@ from rxsignal import *
 from rxsignal.rxmqtt import *
 from rxsignal.filter import *
 
+from rxsignal.flowchart import *
+
 
 class Screw2:
     def __init__(self, lin, ang):
@@ -317,16 +319,10 @@ def aaa():
 thr = threading.Thread(target=aaa)
 thr.start()
 
-
-app = QtWidgets.QApplication(sys.argv)
-
 t = rxinterval(0.01) * 0.01
-view = create_flowchart(t,
+flowplot_application(t,
                         cargo_vec.map(lambda x: x.x),
                         cargo_vec.map(lambda x: x.y))
-view.resize(800, 600)
-view.show()
 
-app.exec()
 print("STOP_SPIN")
 rxmqtt.stop_spin()
