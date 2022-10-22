@@ -214,6 +214,7 @@
          <pose> 0 0 1.6 0 0 0 </pose>
          <parent>link_2</parent>
          <child>link_3</child>
+         <reaction_sensor>true</reaction_sensor>
       </joint>
 
       <plugin name="m1" filename="libremotectr.so"/>
@@ -366,6 +367,7 @@
          <pose> 0 0 1.6 0 0 0 </pose>
          <parent>link_2</parent>
          <child>link_3</child>
+         <reaction_sensor>true</reaction_sensor>
       </joint>
 
       <plugin name="m2" filename="libremotectr.so"/>

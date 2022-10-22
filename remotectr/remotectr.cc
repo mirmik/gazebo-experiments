@@ -5,6 +5,8 @@
 #include <ignition/math/Vector3.hh>
 #include <mosquitto_client/mqtt.h>
 #include <nos/fprint.h>
+#include <nos/trent/json_print.h>
+#include <nos/trent/trent.h>
 #include <nos/util/string.h>
 #include <user_message.pb.h>
 
@@ -80,6 +82,7 @@ namespace gazebo
         gazebo::common::Time last_update_time;
 
         std::map<std::string, Regulator> regulators;
+        std::map<std::string, bool> reaction_sensor_enabled;
 
         void Load(physics::ModelPtr _parent, sdf::ElementPtr /*_sdf*/) override
         {
@@ -126,6 +129,29 @@ namespace gazebo
                         std::lock_guard<std::mutex> lock(mutex);
                         regulators[joint.GetName()].set_target(std::stod(msg));
                     });
+
+                /*MQTT->subscribe("/" + model_name + "/" + joint.GetName() +
+                                    "/reaction_sensor",
+                                [this, &joint](const std::string &msg)
+                                {
+                                    std::lock_guard<std::mutex> lock(mutex);
+                                    reaction_sensor_enabled[joint.GetName()] =
+                                        msg == "1";
+                                });*/
+
+                {
+                    reaction_sensor_enabled[joint.GetName()] = true;
+                    joint.SetProvideFeedback(true);
+                }
+
+                // is joint xml element has a reaction sensor option
+                /*auto reaction_sensor =
+                    joint.Element()->GetElement("reaction_sensor");
+
+                if (reaction_sensor)
+                {
+                    reaction_sensor_enabled[joint.GetName()] = true;
+                }*/
             }
         }
 
@@ -155,6 +181,53 @@ namespace gazebo
             restart_regulators();
             update_simulation_time();
             nos::println("restart subscriber");
+        }
+
+        void send_reaction(const std::string &topic,
+                           gazebo::physics::Joint &joint)
+        {
+            auto reaction = joint.GetForceTorque(-1);
+
+            auto force1 = reaction.body1Force;
+            auto torque1 = reaction.body1Torque;
+            auto force2 = reaction.body2Force;
+            auto torque2 = reaction.body2Torque;
+
+            nos::trent tr;
+            tr["f1"].init_from_list({force1.X(), force1.Y(), force1.Z()});
+            tr["t1"].init_from_list({torque1.X(), torque1.Y(), torque1.Z()});
+            tr["f2"].init_from_list({force2.X(), force2.Y(), force2.Z()});
+            tr["t2"].init_from_list({torque2.X(), torque2.Y(), torque2.Z()});
+            MQTT->publish(topic, nos::json::to_string(tr));
+        }
+
+        void send_reaction_absolute(const std::string &topic,
+                                    gazebo::physics::Joint &joint)
+        {
+            auto reaction = joint.GetForceTorque(-1);
+            auto parent = joint.GetParent();
+            auto child = joint.GetChild();
+
+            if (!parent || !child)
+                return;
+
+            auto frame1 = joint.GetParent()->WorldPose();
+            auto frame2 = joint.GetChild()->WorldPose();
+
+            // rotate force and torque to world frame
+            auto force1 = frame1.Rot().RotateVectorReverse(reaction.body1Force);
+            auto torque1 =
+                frame1.Rot().RotateVectorReverse(reaction.body1Torque);
+            auto force2 = frame2.Rot().RotateVectorReverse(reaction.body2Force);
+            auto torque2 =
+                frame2.Rot().RotateVectorReverse(reaction.body2Torque);
+
+            nos::trent tr;
+            tr["f1"].init_from_list({force1.X(), force1.Y(), force1.Z()});
+            tr["t1"].init_from_list({torque1.X(), torque1.Y(), torque1.Z()});
+            tr["f2"].init_from_list({force2.X(), force2.Y(), force2.Z()});
+            tr["t2"].init_from_list({torque2.X(), torque2.Y(), torque2.Z()});
+            MQTT->publish(topic, nos::json::to_string(tr));
         }
 
         void OnUpdate()
@@ -188,11 +261,22 @@ namespace gazebo
                 std::string jointname = joint.GetName();
                 auto dof = joint.DOF();
 
+                if (joint.HasType(physics::Base::HINGE_JOINT))
+                {
+                    auto &reg = regulators[jointname];
+                    double torque =
+                        reg.update(joint.Position(0),
+                                   joint.GetVelocity(0),
+                                   (now - last_update_time).Double());
+                    joint.SetForce(0, torque);
+                }
+
                 for (int i = 0; i < dof; ++i)
                 {
 
                     double position = joint.Position(i);
                     double velocity = joint.GetVelocity(i);
+                    double torque = joint.GetForce(i);
 
                     MQTT->publish("/" + modelname + "/" + jointname + "/p/" +
                                       std::to_string(i),
@@ -202,24 +286,26 @@ namespace gazebo
                                       std::to_string(i),
                                   std::to_string(velocity));
 
+                    MQTT->publish("/" + modelname + "/" + jointname + "/t/" +
+                                      std::to_string(i),
+                                  std::to_string(torque));
+
                     MQTT->publish(
                         "/" + modelname + "/" + jointname + "/ie/" +
                             std::to_string(i),
                         std::to_string(regulators[jointname].ierror()));
                 }
 
-                // joint type
-                if (joint.HasType(physics::Base::HINGE_JOINT))
-                {
-                    auto &reg = regulators[jointname];
-                    double torque =
-                        reg.update(joint.Position(0),
-                                   joint.GetVelocity(0),
-                                   (now - last_update_time).Double());
-                    joint.SetForce(0, torque);
-                    // nos::println(torque);
-                }
+                if (reaction_sensor_enabled[jointname])
+                    send_reaction(
+                        "/" + modelname + "/" + jointname + "/reaction", joint);
+
+                if (reaction_sensor_enabled[jointname])
+                    send_reaction_absolute("/" + modelname + "/" + jointname +
+                                               "/reaction_absolute",
+                                           joint);
             }
+
             last_update_time = now;
         }
     };
