@@ -130,28 +130,8 @@ namespace gazebo
                         regulators[joint.GetName()].set_target(std::stod(msg));
                     });
 
-                /*MQTT->subscribe("/" + model_name + "/" + joint.GetName() +
-                                    "/reaction_sensor",
-                                [this, &joint](const std::string &msg)
-                                {
-                                    std::lock_guard<std::mutex> lock(mutex);
-                                    reaction_sensor_enabled[joint.GetName()] =
-                                        msg == "1";
-                                });*/
-
-                {
-                    reaction_sensor_enabled[joint.GetName()] = true;
-                    joint.SetProvideFeedback(true);
-                }
-
-                // is joint xml element has a reaction sensor option
-                /*auto reaction_sensor =
-                    joint.Element()->GetElement("reaction_sensor");
-
-                if (reaction_sensor)
-                {
-                    reaction_sensor_enabled[joint.GetName()] = true;
-                }*/
+                reaction_sensor_enabled[joint.GetName()] = true;
+                joint.SetProvideFeedback(true);
             }
         }
 
@@ -215,12 +195,10 @@ namespace gazebo
             auto frame2 = joint.GetChild()->WorldPose();
 
             // rotate force and torque to world frame
-            auto force1 = frame1.Rot().RotateVectorReverse(reaction.body1Force);
-            auto torque1 =
-                frame1.Rot().RotateVectorReverse(reaction.body1Torque);
-            auto force2 = frame2.Rot().RotateVectorReverse(reaction.body2Force);
-            auto torque2 =
-                frame2.Rot().RotateVectorReverse(reaction.body2Torque);
+            auto force1 = frame1.Rot().RotateVector(reaction.body1Force);
+            auto torque1 = frame1.Rot().RotateVector(reaction.body1Torque);
+            auto force2 = frame2.Rot().RotateVector(reaction.body2Force);
+            auto torque2 = frame2.Rot().RotateVector(reaction.body2Torque);
 
             nos::trent tr;
             tr["f1"].init_from_list({force1.X(), force1.Y(), force1.Z()});
@@ -304,6 +282,26 @@ namespace gazebo
                     send_reaction_absolute("/" + modelname + "/" + jointname +
                                                "/reaction_absolute",
                                            joint);
+            }
+
+            for (auto it = _parent->GetLinks().begin();
+                 it != _parent->GetLinks().end();
+                 ++it)
+            {
+                auto &link = **it;
+                std::string linkname = link.GetName();
+
+                auto pose = link.WorldPose();
+
+                nos::trent tr;
+                tr["lin"].init_from_list(
+                    {pose.Pos().X(), pose.Pos().Y(), pose.Pos().Z()});
+                tr["ang"].init_from_list({pose.Rot().X(),
+                                          pose.Rot().Y(),
+                                          pose.Rot().Z(),
+                                          pose.Rot().W()});
+                MQTT->publish("/" + modelname + "/" + linkname + "/pose",
+                              nos::json::to_string(tr));
             }
 
             last_update_time = now;

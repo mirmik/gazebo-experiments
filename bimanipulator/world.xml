@@ -91,8 +91,9 @@
       </link>
 
       <link name="link_1">
+        <pose>0 0 0.4 0 0 0</pose>
         <collision name="collision_1_0">
-          <pose>0 0 0.4 0 0 0</pose>
+          <pose>0 0 0 0 0 0</pose>
           <geometry>
             <cylinder>
             	<radius>0.1</radius>
@@ -102,7 +103,7 @@
         </collision>
 
         <visual name="visual_1_0">
-          <pose>0 0 0.4 0 0 0</pose>
+          <pose>0 0 0 0 0 0</pose>
           <geometry>
             <cylinder>
             	<radius>0.1</radius>
@@ -111,8 +112,8 @@
           </geometry>
         </visual>
 
-		<collision name="collision_1_1">
-          <pose>0 0 0.8 0 0 0</pose>
+		    <collision name="collision_1_1">
+          <pose>0 0 0.4 0 0 0</pose>
           <geometry>
             <sphere>
             	<radius>0.15</radius>
@@ -121,49 +122,59 @@
         </collision>
 
         <visual name="visual_1_1">
-          <pose>0 0 0.8 0 0 0</pose>
+          <pose>0 0 0.4 0 0 0</pose>
           <geometry>
             <sphere>
             	<radius>0.15</radius>
             </sphere>
           </geometry>
         </visual>
-
-        <inertial>
-        	<pose>0 0 0.4 0 0 0</pose>
-        </inertial>
       </link>
 
       <link name="link_2">
+        <pose>0 0 1.2 0 0 0</pose>
         <collision name="collision_2_0">
-          <pose>0 0 1.2 0 0 0</pose>
+          <pose>0 0 0 0 0 0</pose>
           <geometry>
             <cylinder>
             	<radius>0.1</radius>
-            	<length>0.8</length>
+            	<length>0.4</length>
             </cylinder>
           </geometry>
         </collision>
 
         <visual name="visual_2_0">
-          <pose>0 0 1.2 0 0 0</pose>
+          <pose>0 0 0 0 0 0</pose>
           <geometry>
             <cylinder>
             	<radius>0.1</radius>
-            	<length>0.8</length>
+            	<length>0.4</length>
             </cylinder>
           </geometry>
         </visual>
+      </link>
+
+      <link name="link_2_d">
+        <pose>0 0 1.6 0 0 0</pose>
 
         <inertial>
-        	<pose>0 0 1.2 0 0 0</pose>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.1</iyy>
+            <iyz>0</iyz>
+            <izz>0.1</izz>
+          </inertia>
         </inertial>
-
       </link>
 
       <link name="link_3">
+        <pose>0 0 1.6 0 0 0</pose>
         <collision name="collision_2_1">
-          <pose>0 0 1.6 0 0 0</pose>
+          <pose>0 0 0 0 0 0</pose>
           <geometry>
             <sphere>
               <radius>0.15</radius>
@@ -172,7 +183,7 @@
         </collision>
 
         <visual name="visual_2_1">
-          <pose>0 0 1.6 0 0 0</pose>
+          <pose>0 0 0 0 0 0</pose>
           <geometry>
             <sphere>
               <radius>0.15</radius>
@@ -181,7 +192,16 @@
         </visual>
 
         <inertial>
-          <pose>0 0 1.6 0 0 0</pose>
+          <pose>0 0 0 0 0 0</pose>
+          <mass>1</mass>
+          <inertia>
+            <ixx>0.001</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.001</iyy>
+            <iyz>0</iyz>
+            <izz>0.001</izz>
+          </inertia>
         </inertial>
       </link>
 
@@ -192,29 +212,33 @@
       </joint>
 
       <joint name="j0" type="revolute">
-      	 <pose> 0 0 0 0 0 0 </pose>
+      	 <pose> 0 0 -0.4 0 0 0 </pose>
          <parent>link_0</parent>
          <child>link_1</child>
          <axis>
          	<xyz>0 1 0</xyz>
-	        <use_parent_model_frame>true</use_parent_model_frame></axis>
+         </axis>
       </joint>
 
       <joint name="j1" type="revolute">
-      	 <pose> 0 0 0.8 0 0 0 </pose>
+      	 <pose> 0 0 -0.4 0 0 0 </pose>
          <parent>link_1</parent>
          <child>link_2</child>
          <axis>
           <xyz>0 1 0</xyz>
-	        <use_parent_model_frame>true</use_parent_model_frame>
          </axis>
       </joint>
 
-      <joint name="j2" type="fixed">
-         <pose> 0 0 1.6 0 0 0 </pose>
+      <joint name="j2_pre" type="fixed">
+         <pose> 0 0 0 0 0 0 </pose>
          <parent>link_2</parent>
+         <child>link_2_d</child>
+      </joint>
+
+      <joint name="j2" type="fixed">
+         <pose> 0 0 0 0 0 0 </pose>
+         <parent>link_2_d</parent>
          <child>link_3</child>
-         <reaction_sensor>true</reaction_sensor>
       </joint>
 
       <plugin name="m1" filename="libremotectr.so"/>
@@ -244,8 +268,9 @@
       </link>
 
       <link name="link_1">
+        <pose>0 0 0.4 0 0 0</pose>
         <collision name="collision_1_0">
-          <pose>0 0 0.4 0 0 0</pose>
+          <pose>0 0 0 0 0 0</pose>
           <geometry>
             <cylinder>
             	<radius>0.1</radius>
@@ -255,7 +280,7 @@
         </collision>
 
         <visual name="visual_1_0">
-          <pose>0 0 0.4 0 0 0</pose>
+          <pose>0 0 0 0 0 0</pose>
           <geometry>
             <cylinder>
             	<radius>0.1</radius>
@@ -264,8 +289,8 @@
           </geometry>
         </visual>
 
-		<collision name="collision_1_1">
-          <pose>0 0 0.8 0 0 0</pose>
+		    <collision name="collision_1_1">
+          <pose>0 0 0.4 0 0 0</pose>
           <geometry>
             <sphere>
             	<radius>0.15</radius>
@@ -274,7 +299,7 @@
         </collision>
 
         <visual name="visual_1_1">
-          <pose>0 0 0.8 0 0 0</pose>
+          <pose>0 0 0.4 0 0 0</pose>
           <geometry>
             <sphere>
             	<radius>0.15</radius>
@@ -283,13 +308,14 @@
         </visual>
 
         <inertial>
-        	<pose>0 0 0.4 0 0 0</pose>
+        	<pose>0 0 0 0 0 0</pose>
         </inertial>
       </link>
 
       <link name="link_2">
+        <pose>0 0 1.2 0 0 0</pose>
         <collision name="collision_2_0">
-          <pose>0 0 1.2 0 0 0</pose>
+          <pose>0 0 0 0 0 0</pose>
           <geometry>
             <cylinder>
             	<radius>0.1</radius>
@@ -299,7 +325,7 @@
         </collision>
 
         <visual name="visual_2_0">
-          <pose>0 0 1.2 0 0 0</pose>
+          <pose>0 0 0 0 0 0</pose>
           <geometry>
             <cylinder>
             	<radius>0.1</radius>
@@ -309,14 +335,18 @@
         </visual>
 
         <inertial>
-        	<pose>0 0 1.2 0 0 0</pose>
+        	<pose>0 0 0 0 0 0</pose>
         </inertial>
+      </link>
 
+      <link name="link_2_d">
+        <pose>0 0 1.6 0 0 0</pose>
       </link>
 
       <link name="link_3">
+        <pose>0 0 1.6 0 0 0</pose>
         <collision name="collision_2_1">
-          <pose>0 0 1.6 0 0 0</pose>
+          <pose>0 0 0 0 0 0</pose>
           <geometry>
             <sphere>
               <radius>0.15</radius>
@@ -325,7 +355,7 @@
         </collision>
 
         <visual name="visual_2_1">
-          <pose>0 0 1.6 0 0 0</pose>
+          <pose>0 0 0 0 0 0</pose>
           <geometry>
             <sphere>
               <radius>0.15</radius>
@@ -334,7 +364,7 @@
         </visual>
 
         <inertial>
-          <pose>0 0 1.6 0 0 0</pose>
+          <pose>0 0 0 0 0 0</pose>
         </inertial>
       </link>
 
@@ -345,29 +375,33 @@
       </joint>
 
       <joint name="j0" type="revolute">
-      	 <pose> 0 0 0 0 0 0 </pose>
+      	 <pose> 0 0 -0.4 0 0 0 </pose>
          <parent>link_0</parent>
          <child>link_1</child>
          <axis>
          	<xyz>0 1 0</xyz>
-	        <use_parent_model_frame>true</use_parent_model_frame></axis>
+         </axis>
       </joint>
 
       <joint name="j1" type="revolute">
-      	 <pose> 0 0 0.8 0 0 0 </pose>
+      	 <pose> 0 0 -0.4 0 0 0 </pose>
          <parent>link_1</parent>
          <child>link_2</child>
          <axis>
           <xyz>0 1 0</xyz>
-	        <use_parent_model_frame>true</use_parent_model_frame>
          </axis>
       </joint>
 
-      <joint name="j2" type="fixed">
-         <pose> 0 0 1.6 0 0 0 </pose>
+      <joint name="j2_pre" type="fixed">
+         <pose> 0 0 0 0 0 0 </pose>
          <parent>link_2</parent>
+         <child>link_2_d</child>
+      </joint>
+
+      <joint name="j2" type="fixed">
+         <pose> 0 0 0 0 0 0 </pose>
+         <parent>link_2_d</parent>
          <child>link_3</child>
-         <reaction_sensor>true</reaction_sensor>
       </joint>
 
       <plugin name="m2" filename="libremotectr.so"/>
