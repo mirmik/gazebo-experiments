@@ -214,6 +214,31 @@ namespace gazebo
             // get simulation time
             auto now = WORLD->SimTime();
 
+            for (auto it = _parent->GetJoints().begin();
+                 it != _parent->GetJoints().end();
+                 ++it)
+            {
+                auto &joint = **it;
+                std::string jointname = joint.GetName();
+                auto dof = joint.DOF();
+
+                // double torq = 0;
+                if (joint.HasType(physics::Base::HINGE_JOINT))
+                {
+                    auto &reg = regulators[jointname];
+                    double torque =
+                        reg.update(joint.Position(0),
+                                   joint.GetVelocity(0),
+                                   (now - last_update_time).Double());
+
+                    // ignition::math::Vector3d applied_torque = {0, torque, 0};
+                    // joint.GetChild()->AddRelativeTorque(applied_torque);
+                    // joint.GetParent()->AddRelativeTorque(-applied_torque);
+                    joint.SetForce(0, torque);
+                    // torq = torque;
+                }
+            }
+
             if ((now - last_update_time) < gazebo::common::Time(0.01))
                 return;
 
@@ -238,16 +263,6 @@ namespace gazebo
                 auto &joint = **it;
                 std::string jointname = joint.GetName();
                 auto dof = joint.DOF();
-
-                if (joint.HasType(physics::Base::HINGE_JOINT))
-                {
-                    auto &reg = regulators[jointname];
-                    double torque =
-                        reg.update(joint.Position(0),
-                                   joint.GetVelocity(0),
-                                   (now - last_update_time).Double());
-                    joint.SetForce(0, torque);
-                }
 
                 for (int i = 0; i < dof; ++i)
                 {

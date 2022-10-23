@@ -20,11 +20,15 @@ m1reaction1f = rxmqtt.rxsubscribe("/m1/j2/reaction_absolute").map(lambda x: get_
 m1reaction2f = rxmqtt.rxsubscribe("/m1/j2/reaction_absolute").map(lambda x: get_index_from_json(x, "f2"))
 m1reaction1t = rxmqtt.rxsubscribe("/m1/j2/reaction_absolute").map(lambda x: get_index_from_json(x, "t1"))
 m1reaction2t = rxmqtt.rxsubscribe("/m1/j2/reaction_absolute").map(lambda x: get_index_from_json(x, "t2"))
+
+t0 = rxmqtt.rxsubscribe("/m1/j0/t/0").map(lambda x: float(x))
+t1 = rxmqtt.rxsubscribe("/m1/j1/t/0").map(lambda x: float(x))
+
 m1j1reaction2t = rxmqtt.rxsubscribe("/m1/j1/reaction_absolute").map(lambda x: get_index_from_json(x, "t2"))
 link2pose = rxmqtt.rxsubscribe("/m1/link_2_d/pose")
 link1pose = rxmqtt.rxsubscribe("/m1/link_3/pose")
 
-rxprint(m1reaction2t)
+rxprint(t0.zip(t1))
 # rxprint(m1j1reaction2t.zip(m1reaction2t))
 # rxprint(link2pose.zip(link1pose))
 
