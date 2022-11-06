@@ -8,6 +8,9 @@ import rxsignal.flowchart
 from rxsignal import *
 import json
 import numpy as np
+import time
+
+start_time = time.time()
 
 
 def get_index_from_json(x, idx):
@@ -16,23 +19,11 @@ def get_index_from_json(x, idx):
 
 rxmqtt = rxsignal.rxmqtt.mqtt_rxclient("localhost", 1883)
 rxmqtt.start_spin()
-m1reaction1f = rxmqtt.rxsubscribe("/m1/j2/reaction_absolute").map(lambda x: get_index_from_json(x, "f1"))
-m1reaction2f = rxmqtt.rxsubscribe("/m1/j2/reaction_absolute").map(lambda x: get_index_from_json(x, "f2"))
-m1reaction1t = rxmqtt.rxsubscribe("/m1/j2/reaction_absolute").map(lambda x: get_index_from_json(x, "t1"))
-m1reaction2t = rxmqtt.rxsubscribe("/m1/j2/reaction_absolute").map(lambda x: get_index_from_json(x, "t2"))
+m1j2reaction2f = rxmqtt.rxsubscribe("/m1/j2/reaction_absolute").map(lambda x: get_index_from_json(x, "f2"))
+m2j2reaction2f = rxmqtt.rxsubscribe("/m2/j2/reaction_absolute").map(lambda x: get_index_from_json(x, "f2"))
+t = m1j2reaction2f.map(lambda x: time.time() - start_time)
 
-t0 = rxmqtt.rxsubscribe("/m1/j0/t/0").map(lambda x: float(x))
-t1 = rxmqtt.rxsubscribe("/m1/j1/t/0").map(lambda x: float(x))
-
-m1j1reaction2t = rxmqtt.rxsubscribe("/m1/j1/reaction_absolute").map(lambda x: get_index_from_json(x, "t2"))
-link2pose = rxmqtt.rxsubscribe("/m1/link_2_d/pose")
-link1pose = rxmqtt.rxsubscribe("/m1/link_3/pose")
-
-rxprint(t0.zip(t1))
-# rxprint(m1j1reaction2t.zip(m1reaction2t))
-# rxprint(link2pose.zip(link1pose))
-
-#t = rxsignal.rxinterval(0.1)
-#wdg = rxsignal.flowchart.create_flowchart(t, t)
+wdg = rxsignal.flowchart.flowplot_application(t, m1j2reaction2f.map(
+    lambda x: x[0]), m2j2reaction2f.map(lambda x: x[0]), interval=20, autoscale=True)
 # zengraph.disp(wdg)
-# zengraph.show(standalone=True)
+# zengraph.show()
