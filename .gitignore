@@ -78,3 +78,5 @@ tests/build
 .ninja_*
 
 jjj
+
+**/CMakeFiles

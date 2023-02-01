@@ -1,4 +1,0 @@
-/home/mirmik/project/gazebo-expirements/flycow/tiger/CMakeFiles/rebuild_cache.dir
-/home/mirmik/project/gazebo-expirements/flycow/tiger/CMakeFiles/edit_cache.dir
-/home/mirmik/project/gazebo-expirements/flycow/tiger/CMakeFiles/cow.dir
-/home/mirmik/project/gazebo-expirements/flycow/tiger/CMakeFiles/world.dir

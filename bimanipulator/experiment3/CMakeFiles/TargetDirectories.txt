@@ -1,5 +1,0 @@
-/home/mirmik/project/gazebo-expirements/bimanipulator/experiment3/CMakeFiles/rebuild_cache.dir
-/home/mirmik/project/gazebo-expirements/bimanipulator/experiment3/CMakeFiles/edit_cache.dir
-/home/mirmik/project/gazebo-expirements/bimanipulator/experiment3/CMakeFiles/cargo.dir
-/home/mirmik/project/gazebo-expirements/bimanipulator/experiment3/CMakeFiles/manipulator.dir
-/home/mirmik/project/gazebo-expirements/bimanipulator/experiment3/CMakeFiles/world.dir
